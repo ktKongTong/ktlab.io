@@ -1,0 +1,17 @@
+{
+  // https://v3.nuxtjs.org/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+      "jsx": "preserve",
+      "importHelpers": true,
+  },
+  // "exclude":[
+  //   "node_modules",
+  // ],
+  // "include": [
+  //     "node_modules/vue-tsx-support/enable-check.d.ts",
+  //     "./**/*.ts",
+  //     "./**/*.tsx",
+  //     "./**/*.vue",
+  //   ]
+}
