@@ -457,7 +457,22 @@
   resolved "https://registry.npmmirror.com/@fortawesome/vue-fontawesome/-/vue-fontawesome-3.0.3.tgz#633e2998d11f7d4ed41f0d5ea461a22ec9b9d034"
   integrity sha512-KCPHi9QemVXGMrfuwf3nNnNo129resAIQWut9QTAMXmXqL2ErABC6ohd2yY5Ipq0CLWNbKHk8TMdTXL/Zf3ZhA==
 
-"@iconify/types@^2.0.0":
+"@iconify-json/mdi@^1.1.50":
+  version "1.1.50"
+  resolved "https://registry.yarnpkg.com/@iconify-json/mdi/-/mdi-1.1.50.tgz#05d4b1ace36ce5df1699da19c2f0042917780918"
+  integrity sha512-SgbT5w5eHCdOG74ZWPz7HlTGk6VsifIJhNi6lAsxj/5Nlqt6Cz4LlQmSa9eecU9p075Jub2aAx/o7YI+GCahRQ==
+  dependencies:
+    "@iconify/types" "*"
+
+"@iconify/json@^2.2.52":
+  version "2.2.52"
+  resolved "https://registry.yarnpkg.com/@iconify/json/-/json-2.2.52.tgz#73904fa2f8969e0f6de7e3a6b7996e18b0463df3"
+  integrity sha512-jUM6R1Uwm8DlkAuMPT1cNS43dWyVRF8dL9eVlK5wZ3StbcTucrqGwJ+vk5M6ZHE1HWhc0yoML975cbGLHhmCfw==
+  dependencies:
+    "@iconify/types" "*"
+    pathe "^1.0.0"
+
+"@iconify/types@*", "@iconify/types@^2.0.0":
   version "2.0.0"
   resolved "https://registry.npmmirror.com/@iconify/types/-/types-2.0.0.tgz#ab0e9ea681d6c8a1214f30cd741fe3a20cc57f57"
   integrity sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==
@@ -654,7 +669,7 @@
     unimport "^2.2.4"
     untyped "^1.2.2"
 
-"@nuxt/kit@3.4.1", "@nuxt/kit@^3.3.3", "@nuxt/kit@^3.4.0":
+"@nuxt/kit@3.4.1", "@nuxt/kit@^3.2.3", "@nuxt/kit@^3.3.3", "@nuxt/kit@^3.4.0":
   version "3.4.1"
   resolved "https://registry.npmmirror.com/@nuxt/kit/-/kit-3.4.1.tgz#18608db1ec28c9cf216c41d86535882cf8e838ec"
   integrity sha512-VeH26umZW6Rf4F1QX9nTIuTBp6HeL/MgmKY3+FgQiLD07afgFTLUJZohVE5xU7hb66zCnYvwKxa3JpjXFJZrhQ==
@@ -787,6 +802,15 @@
     vite-node "^0.30.1"
     vite-plugin-checker "^0.5.6"
     vue-bundle-renderer "^1.0.3"
+
+"@nuxtjs/google-fonts@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/google-fonts/-/google-fonts-3.0.0.tgz#2d26ecb903034bf02899d961a57ac6c4ac8ab3f9"
+  integrity sha512-knP2CJFkMHGQ9pepVNwquXvqiIHDma/6yZNXiYk7WWatRbbQUPf2423vXiBYu267Mff2KMuDLoAJ1Dsv2ymhdQ==
+  dependencies:
+    "@nuxt/kit" "^3.2.3"
+    google-fonts-helper "^3.2.4"
+    pathe "^1.1.0"
 
 "@polka/url@^1.0.0-next.20":
   version "1.0.0-next.21"
@@ -1022,12 +1046,24 @@
   resolved "https://registry.npmmirror.com/@unocss/core/-/core-0.51.4.tgz#f432ac54fc2d92d5b64b62374ab766eb13edb3b4"
   integrity sha512-glPBN989gJNNVzjulH6NlLAekBLuZbsFRIDqwZ1ZaoWY6teu8Z6uo3pqFCy+ibjxZSEha77BcnKfDzd2Hccsdw==
 
+"@unocss/core@0.51.5", "@unocss/core@^0.51.2":
+  version "0.51.5"
+  resolved "https://registry.yarnpkg.com/@unocss/core/-/core-0.51.5.tgz#6318f99e2ea8adce71f6af241d0502a67d3c3e3d"
+  integrity sha512-c2Ssp62nMRp3hCGhyaWYOMSD+QdwoYgTUbmIVNMTlVtDo9fjvyE2XwVRwAK7fJk8TnubAaDpkhZ49hVVf7Wjag==
+
 "@unocss/extractor-arbitrary-variants@0.51.4":
   version "0.51.4"
   resolved "https://registry.npmmirror.com/@unocss/extractor-arbitrary-variants/-/extractor-arbitrary-variants-0.51.4.tgz#15c9de5ecf65c23b15529da9feb276c854e88b36"
   integrity sha512-WfRsMEYthIkZjdTaTpzquTMtsb+GCp18tHM3CjlR9fsM7BGDF1rmMwcqWDzQc+wtiW+mzQFybL3chBgNdPloYA==
   dependencies:
     "@unocss/core" "0.51.4"
+
+"@unocss/extractor-arbitrary-variants@0.51.5":
+  version "0.51.5"
+  resolved "https://registry.yarnpkg.com/@unocss/extractor-arbitrary-variants/-/extractor-arbitrary-variants-0.51.5.tgz#50cd5385747ec24264edd3b7ef4318416efc8bc5"
+  integrity sha512-mWEAeboyth9lp2Y85N1t+kRU3v2MFJ/g/6Z8UNKDuxxQ5MpYourlyL9o390WkEnvxJ0KgaK8QWDEN1ewawWDjw==
+  dependencies:
+    "@unocss/core" "0.51.5"
 
 "@unocss/inspector@0.51.4":
   version "0.51.4"
@@ -1093,6 +1129,14 @@
     "@unocss/core" "0.51.4"
     "@unocss/extractor-arbitrary-variants" "0.51.4"
 
+"@unocss/preset-mini@^0.51.2":
+  version "0.51.5"
+  resolved "https://registry.yarnpkg.com/@unocss/preset-mini/-/preset-mini-0.51.5.tgz#85f1ef38f51620276f22265d4392239eaa1ae4dc"
+  integrity sha512-7epfOruqzJFUJnJSffquDUdQdHEvZfd1RLYchXz86zKwutwrSOdp5SMgspZzp5FIqtAVd+DRJUxGdstzzFG4lw==
+  dependencies:
+    "@unocss/core" "0.51.5"
+    "@unocss/extractor-arbitrary-variants" "0.51.5"
+
 "@unocss/preset-tagify@0.51.4":
   version "0.51.4"
   resolved "https://registry.npmmirror.com/@unocss/preset-tagify/-/preset-tagify-0.51.4.tgz#4790bed95d1d23a29f6a6bb2bca742cf46c987ed"
@@ -1123,6 +1167,14 @@
   integrity sha512-zoCExszBv12f8tw4YNV36q8NV15HR7AMpw5xEfAWX5Yak6Vmi5WIosJA1FPz+pyI93xxrPkWoPK5GdziAgtShg==
   dependencies:
     "@unocss/core" "0.51.4"
+    ofetch "^1.0.1"
+
+"@unocss/preset-web-fonts@^0.51.5":
+  version "0.51.5"
+  resolved "https://registry.yarnpkg.com/@unocss/preset-web-fonts/-/preset-web-fonts-0.51.5.tgz#9e0bf00f8f59decb1c58ad71d7edd033edab4e8c"
+  integrity sha512-oAmIjaKbVV0wwoqmsmk6t2q+MeJW3XluEVe7j9bMvT9BNmtjRQL29IhqW6lWG7ixwEWx4coufRph5W34hm0PSw==
+  dependencies:
+    "@unocss/core" "0.51.5"
     ofetch "^1.0.1"
 
 "@unocss/preset-wind@0.51.4":
@@ -2084,7 +2136,7 @@ deep-extend@^0.6.0:
   resolved "https://registry.npmmirror.com/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
   integrity sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==
 
-deepmerge@^4.2.2:
+deepmerge@^4.2.2, deepmerge@^4.3.1:
   version "4.3.1"
   resolved "https://registry.npmmirror.com/deepmerge/-/deepmerge-4.3.1.tgz#44b5f2147cd3b00d4b56137685966f26fd25dd4a"
   integrity sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==
@@ -2675,6 +2727,16 @@ globby@^13.1.3, globby@^13.1.4:
     ignore "^5.2.0"
     merge2 "^1.4.1"
     slash "^4.0.0"
+
+google-fonts-helper@^3.2.4:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/google-fonts-helper/-/google-fonts-helper-3.3.0.tgz#908f9b9fce267497c864e8cd7fb2089c55b126b6"
+  integrity sha512-aFEVbmaavTY6wN3m6jZaWXQHfakMy6XNqdWN8YzHqHWCGpGma91zp8MiWsyb5i8gXQXYeGUWegb9ca/Jf/Q7Yw==
+  dependencies:
+    deepmerge "^4.3.1"
+    hookable "^5.5.3"
+    ofetch "^1.0.1"
+    ufo "^1.1.1"
 
 graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.4, graceful-fs@^4.2.9:
   version "4.2.11"
@@ -5685,6 +5747,14 @@ universalify@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmmirror.com/universalify/-/universalify-2.0.0.tgz#75a4984efedc4b08975c5aeb73f530d02df25717"
   integrity sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
+
+unocss-preset-theme@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/unocss-preset-theme/-/unocss-preset-theme-0.6.0.tgz#8730509c269963d0ef6d732185bffc12f05b311e"
+  integrity sha512-ttAZLq/WgCYrZpP/j4QAvbQzyNiGTS8u0u4+C89CMnMfMww/jNwbMOzuYooTKipOtS3QkLnG+AmMk0mp7QPEXg==
+  dependencies:
+    "@unocss/core" "^0.51.2"
+    "@unocss/preset-mini" "^0.51.2"
 
 unocss@0.51.4:
   version "0.51.4"

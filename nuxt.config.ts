@@ -15,11 +15,21 @@ export default defineNuxtConfig({
     }
   },
   css: [
-    '@fortawesome/fontawesome-svg-core/styles.css'
+    '@/assets/style/main.css',
   ],
   modules: [
     '@nuxt/content',
     '@unocss/nuxt',
     '@nuxt/image-edge',
+    '@nuxtjs/google-fonts',
   ],
+  googleFonts: {
+    subsets: ['latin', 'latin-ext'],
+    families: {
+      Inter: true,
+      'Open+Sans': {
+        wght: [400, 700]
+      }
+    },
+  }
 })

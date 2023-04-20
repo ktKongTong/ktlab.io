@@ -2,9 +2,8 @@
 const headerNavLinks = [
     { href: '/blog', title: 'Blog' },
     { href: '/tags', title: 'Tags' },
-    { href: '/papers', title: 'Papers' },
+    { href: '/lab', title: 'Lab' },
     { href: '/about', title: 'About' },
-    { href: '/sponsor', title: 'Sponsor' },
 ]
 
 export const siteMetadata = {
@@ -17,14 +16,16 @@ export const siteMetadata = {
     siteUrl: 'https://ktlab.io',
     socialIcons:[
         {
-            id: 'envelope',
+            id: 'material-symbols-alternate-email',
+            dark:'material-symbols-alternate-email',
             primarycolor: '#24292e',
             hoverActionType: 'bounce',
             source: 'solid',
             href: 'mailto:kt@ktlab.io',
         },
         {
-            id: 'github',
+            id: 'carbon-moon',
+            dark:'mdi-github',
             source: 'brands',
             primarycolor: '#24292e',
             hoverActionType: 'bounce',

@@ -1,5 +1,6 @@
 export interface IconProps {
     id: string
+    dark?: string
     primarycolor: string | undefined
     source: 'solid' | 'brands' | 'regular' |string
     size?: 'xs' | 'sm' | '2xs' | 'lg' | 'xl' | '2xl' | undefined
@@ -7,7 +8,7 @@ export interface IconProps {
 }
 
 
-const FaIcon = ({id,primarycolor,source,size,href} : IconProps) => {
+const FaIcon = ({id,dark,primarycolor,source,size,href} : IconProps) => {
     return (
       <>
       <a
@@ -17,7 +18,8 @@ const FaIcon = ({id,primarycolor,source,size,href} : IconProps) => {
             href={href}
         >
             <span className="sr-only">{id}</span>
-            <font-awesome-icon icon={`fa-${source} fa-${id}`}/>
+            <div class={`i-${id} dark:i-${dark==null? id:dark} text-xl`} />
+            {/* <font-awesome-icon icon={`fa-${source} fa-${id}`}/> */}
       </a>
       </>
     )
