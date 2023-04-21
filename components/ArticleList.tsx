@@ -24,7 +24,6 @@ export  const ArticleList = ({data, notFoundTips},context) => {
         <div class="divide-y divide-red-200 dark:divide-gray-700">
             {
                 data.map((article) => {
-                  console.log(article['_path'])
                   return (<ArticleCard
                     title={article.title}
                     description={article.description}
@@ -38,3 +37,5 @@ export  const ArticleList = ({data, notFoundTips},context) => {
       </>
       )
   }
+
+export default ArticleList

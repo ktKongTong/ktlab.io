@@ -9,16 +9,18 @@ export interface IconProps {
 
 
 const LinkedIcon = ({id,dark,primarycolor,source,size,href} : IconProps) => {
+  const icon = `i-${id}`
+  console.log(icon)
     return (
       <>
       <a
-            className="text-sm text-gray-500 transition hover:text-gray-600"
+            class="text-sm text-gray-500 transition hover:text-gray-600"
             target="_blank"
             rel="noopener noreferrer"
             href={href}
         >
-            <span className="sr-only">{id}</span>
-            <div class={`i-${id}  text-3xl`} />
+            <span class="sr-only">{id}</span>
+            <div class={`${icon}  text-3xl`} />
       </a>
       </>
     )

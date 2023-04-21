@@ -3,20 +3,19 @@ import {siteMetadata} from '@/data/siteMetadata'
 import { ArticleList } from  '~/components/ArticleList'
 import PageTitle from '~/components/title'
 import { useSearch } from '~/composables/states'
-export const PostListLayout = ({data}) => {
+export const PostListLayout = ({data, title}) => {
     let  PageSize = 5
     const searchValue = useSearch()
     const filteredBlogPosts = data.filter((post) => {
         const searchContent = post.title + post?.describtion + post.tags?.join(' ')
         return searchContent.toLowerCase().includes(searchValue.value)
     })
-    // page size
     const dispalyPosts = filteredBlogPosts.slice(0, PageSize)
         return (
         <>
             <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
             <div class="divide-y divide-red-200 dark:divide-gray-700">
-              <PageTitle>All Post</PageTitle>
+              <PageTitle>{title?title:"All Post"}</PageTitle>
               <div className="relative max-w-lg">
                 <label class="flex">
                   <span className="sr-only">Search articles</span>

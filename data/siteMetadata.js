@@ -18,7 +18,7 @@ export const siteMetadata = {
     siteUrl: 'https://ktlab.io',
     socialIcons:[
         {
-            id: 'logos-vue',
+            id: 'mdi-email',
             dark:'mdi-email',
             primarycolor: '#24292e',
             hoverActionType: 'bounce',
@@ -26,7 +26,7 @@ export const siteMetadata = {
             href: 'mailto:kt@ktlab.io',
         },
         {
-            id: 'twemoji-grinning-face-with-smiling-eyes',
+            id: 'carbon-logo-github',
             dark:'mdi-github',
             source: 'brands',
             primarycolor: '#24292e',

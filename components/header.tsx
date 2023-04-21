@@ -20,7 +20,7 @@ export const Header = () => {
                     />
                 </div>
                 {typeof siteMetadata.headerTitle === 'string' ? (
-                  <div className="hidden h-8 text-2xl font-semibold sm:block">
+                  <div class="hidden h-8 text-2xl font-semibold sm:block">
                     {siteMetadata.headerTitle}
                   </div>
                 ) : (

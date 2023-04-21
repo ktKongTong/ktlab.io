@@ -13,3 +13,5 @@ const Doc = ({ doc }) => {
 export const MDContentRender = ({ docPath }, {slot}) => {
     return <ContentDoc  path={docPath} v-slots={Doc}/>
 }
+
+export default MDContentRender

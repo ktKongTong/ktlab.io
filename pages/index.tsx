@@ -3,6 +3,8 @@ import {siteMetadata} from '@/data/siteMetadata'
 import { MDContentRender } from '~/components/MDContentRender'
 import PageTitle from '~/components/title'
 import { ArticleList } from  '~/components/ArticleList'
+
+import 'virtual:uno.css'
 const MAX_RECENT_ARTICLES = siteMetadata.maxRencentPosts
 
 export default function Home(props:any) {
