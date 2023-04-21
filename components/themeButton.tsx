@@ -1,10 +1,14 @@
 const ThemeButton = () => {
   const color = useColorMode()
     const onTheme: any = () => {
-      console.log("test")
-      color.preference = color.preference === 'light' ? 'dark' : 'light'
+      if (color.preference === 'system') {
+        color.preference = color.value === 'dark' ? 'light' : 'dark'
+      }else {
+        color.preference = color.preference === 'light' ? 'dark' : 'light'
+      }
+
     }
-    const icon = ` i-carbon-${color.value === 'light' ? 'sun' : 'moon'}`
+    const icon = ` i-carbon-${color.value !== 'dark' ? 'sun' : 'moon'}`
   return (
     <div 
       aria-label="Toggle Dark Mode"

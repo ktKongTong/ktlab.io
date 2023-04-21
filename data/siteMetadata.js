@@ -26,7 +26,7 @@ export const siteMetadata = {
             href: 'mailto:kt@ktlab.io',
         },
         {
-            id: 'carbon-logo-github',
+            id: 'mdi-github',
             dark:'mdi-github',
             source: 'brands',
             primarycolor: '#24292e',
@@ -35,4 +35,10 @@ export const siteMetadata = {
         }
     ],
     headerNavLinks,
+    icons:[
+        "i-mdi-email",
+        "i-mdi-github",
+        "i-carbon-sun",
+        "i-carbon-moon",
+    ]
 }

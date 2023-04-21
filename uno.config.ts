@@ -23,6 +23,7 @@ export default defineConfig<Theme>({
     presetUno({}),
     presetIcons({
 
+      cdn: 'https://esm.sh/',
     }),
     presetTheme<Theme>({
       theme: {
