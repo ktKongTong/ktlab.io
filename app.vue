@@ -2,14 +2,16 @@
         <Container>
                 <NuxtPage/>
         </Container>
-        <!-- <div style="display:none;">
-                <div v-for="icon in siteMetadata.icons" :class="icon" />
-        </div> -->
+        <div style="display:none;">
+                        <div class="i-mdi-email"></div>
+                        <div class="i-mdi-github"></div>
+                        <div class="i-carbon-sun"></div>
+                        <div class="i-carbon-moon"></div>
+        </div>
 </template>
 
 <script setup>
 import Container from '@/components/container'
-import {siteMetadata} from '@/data/siteMetadata'
 
 
 </script>
