@@ -2,6 +2,13 @@ import { fileURLToPath } from "url";
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+  components:[{
+    path: '~/components',
+    extensions: ['vue', 'tsx']
+  }],
+  // content: {
+  //   documentDriven:true
+  // },
   alias: {
     '~/': __dirname,
     'data': fileURLToPath(new URL('./data', import.meta.url)),
@@ -22,6 +29,7 @@ export default defineNuxtConfig({
     '@unocss/nuxt',
     '@nuxt/image-edge',
     '@nuxtjs/google-fonts',
+    '@nuxtjs/color-mode'
   ],
   googleFonts: {
     subsets: ['latin', 'latin-ext'],
@@ -31,5 +39,17 @@ export default defineNuxtConfig({
         wght: [400, 700]
       }
     },
+  },
+
+  colorMode: {
+    preference: 'system',
+    fallback: 'light',
+    hid: 'nuxt-color-mode-script',
+    globalName: '__NUXT_COLOR_MODE__',
+    componentName: 'ColorScheme',
+    classPrefix: '',
+    classSuffix: '',
+    storageKey: 'nuxt-color-mode'
   }
+
 })

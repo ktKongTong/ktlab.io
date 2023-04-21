@@ -12,7 +12,7 @@ export const Header = () => {
               <div className="flex items-center justify-between">
                 <div className="mr-3">
                     <Image
-                        src="/avatar.jpg"
+                        src={siteMetadata.headerImg}
                         alt="avatar"
                         width={48}
                         height={48}
@@ -20,7 +20,7 @@ export const Header = () => {
                     />
                 </div>
                 {typeof siteMetadata.headerTitle === 'string' ? (
-                  <div className="hidden h-6 text-2xl font-semibold sm:block">
+                  <div className="hidden h-8 text-2xl font-semibold sm:block">
                     {siteMetadata.headerTitle}
                   </div>
                 ) : (
@@ -31,22 +31,21 @@ export const Header = () => {
              </Link>
              {/* </div> */}
               <div className="flex items-center text-base leading-5">
-              <div className="hidden sm:block">
-                {
-                  siteMetadata.headerNavLinks.map((link:any) => (
-                    <Link
-                      key={link.title}
-                      href={link.href}
-                      className="p-1 font-medium text-gray-900 dark:text-gray-100 sm:p-4"
-                    >
-                      {link.title}
-                    </Link>
-                ))
-                }
+                <div className="hidden sm:block">
+                  {
+                    siteMetadata.headerNavLinks.map((link:any) => (
+                      <Link
+                        key={link.title}
+                        href={link.href}
+                        className="p-1 font-300 text-xl text-gray-900 dark:text-gray-100 sm:p-4"
+                      >
+                        {link.title}
+                      </Link>
+                  ))
+                  }
                 </div>
-
                 <ThemeButton></ThemeButton>
-                </div>
+              </div>
             </div>
     )
   }

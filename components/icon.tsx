@@ -8,7 +8,7 @@ export interface IconProps {
 }
 
 
-const FaIcon = ({id,dark,primarycolor,source,size,href} : IconProps) => {
+const LinkedIcon = ({id,dark,primarycolor,source,size,href} : IconProps) => {
     return (
       <>
       <a
@@ -18,11 +18,10 @@ const FaIcon = ({id,dark,primarycolor,source,size,href} : IconProps) => {
             href={href}
         >
             <span className="sr-only">{id}</span>
-            <div class={`i-${id} dark:i-${dark==null? id:dark} text-xl`} />
-            {/* <font-awesome-icon icon={`fa-${source} fa-${id}`}/> */}
+            <div class={`i-${id}  text-3xl`} />
       </a>
       </>
     )
   }
   
-  export default FaIcon
+  export default LinkedIcon

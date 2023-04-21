@@ -1,19 +1,12 @@
-
-import { reactive } from 'vue'
-
-
-
-
 const ThemeButton = () => {
-    const theme = useState('theme',()=>{return {dark: false}})
+  const color = useColorMode()
     const onTheme: any = () => {
-      console.log('theme',theme.value.dark)
-        theme.value.dark = !theme.value.dark
+      color.preference = color.preference === 'light' ? 'dark' : 'light'
     }
   return (
         <button 
       aria-label="Toggle Dark Mode"
-      className="i-carbon-sun dark:i-carbon-moon text-xl ml-1 mr-1 h-8 w-8  p-1 sm:ml-4"
+      className={`ml-1 mr-1 h-6 w-6  p-1 sm:ml-4 text-xl i-carbon-${color.preference === 'light' ? 'sun' : 'moon'}`}
       onClick={onTheme}
         />
   )

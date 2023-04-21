@@ -1,4 +1,4 @@
-import FaIcon, { IconProps } from './icon'
+import LinkedIcon, { IconProps } from './icon'
 
 interface Props {
     socialIcons: Array<IconProps>
@@ -13,7 +13,7 @@ export const Footer = ({socialIcons,author,title}:Props) => {
             {
                 socialIcons.map((socialIcon:any) => {
                     return (
-                        <FaIcon 
+                        <LinkedIcon 
                             key={socialIcon.id}
                             id={socialIcon.id}
                             primarycolor={socialIcon.primarycolor}

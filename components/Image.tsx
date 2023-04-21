@@ -1,7 +1,7 @@
 
 interface ImageProps {
-    height: number
-    width: number
+    height?: number
+    width?: number
     src: string
     alt: string
     className?: string
@@ -13,8 +13,8 @@ const Image = ({height,width,src,alt,className }: ImageProps) => {
     <img 
     alt={alt}     
     src={src}
-    height={height}
-    width={width}
+    height={height?height:''}
+    width={width?width:''}
     className={className}
     ></img>
     </>

@@ -24,17 +24,13 @@ export default defineConfig<Theme>({
     presetUno({
     }),
     presetIcons({
-      collections: {
-        // carbon: () => import('@iconify-json/carbon/icons.json').then(i => i.default),
-        mdi: () => import('@iconify-json/mdi/icons.json').then(i => i.default),
-        // logos: () => import('@iconify-json/logos/icons.json').then(i => i.default),
-      },
-      autoInstall: true,
+      warn: true,
     }),
     presetTheme<Theme>({
       theme: {
         dark: {
           colors: {
+            'background': '#141414',
             'primary': '#1668dc',
             'primary-border': '#1668dc',
             'border': '#424242',
