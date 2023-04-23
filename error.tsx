@@ -1,13 +1,11 @@
 import Container from "@/components/container";
-import MDContentRender from "./components/MDContentRender";
+import PostLayout from "@/layouts/PostLayout";
 
 export default  ()=> {
   return (
     <>
         <Container>
-
-        {/* <ContentDoc path="/404"/> */}
-          <MDContentRender nav={false} className="text-center" docPath={'/404'}/>
+          <PostLayout nav={false} className="text-center" docPath={'/404'}/>
         </Container>
     </>
   )

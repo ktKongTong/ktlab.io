@@ -10,7 +10,6 @@ export interface IconProps {
 
 const LinkedIcon = ({id,dark,primarycolor,source,size,href} : IconProps) => {
   const icon = `i-${id}`
-  console.log(icon)
     return (
       <>
       <a

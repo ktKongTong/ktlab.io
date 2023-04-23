@@ -1,5 +1,6 @@
 import { Link } from '../Link';
 export default defineComponent({
+  inheritAttrs: false,
     props: {
       href: {
         type: String,
@@ -12,10 +13,10 @@ export default defineComponent({
       }
     },
     setup(props, { slots }) {
-        let { href, target } = props
+        const { href, target } = props
       return () => (
             <>
-            <Link href={href} rel={target} class="border-gray-700 dark:border-gray-1 border-b-dashed border-b-1">
+            <Link href={href} class="border-gray-700 dark:border-gray-1 border-b-dashed border-b-1">
                 {slots}
             </Link>
             </>

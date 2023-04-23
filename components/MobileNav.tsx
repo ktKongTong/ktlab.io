@@ -8,11 +8,8 @@ export default defineComponent({
 
         const headerNavLinks = siteMetadata.headerNavLinks
         const navShow = ref(false)
-        let display = navShow.value ? 'translate-x-0' : 'translate-x-full'
           const onToggleNav = () => {
-            console.log("click")
             navShow.value = !navShow.value
-            display = navShow.value ? 'translate-x-full' : 'translate-x-0'
           }
         return () => (
             <div className="sm:hidden">

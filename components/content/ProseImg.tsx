@@ -28,6 +28,6 @@ export default defineComponent({
         }
         return src
     })
-      return () => <img src={refinedSrc.value} alt={alt} width={width} height={height} className={`max-w-full max-h-full  h-a w-a`} />
+      return () => <img src={refinedSrc.value} alt={alt} width={width} height={height} class={`max-w-full max-h-full  h-a w-a`} />
     },
   });
