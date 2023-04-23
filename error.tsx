@@ -5,7 +5,9 @@ export default  ()=> {
   return (
     <>
         <Container>
-          <MDContentRender docPath={'/404'}/>
+
+        {/* <ContentDoc path="/404"/> */}
+          <MDContentRender nav={false} className="text-center" docPath={'/404'}/>
         </Container>
     </>
   )
