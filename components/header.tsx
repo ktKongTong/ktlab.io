@@ -8,7 +8,7 @@ import MobileNav from "./MobileNav"
 export const Header = () => {
     return (
       <header class="sticky top-0 z-10000000000000 bg-primary dark:bg-#091a28">
-            <div  className="  items-center p-10 max-w-7xl m-auto h-15">
+            <div  className="  items-center p-5 max-w-7xl m-auto h-15">
              {/* <div> */}
              <div class="flex  justify-between w-full">
               <Link href="/" aria-label={siteMetadata.headerTitle}>

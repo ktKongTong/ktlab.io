@@ -1,13 +1,3 @@
-// <!-- <script setup>
-// import {  PostListLayout } from "@/layouts/ListLayout";
-// const route = useRoute()
-// const tag = route.path.replace("/tags/","")
-// const where = {
-//   tags: {
-//     $in: [tag]
-//   }
-// }
-
 import { PageSEO } from "~/components/seo"
 import { siteMetadata } from "~/data/siteMetadata"
 import { PostListLayout } from "~/layouts/ListLayout"

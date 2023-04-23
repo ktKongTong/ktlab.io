@@ -50,12 +50,12 @@ export default defineComponent({
                           }
                         {props.nav ? (
                               <div class="grid-content-center grid grid-cols-12 max-w-7xl m-auto gap-3">
-                                  <div class="col-span-2 xl:block hidden"><PostNav previous={prev} next={next} tags={doc.tags} class="pt-3 sticky top-35"/></div>
+                                  <div class="col-span-2 xl:block hidden"><PostNav previous={prev} next={next} tags={doc.tags} class="pt-3 sticky top-25"/></div>
                                   <div   class="col-span-12 xl:col-span-8">
                                       <ContentRenderer value={doc} />
                                         <div class="col-span-2 xl:hidden"><BottomNav previous={prev} next={next} tags={doc.tags}/></div>
                                   </div>
-                                  <div  class="col-span-2 xl:block hidden"><TOC class= "pt-3 sticky top-35" toc={doc.body.toc.links} depth={0}/></div>
+                                  <div  class="col-span-2 xl:block hidden"><TOC class= "pt-3 sticky top-25" toc={doc.body.toc.links} depth={0}/></div>
                               </div>) : (
                                 <ContentRenderer value={doc} />
                         )}
