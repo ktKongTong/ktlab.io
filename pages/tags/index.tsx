@@ -5,21 +5,18 @@ import PageTitle from '~/components/title'
 
 
 const TagList = ({data})=>{
-    // console.log(data)
     const res = data.filter(post => post.tags).map(post => post.tags).flat().reduce((tags, tag) => {
         const count = tags[tag]
         tags[tag] = count ? count + 1 : 1
         return tags
     }, {})
   const sortedTags = Object.keys(res).sort((a, b) => res[b] - res[a])
-  // console.log(sortedTags)
     return (
         <div className="flex max-w-lg flex-wrap">
         {Object.keys(sortedTags).length === 0 && 'No tags found.'}
         {
             sortedTags.map((name) => {
                 const cnt = res[name]
-                // console.log(name,cnt)
                 return (
                     <div key={name} className="mt-2 mb-2 mr-5 border-red-3">
                     <Tag
