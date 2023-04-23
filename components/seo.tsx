@@ -64,6 +64,7 @@ interface PageSEOProps {
 
 export const PageSEO = ({ title, description }: PageSEOProps) => {
     const ogImageUrl = ""
+    console.log(title)
     return (
       <CommonSEO
         title={title}

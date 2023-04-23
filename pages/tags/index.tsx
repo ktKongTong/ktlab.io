@@ -41,7 +41,8 @@ export default function Tags(props) {
     <>
      
       <PageSEO title={`Tags - ${siteMetadata.author}`} description="Things I blog about" />
-      <div>
+
+      <div class="grid-content-center max-w-5xl m-auto">
       <div className="space-y-2 pt-6 pb-8 md:space-y-5">
           <PageTitle>Tags</PageTitle>
         </div>

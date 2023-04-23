@@ -3,35 +3,93 @@ import {siteMetadata} from '@/data/siteMetadata'
 import { ArticleList } from  '~/components/ArticleList'
 import PageTitle from '~/components/title'
 import { useSearch } from '~/composables/states'
-export const PostListLayout = ({data, title}) => {
-    let  PageSize = 5
-    const searchValue = useSearch()
-    const filteredBlogPosts = data.filter((post) => {
-        const searchContent = post.title + post?.describtion + post.tags?.join(' ')
-        return searchContent.toLowerCase().includes(searchValue.value)
-    })
-    const dispalyPosts = filteredBlogPosts.slice(0, PageSize)
+
+
+
+export const PostListLayout = ({data, title,pageSize = 5}) => {
+  const route = useRoute()
+  let currentPage = 1
+  const searchValue = useSearch()
+  const filteredBlogPosts = data.filter((post) => {
+      const searchContent = post.title + post?.describtion + post.tags?.join(' ')
+      return searchContent.toLowerCase().includes(searchValue.value)
+  })
+    switch (typeof route.query.page) {
+      case "string" :
+        currentPage = parseInt(route.query.page as string)
+        if (isNaN(currentPage)) {
+          currentPage = 1
+        }
+        break
+      case "object":
+        currentPage = parseInt((route.query.page as string[])[0])
+        if (isNaN(currentPage)) {
+          currentPage = 1
+        }
+    }
+    const totalPage = Math.ceil(filteredBlogPosts.length / pageSize)
+    const dispalyPosts = filteredBlogPosts.slice((currentPage-1)*pageSize, currentPage*pageSize)
+
+
         return (
         <>
-            <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
-            <div class="divide-y divide-red-200 dark:divide-gray-700">
-              <PageTitle>{title?title:"All Post"}</PageTitle>
-              <div className="relative max-w-lg">
-                <label class="flex">
-                  <span className="sr-only">Search articles</span>
-                  <input
-                   v-model={searchValue.value}
-                    aria-label="Search articles"
-                    type="text"
-                    placeholder="Search articles"
-                    className="block w-full rounded-md border border-gray-300 px-4 py-2 bg-gray-1 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100"
-                  />
-                </label>
-                <div class="i-mdi-search absolute text-2xl right-3 top-1.5 text-gray-400 dark:text-gray-300" />
+            <div class="grid h-full">
+            <div >
+            <PageTitle>{title?title:"All Post"}</PageTitle>
+                <div className="relative max-w-lg">
+                  <label class="flex">
+                    <span className="sr-only">Search articles</span>
+                    <input
+                    v-model={searchValue.value}
+                      aria-label="Search articles"
+                      type="text"
+                      placeholder="Search articles"
+                      className="block w-full rounded-md border border-gray-300 px-4 py-2 bg-gray-1 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100"
+                    />
+                  </label>
+                  <div class="i-mdi-search absolute text-2xl right-3 top-1.5 text-gray-400 dark:text-gray-300" />
                 </div>
                 <ArticleList data={dispalyPosts} notFoundTips={"No Result Found"}></ArticleList>
+            </div>
+                {/* add page operate next/previous */}
+                <PageOperate currentPage={currentPage} totalPage={totalPage}
+                class="mt-auto mb-4"
+                ></PageOperate>
             </div>
         </>
         )
 
+}
+
+
+const PageOperate = ({currentPage, totalPage}) => {
+  const router = useRouter()
+  const route = useRoute()
+  const pageSwitch = (pageCnt:number) => {
+    let query = Object.assign({},route.query)
+    query.page = (currentPage + pageCnt).toString()
+    router.push({
+      path: route.path,
+      query,
+    })
+  }
+  if (totalPage > 1) {
+    return (
+      <div class="flex justify-between">
+      <div
+      onClick={() => {if (currentPage > 1) pageSwitch(-1)}}
+      class={currentPage == 1 ? "text-gray-300" : "text-gray-700"}
+      >
+          Previous
+      </div>
+      <div>
+          {currentPage} of {totalPage} 
+      </div>
+      <div
+      onClick={()=>{if (currentPage < totalPage) pageSwitch(1)}}
+      class={currentPage == totalPage ? "text-gray-300" : "text-gray-700"}
+      >  Next </div>
+    </div>
+    )
+  }
 }

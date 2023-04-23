@@ -3,7 +3,7 @@ export const Link = (props, { slots }) => {
   const isAnchorLink = props.href && props.href.startsWith('#')
     if (isInternalLink) {
       return (
-        <a href={props.href} className={`${props.className}`} >{slots.default() }</a>
+        <a href={props.href} className={` ${props.className}`} >{slots.default() }</a>
     )
   }
   if (isAnchorLink) {
@@ -13,6 +13,6 @@ export const Link = (props, { slots }) => {
   }
 
   return (
-    <a target="_blank" rel="noopener noreferrer" href={props.href} className={`${props.className}`} >{slots.default() }</a>
+    <a target="_blank" rel="noopener noreferrer" href={props.href} class={`${props.className}`} >{slots.default() }</a>
   )
 };

@@ -1,5 +1,5 @@
 import Container from "@/components/container";
-import { MDContentRender } from "./components/MDContentRender";
+import MDContentRender from "./components/MDContentRender";
 
 export default  ()=> {
   return (

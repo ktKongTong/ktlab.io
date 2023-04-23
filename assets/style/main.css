@@ -36,3 +36,13 @@
     text-decoration: inherit;
     color: inherit
   }
+
+
+*::-webkit-scrollbar{
+    width: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}

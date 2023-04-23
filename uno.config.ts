@@ -2,12 +2,28 @@ import { defineConfig, presetIcons, presetUno } from 'unocss'
 import presetTheme from 'unocss-preset-theme'
 import type { Theme } from 'unocss/preset-uno'
 export default defineConfig<Theme>({
+  rules: [
+    [/^text-(.*)$/, ([, c], { theme }) => {
+      // console.log(c, theme.colors[c])
+      if (theme.colors[c])
+        return { color: theme.colors[c] }
+    }],
+  ],
+  
   theme: {
     colors: {
-      'primary': '#1677ff',
+
+    // --color: #243746;
+    // --color-primary: #000;
+    // --color-secondary: #0e2233;
+    // --bg: #f3f5f4;
+    // --bg-secondary: #fff;
+    // --border-color: #ddd;
+      'primary': '#f3f5f4',
       'primary-border': '#1677ff',
       'text': 'rgba(0, 0, 0, 0.88)',
-      'container': '#ffffff',
+      'container': '#091a28',
+      'background': '#f3f5f4',
       'border': '#d9d9d9',
     },
     spacing: {
@@ -29,7 +45,7 @@ export default defineConfig<Theme>({
       theme: {
         dark: {
           colors: {
-            'background': '#141414',
+            'background': '#091a28',
             'primary': '#1668dc',
             'primary-border': '#1668dc',
             'border': '#424242',

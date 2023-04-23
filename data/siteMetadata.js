@@ -8,7 +8,7 @@ const headerNavLinks = [
 
 export const siteMetadata = {
     title: "ktlab",
-    author: 'kt',
+    author: 'kongtong',
     headerTitle: 'ktlab',
     headerImg: '/avatar-no-bg.png',
     description: '👋 halo, traveler',

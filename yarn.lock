@@ -414,6 +414,13 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.17.17.tgz#2b577b976e6844106715bbe0cdc57cd1528063f9"
   integrity sha512-FNZw7H3aqhF9OyRQbDDnzUApDXfC1N6fgBhkqEO2jvYCJ+DxMTfZVqg3AX0R1khg1wHTBRD5SdcibSJ+XF6bFg==
 
+"@iconify-icons/material-symbols@^1.2.38":
+  version "1.2.38"
+  resolved "https://registry.yarnpkg.com/@iconify-icons/material-symbols/-/material-symbols-1.2.38.tgz#769dba2b871347a012d108b12d517e8fe3a89886"
+  integrity sha512-w2hv944ibUojEzPvDuVGuFtxYDyQpy1PnKj+Vm5eQ2fy8a26UBzjB0l3eHd50DIZVZv80b8oFPec1PCrh8rutA==
+  dependencies:
+    "@iconify/types" "*"
+
 "@iconify-json/carbon@^1.1.16":
   version "1.1.16"
   resolved "https://registry.yarnpkg.com/@iconify-json/carbon/-/carbon-1.1.16.tgz#6744e9f261a34fefc37bb8330e83e5e1b5352be4"

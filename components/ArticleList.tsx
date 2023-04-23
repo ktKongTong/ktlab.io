@@ -21,7 +21,7 @@ export  const ArticleList = ({data, notFoundTips},context) => {
     }
     return (
       <>
-        <div class="divide-y divide-red-200 dark:divide-gray-700">
+        <div class="divide-y divide-red-200 dark:divide-gray-700 ">
             {
                 data.map((article) => {
                   return (<ArticleCard
