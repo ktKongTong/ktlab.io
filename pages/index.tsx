@@ -3,7 +3,6 @@ import {siteMetadata} from '@/data/siteMetadata'
 import PageTitle from '~/components/title'
 import { ArticleList } from  '~/components/ArticleList'
 
-import 'virtual:uno.css'
 import { Link } from '~/components/Link'
 const MAX_RECENT_ARTICLES = siteMetadata.maxRencentPosts
 

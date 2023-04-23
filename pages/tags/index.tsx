@@ -1,5 +1,5 @@
 import { PageSEO } from '@/components/seo'
-import {Tag} from '@/components/tag'
+import Tag from '@/components/tag'
 import {siteMetadata} from '@/data/siteMetadata'
 import PageTitle from '~/components/title'
 
