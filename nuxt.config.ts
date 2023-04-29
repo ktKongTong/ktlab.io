@@ -6,9 +6,6 @@ export default defineNuxtConfig({
     path: '~/components',
     extensions: ['vue', 'tsx']
   }],
-  // content: {
-  //   documentDriven:true
-  // },
   alias: {
     '~/': __dirname,
     'data': fileURLToPath(new URL('./data', import.meta.url)),
@@ -26,20 +23,10 @@ export default defineNuxtConfig({
   ],
   modules: [
     '@nuxt/content',
-    '@unocss/nuxt',
     '@nuxt/image-edge',
-    '@nuxtjs/google-fonts',
-    '@nuxtjs/color-mode'
+    '@nuxtjs/color-mode',
+    '@unocss/nuxt'
   ],
-  googleFonts: {
-    subsets: ['latin', 'latin-ext'],
-    families: {
-      Inter: true,
-      'Open+Sans': {
-        wght: [400, 700]
-      }
-    },
-  },
 
   colorMode: {
     preference: 'system',

@@ -1,21 +1,26 @@
-const ThemeButton = () => {
-  const color = useColorMode()
-    const onTheme: any = () => {
+export default defineComponent({
+  name: 'ThemeButton',
+  setup(props, { slots, emit, expose }) {
+    const color = useColorMode()
+    const icon = computed(() => {
       if (color.preference === 'system') {
-        color.preference = color.value === 'dark' ? 'light' : 'dark'
-      }else {
-        color.preference = color.preference === 'light' ? 'dark' : 'light'
+        return 'i-material-symbols:computer-outline'
       }
-
-    }
-    const icon = ` i-carbon-${color.value !== 'dark' ? 'sun' : 'moon'}`
-  return (
-    <div 
-      aria-label="Toggle Dark Mode"
-      className={`ml-1 mr-1 h-4 w-4  p-1 sm:ml-4 ${icon}`}
-      onClick={onTheme}
-        />
-  )
-}
-
-export default ThemeButton
+      return `i-carbon-${color.value !== 'dark' ? 'sun' : 'moon'}`
+    })
+    const preference = computed(() => {
+      // return [ 'dark', 'light']
+      return ['system', 'dark', 'light']
+    })
+      const onTheme: any = () => {
+        color.preference  = preference.value[(preference.value.indexOf(color.preference) + 1) % preference.value.length]
+      }
+      return() =>(
+        <div 
+          aria-label="Toggle Dark Mode"
+          class={`ml-1 mr-1 h-4 w-4  p-1 sm:ml-4 ${icon.value}`}
+          onClick={onTheme}
+            />
+      )
+  }
+})

@@ -1,5 +1,5 @@
 import { siteMetadata } from "~/data/siteMetadata"
-import Image from "~/components/Image"
+import Avatar from "~/components/Avatar"
 import { Link } from "./Link"
 
 export default defineComponent({
@@ -23,7 +23,7 @@ export default defineComponent({
         return ()=>(
             <div class="grid grid-row-auto gap-4">
                     <div class="flex overflow-auto">
-                        <Image src={siteMetadata.headerImg} alt="avatar" height={48} width={48} className="rounded-full"></Image>
+                        <Avatar src={siteMetadata.headerImg}/>
                         <div class="ml-4 text-xl font-bold text-center mt-a mb-a text-truncate">{siteMetadata.author}</div>
                     </div>
                     <div class="divide-y border-blueGray border-solid border-width-0.1 m-x-2"></div>

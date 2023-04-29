@@ -1,5 +1,5 @@
 import { siteMetadata } from "~/data/siteMetadata"
-import Image from "@/components/Image"
+import Avatar from "@/components/Avatar"
 import PostNav  from "@/components/PostNav"
 import TOC from "@/components/TOC"
 import PageTitle from "@/components/title"
@@ -41,7 +41,7 @@ export default defineComponent({
                                     <h2 class="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">{doc.date?dateFormatEn(doc.date):""}</h2>
                                     <PageTitle>{doc.title}</PageTitle>
                                     <div class=" xl:hidden flex  ml-a mr-a justify-center m-y-1">
-                                    <Image src={siteMetadata.headerImg} alt="avatar" height={48} width={48} className="rounded-full"></Image>
+                                    <Avatar src={siteMetadata.headerImg}/>
                                     <span class=" text-xl font-bold mt-a mb-a ml-4 text-truncate">{siteMetadata.author}</span>
                                     </div>
                                   </div>) 

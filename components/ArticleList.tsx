@@ -9,7 +9,7 @@ const notFound = ({data, notFoundTips},context) => {
           <Image
                 src="/not_found_2.png"
                 alt="not found"
-                className="max-w-full max-h-full  h-a w-a"
+                class="max-w-full max-h-full  h-a w-a"
             />
       </div>
       </>
