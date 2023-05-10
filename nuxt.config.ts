@@ -2,6 +2,9 @@ import { fileURLToPath } from "url";
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+  build: {
+    transpile: ['echarts', 'vue-echarts']
+  },
   components:[{
     path: '~/components',
     extensions: ['vue', 'tsx']
