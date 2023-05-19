@@ -30,10 +30,10 @@ export default defineComponent({
                     <div class="tag">
                         <div class="text-sm">🏷️TAGS</div>
                         {
-                            <div class="grid grid-cols-2">
+                            <div class="flex flex-wrap">
                                 {tags.map((tag)=>{
                                     return (
-                                        <Link  className="m-x-a hover:text-yellow-500  text-yellow-700  dark:text-primary" href={`/tags/${tag}`}>{tag}</Link>
+                                        <Link  className="m-x-a hover:text-yellow-500  text-yellow-700  dark:text-primary text-ellipsis" href={`/tags/${tag}`}>{tag}</Link>
                                     )
                                 })}
                             </div>

@@ -12,7 +12,7 @@ export default defineComponent({
           <PageSEO title={`Blog - ${siteMetadata.author}`} description={siteMetadata.description} />
           
           <div class="grid-content-center max-w-5xl m-auto">
-          <PostListLayout data={data} title="All Posts" pageSize={5} />
+          <PostListLayout data={data} title="All Posts" pageSize={3} />
           </div>
 
         </>

@@ -20,7 +20,7 @@ export default defineComponent({
               href={href}
           >
               <span class="sr-only">{id}</span>
-              <div class={`i-${id}  text-3xl`} />
+              <div class={`${id}  text-3xl`} />
         </a>
         </>
       )

@@ -5,10 +5,10 @@ export default defineComponent({
     name: 'Container',
     setup(props, { emit, slots, expose }) {
         return () => (
-            <section class="h-screen max-w-100% px-4 sm:px-6  xl:px-0">
-             <div class="flex flex-col justify-between min-h-screen bg-primary dark:bg-#091a28">
+            <section class="h-screen max-w-100% px-4 sm:px-6  xl:px-0 bg-primary dark:bg-#091a28">
+             <div class="flex flex-col justify-between min-h-screen ">
             <Header></Header>
-              <main class="mb-auto m-x-2 z-1000000">{slots.default?.()}</main>
+              <main class="mb-auto m-x-2">{slots.default?.()}</main>
               <Footer 
                   socialIcons={siteMetadata.socialIcons}
                   author={siteMetadata.author}
