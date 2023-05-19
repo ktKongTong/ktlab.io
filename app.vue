@@ -1,7 +1,7 @@
 <script setup>
 import Container from '@/components/container'
-const route = useRoute()
-console.log(route.path)
+// const route = useRoute()
+// console.log(route.path)
 </script>
 <template>
         <Container>

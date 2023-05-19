@@ -77,21 +77,29 @@ const PageOperate = ({currentPage, totalPage}) => {
       query,
     })
   }
+ const color = useColorMode()
+ const colorGroup = computed(() => {
+    if(color.value == "dark"){
+      return ["text-gray-300 cursor-pointer", "text-gray-700 cursor-default"]
+    }
+    // active inactive
+    return ["text-gray-700 cursor-pointer", "text-gray-300  cursor-default"]
+ })
   if (totalPage > 1) {
     return (
       <div class="flex justify-between">
       <div
       onClick={() => {if (currentPage > 1) pageSwitch(-1)}}
-      class={currentPage == 1 ? "text-gray-300" : "text-gray-700"}
+      class={`${currentPage !== 1 ? colorGroup.value[0] : colorGroup.value[1]}`}
       >
           Previous
       </div>
-      <div>
-          {currentPage} of {totalPage} 
+      <div> 
+          {currentPage} of {totalPage}
       </div>
       <div
       onClick={()=>{if (currentPage < totalPage) pageSwitch(1)}}
-      class={currentPage == totalPage ? "text-gray-300" : "text-gray-700"}
+      class={`${currentPage !== totalPage ? colorGroup.value[0] : colorGroup.value[1]}`}
       >  Next </div>
     </div>
     )
