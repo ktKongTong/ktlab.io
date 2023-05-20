@@ -47,10 +47,6 @@ import { siteMetadata } from "@/data/siteMetadata"
                   property: 'og:title',
                   content: title,
               },
-              {
-                  property: 'og:image',
-                  content: '',
-              },
           ],
       })
       return ()=>(

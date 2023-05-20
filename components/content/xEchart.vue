@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <figure class="mx-2">
       <client-only>
-        <v-chart class="chart" :option="option" autocapitalize autoresize/>
+        <v-chart :manual-update="true" ref="chart" style="height: 500px;" autocapitalize autoresize/>
       </client-only>
-    </div>
+    </figure>
   </template>
   
   <script lang="ts">
@@ -19,9 +19,10 @@ ToolboxComponent,
 MarkPointComponent,
 MarkAreaComponent,
 MarkLineComponent,
+DataZoomComponent
   } from 'echarts/components';
   import VChart from 'vue-echarts';
-  import { defineComponent } from 'vue';
+  import { ref,defineComponent } from 'vue';
   
   use([
     CanvasRenderer,
@@ -33,6 +34,7 @@ MarkLineComponent,
     TitleComponent,
     TooltipComponent,
     LegendComponent,
+    DataZoomComponent
   ]);
   
   export default defineComponent({
@@ -44,17 +46,30 @@ MarkLineComponent,
       option: {
         type: Object,
         default: {},
-      },
-    },
+      }
+    },    
     setup({option}) {
-      return { option };
+      const chart = ref(null);
+      const color = useColorMode();
+      var options = JSON.parse(JSON.stringify(option))
+      onMounted(() => {
+        console.log('mounted');
+        console.log(chart.value);
+        chart.value.setOption(options);
+      });
+      watch(()=>color.value, (v,p) => {
+        console.log('color mode changed');
+        options.darkMode = v === 'dark';
+        options = JSON.parse(JSON.stringify(options));
+        console.log(options);
+      });
+      return {
+        chart,
+      };
     },
   });
   </script>
   
   <style scoped>
-  .chart {
-    height: 50vh;
-  }
   </style>
   

@@ -1,5 +1,3 @@
-import { PageSEO } from '@/components/seo'
-import {siteMetadata} from '@/data/siteMetadata'
 import { ArticleList } from  '~/components/ArticleList'
 import PageTitle from '~/components/title'
 import { useSearch } from '~/composables/states'
@@ -10,9 +8,11 @@ export const PostListLayout = ({data, title,pageSize = 3}) => {
   const route = useRoute()
   let currentPage = 1
   const searchValue = useSearch()
-  const filteredBlogPosts = data.filter((post) => {
-      const searchContent = post.title + post?.describtion + post.tags?.join(' ')
-      return searchContent.toLowerCase().includes(searchValue.value)
+  const filteredBlogPosts = computed(() => {
+      return data.filter((post) => {
+        const searchContent = post.title + post?.describtion + post.tags?.join(' ')
+        return searchContent.toLowerCase().includes(searchValue.value)
+    })
   })
     switch (typeof route.query.page) {
       case "string" :
@@ -27,18 +27,16 @@ export const PostListLayout = ({data, title,pageSize = 3}) => {
           currentPage = 1
         }
     }
-    const totalPage = Math.ceil(filteredBlogPosts.length / pageSize)
-    const dispalyPosts = filteredBlogPosts.slice((currentPage-1)*pageSize, currentPage*pageSize)
-
-
+    const totalPage = computed(() => {return Math.ceil(filteredBlogPosts.value.length / pageSize)})
+    const dispalyPosts = computed(() => {
+      return filteredBlogPosts.value.slice((currentPage-1)*pageSize, currentPage*pageSize)
+    })
         return (
         <>
             <div class="grid h-full">
-            <div >
             <PageTitle>{title?title:"All Post"}</PageTitle>
-            <div>
-                  <div class=" max-w-lg">
-                    <label class="flex">
+                  <div class="flex flex-col">
+                    <label class="flex max-w-lg">
                       <span class="sr-only">Search articles</span>
                       <input
                       v-model={searchValue.value}
@@ -47,13 +45,10 @@ export const PostListLayout = ({data, title,pageSize = 3}) => {
                         placeholder="Search articles"
                         class="block w-full rounded-md border border-gray-300 px-4 py-2 bg-gray-1 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100"
                       />
-                      
                     {/* <div class="i-mdi-search ml--3 relative text-2xl right-3 top-1.5 text-gray-400 dark:text-gray-300" /> */}
-                    </label>
+                  </label>
+                <ArticleList key={dispalyPosts.value} data={dispalyPosts.value} notFoundTips={"No Result Found"}></ArticleList>
                   </div>
-            </div>
-                <ArticleList data={dispalyPosts} notFoundTips={"No Result Found"}></ArticleList>
-            </div>
                 {/* add page operate next/previous */}
                 {/* should be bottom if not fill height */}
                 <PageOperate currentPage={currentPage} totalPage={totalPage}

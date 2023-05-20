@@ -32,19 +32,36 @@ const TagList = ({data})=>{
     )
 }
 
-
-export default function Tags(props) {
-  return (
-    <>
+export default defineComponent({
+    name: 'Tags',
+    setup() {
+      return () => (
+          <>
+      
+          <PageSEO title={`Tags - ${siteMetadata.author}`} description="Things I blog about" />
+    
+          <div class="grid-content-center max-w-5xl m-auto">
+          <div class="space-y-2 pt-6 pb-8 md:space-y-5">
+              <PageTitle>Tags</PageTitle>
+            </div>
+            <ContentQuery path="/blog" v-slots={TagList} />
+          </div>
+        </>
+      )
+    }
+})
+// export  function Tags(props) {
+//   return (
+//     <>
      
-      <PageSEO title={`Tags - ${siteMetadata.author}`} description="Things I blog about" />
+//       <PageSEO title={`Tags - ${siteMetadata.author}`} description="Things I blog about" />
 
-      <div class="grid-content-center max-w-5xl m-auto">
-      <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-          <PageTitle>Tags</PageTitle>
-        </div>
-        <ContentQuery path="/blog" v-slots={TagList} />
-      </div>
-    </>
-  )
-}
+//       <div class="grid-content-center max-w-5xl m-auto">
+//       <div class="space-y-2 pt-6 pb-8 md:space-y-5">
+//           <PageTitle>Tags</PageTitle>
+//         </div>
+//         <ContentQuery path="/blog" v-slots={TagList} />
+//       </div>
+//     </>
+//   )
+// }

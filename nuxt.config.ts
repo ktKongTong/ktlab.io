@@ -21,7 +21,7 @@ export default defineNuxtConfig({
         lang: 'zh'
       },
       charset: 'utf-8',
-      viewport: 'width=device-width, initial-scale=1',
+      // viewport: 'width=device-width, initial-scale=1',
       title: 'ktlab',
       meta: [
         { hid: 'description', name: 'description', content: 'ktlab' },
