@@ -17,9 +17,22 @@ export default defineNuxtConfig({
   },
   app:{
     head: {
+      htmlAttrs: {
+        lang: 'zh'
+      },
       charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
       title: 'ktlab',
-    }
+      meta: [
+        { hid: 'description', name: 'description', content: 'ktlab' },
+        { name: 'author', content: 'kt' },
+        { name: 'keywords', content: 'ktlab,kongtong,blog' },
+        { name: 'og:title', property: 'og:title', content: 'ktlab' },
+        { name: 'og:description', property: 'og:description', content: 'ktlab, a presonal space for fun' },
+        { name: 'og:type', property: 'og:type', content: 'website' },
+        { hid: 'og:image', property: 'og:image', content: 'https://ktlab.io/home_thumb.png' },
+      ]
+    },
   },
   css: [
     '@/assets/style/main.css',
