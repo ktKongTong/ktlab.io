@@ -20,6 +20,7 @@
     "@types/node": "^18",
     "@unocss/nuxt": "^0.51.8",
     "@unocss/preset-web-fonts": "^0.51.8",
+    "@waline/client": "^2.15.5",
     "echarts": "^5.4.2",
     "nuxt": "^3.4.3",
     "unocss-preset-theme": "^0.6.0",

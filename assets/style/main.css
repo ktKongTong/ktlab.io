@@ -5,6 +5,16 @@
     --bg: #f3f5f4;
     --bg-secondary: #fff;
     --border-color: #ddd;
+    --waline-active-color: #fff;
+    --waline-theme-color: rgba(161,98,7,1) !important;
+    --waline-active-color: rgba(161,98,7,1) !important;
+    --waline-bgcolor: var(--bg) !important;
+    --waline-disable-bgcolor: var(--bg) !important;
+    --waline-bgcolor: var(--bg) !important;
+    --waline-bgcolor-light: var(--bg) !important;
+    --waline-bgcolor-hover: var(--bg) !important;
+    --waline-border-color: var(--border-color) !important;
+    --waline-info-bgcolor: transparent !important;
   }
   
   .dark {
@@ -14,6 +24,8 @@
     --bg: #091a28;
     --bg-secondary: #071521;
     --border-color: #0d2538;
+    --waline-bgcolor: var(--bg);
+    --waline-active-color: #ddd;
   }
   .sepia {
     --color: #433422;

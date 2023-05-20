@@ -4,9 +4,12 @@ import Container from '@/components/container'
 // console.log(route.path)
 </script>
 <template>
+
+  <ColorScheme placeholder="" tag="span">        
         <Container>
                         <NuxtPage/>
         </Container>
+</ColorScheme>
         <div style="display:none;">
                         <div class="i-mdi-email"></div>
                         <div class="i-mdi-github"></div>
