@@ -16,11 +16,12 @@ export default defineComponent({
         color.preference  = preference.value[(preference.value.indexOf(color.preference) + 1) % preference.value.length]
       }
       return() =>(
-        <div 
-          aria-label="Toggle Dark Mode"
+        <ColorScheme placeholder="" tag="span">        
+        <div
           class={`ml-1 mr-1 h-4 w-4  p-1 sm:ml-4 ${icon.value}`}
           onClick={onTheme}
             />
+            </ColorScheme>
       )
   }
 })

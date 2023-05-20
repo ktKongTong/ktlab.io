@@ -1,5 +1,5 @@
 import LinkIcon from "./icon"
-
+import Image from "./Image.vue"
 export default defineComponent({
     name: 'ProjectCard',
     props: {
@@ -32,7 +32,7 @@ export default defineComponent({
         <>
             <div class="max-w-sm mx-auto bg-white-100 dark:bg-gray-700 md:w-68 lg:w-72 xl:w-80  rounded-xl shadow-md overflow-hidden select-unset hover:scale-105">
             
-            <img class="w-full object-contain h-40 select-none" src={preview} alt={title}/>
+            <Image height="10rem" loading="lazy" class={`w-full h-40 select-none ${ preview=='/not_found_3.png' ? 'object-contain':'' }`} src={preview} alt={title}/>
             <div class="px-4 py-2  border-t border-gray-200">
                 <div class="border-t border-gray-200 flex justify-between">
                     <div class="text-xl"> {title}</div>

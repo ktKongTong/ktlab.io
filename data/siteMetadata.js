@@ -24,6 +24,13 @@ const projects = [
 ]
 
 export const siteMetadata = {
+    waliineServeUrl: 'https://waline-blog-iota-lake.vercel.app',
+    presetEmoji:['https://unpkg.com/@waline/emojis@1.1.0/alus',
+    'https://unpkg.com/@waline/emojis@1.1.0/bilibili',
+    'https://unpkg.com/@waline/emojis@1.1.0/weibo',
+    'https://unpkg.com/@waline/emojis@1.1.0/tieba',
+    'https://unpkg.com/@waline/emojis@1.1.0/bmoji',
+],
     title: "ktlab",
     author: 'kongtong',
     headerTitle: 'ktlab',

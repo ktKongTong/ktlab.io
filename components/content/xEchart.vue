@@ -1,7 +1,7 @@
 <template>
     <figure class="mx-2">
       <client-only>
-        <v-chart :manual-update="true" ref="chart" style="height: 500px;" autocapitalize autoresize/>
+        <v-chart :option="options" :key="refrash" style="height: 500px;border-radius: 10px;" autocapitalize autoresize/>
       </client-only>
     </figure>
   </template>
@@ -21,7 +21,7 @@ MarkAreaComponent,
 MarkLineComponent,
 DataZoomComponent
   } from 'echarts/components';
-  import VChart from 'vue-echarts';
+  import VChart, { THEME_KEY } from 'vue-echarts';
   import { ref,defineComponent } from 'vue';
   
   use([
@@ -48,23 +48,26 @@ DataZoomComponent
         default: {},
       }
     },    
+    
     setup({option}) {
-      const chart = ref(null);
+      console.log(option);
       const color = useColorMode();
-      var options = JSON.parse(JSON.stringify(option))
-      onMounted(() => {
-        console.log('mounted');
-        console.log(chart.value);
-        chart.value.setOption(options);
-      });
+      provide(THEME_KEY, color.value);
+      const getValue = () => {
+        return JSON.parse(JSON.stringify(option));
+      };
+      const options = ref(option);
+      let refrash = 0;
       watch(()=>color.value, (v,p) => {
-        console.log('color mode changed');
-        options.darkMode = v === 'dark';
-        options = JSON.parse(JSON.stringify(options));
-        console.log(options);
+        let d  = getValue();
+        d.darkMode = v === 'light' ? 'dark' : 'light';
+        refrash++;
+        options.value = d;
       });
+      
       return {
-        chart,
+        options,
+        refrash
       };
     },
   });
