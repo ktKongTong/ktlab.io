@@ -2,8 +2,25 @@
 const headerNavLinks = [
     { href: '/blog', title: 'Blog' },
     { href: '/tags', title: 'Tags' },
-    // { href: '/lab', title: 'Lab' },
+    { href: '/projects', title: 'Lab' },
     // { href: '/about', title: 'About' },
+]
+
+const projects = [
+    {
+        title: '睡前消息文稿合集',
+        description: '睡前消息文稿合集 build with vuepress',
+        github: 'https://github.com/ktkongtong/btnews',
+        link: 'https://btnews.ktlab.io',
+        preview: '/projects/project_btnews.png',
+        // darkPreview: '/projects/project_btnews_dark.png',
+    },
+    {
+        title: 'Bigo',
+        description: 'A bilibili media downloader writen in go',
+        github: 'https://github.com/ktkongtong/bigo',
+        link: 'https://github.com/ktkongtong/bigo',
+    }
 ]
 
 export const siteMetadata = {
@@ -18,16 +35,16 @@ export const siteMetadata = {
     siteUrl: 'https://ktlab.io',
     socialIcons:[
         {
-            id: 'mdi-email',
-            dark:'mdi-email',
+            id: 'i-mdi-email',
+            dark:'i-mdi-email',
             primarycolor: '#24292e',
             hoverActionType: 'bounce',
             source: 'solid',
             href: 'mailto:kt@ktlab.io',
         },
         {
-            id: 'mdi-github',
-            dark:'mdi-github',
+            id: 'i-mdi-github',
+            dark:'i-mdi-github',
             source: 'brands',
             primarycolor: '#24292e',
             hoverActionType: 'bounce',
@@ -40,5 +57,6 @@ export const siteMetadata = {
         "i-mdi-github",
         "i-carbon-sun",
         "i-carbon-moon",
-    ]
+    ],
+    projects
 }

@@ -1,41 +1,71 @@
 import ArticleCard from "@/components/ArticleCard"
-import Image from "@/components/Image"
-
-const notFound = ({data, notFoundTips},context) => {
-    return (
+import Image from "@/components/Image.vue"
+const notFound = defineComponent({
+  name: 'notFound',
+  props: {
+    imageSrc: {
+      type: String,
+      default: '/not_found_2.png'
+    },
+    notFoundTips: {
+      type: String,
+      default: 'has no activity recently'
+    }
+  },
+  setup({imageSrc,notFoundTips}, { emit, slots, expose }) {
+    console.log(imageSrc)
+    return () => (
       <>
-      <div class="divide-y divide-red-200 dark:divide-gray-700">
-          <h1> {notFoundTips? notFoundTips : `has no activity recently` }</h1>
+          <h1> {notFoundTips}</h1>
           <Image
-                src="/not_found_2.png"
+                src={imageSrc}
                 alt="not found"
-                class="max-w-full max-h-full  h-a w-a"
+                class="w-1/2"
             />
-      </div>
       </>
     )
   }
-export  const ArticleList = ({data, notFoundTips},context) => {
-    if (!data || data.length == 0) {
-      return notFound({data, notFoundTips},context)
-    }
-    return (
-      <>
-        <div class="divide-y divide-red-200 dark:divide-gray-700 ">
-            {
-                data.map((article) => {
-                  return (<ArticleCard
-                    title={article.title}
-                    description={article.description}
-                    date={article.date}
-                    tags={article.tags?article.tags:[]}
-                    href={article['_path']}
-                  ></ArticleCard>)
-                })
-            }
-        </div>
-      </>
-      )
-  }
+})
 
+  export const ArticleList = defineComponent({
+    name: 'ArticleList',
+    props: {
+      data: {
+        type: Array,
+        default: []
+      },
+      notFoundTips: {
+        type: String,
+        required: false,
+        default: 'has no activity recently'
+      }
+    },
+    setup({data,notFoundTips}, { emit, slots, expose }) {
+
+      if (!data || data.length == 0) {
+        return () => (
+          <>
+            {slots.default?.() || <notFound notFoundTips={notFoundTips}/>}
+          </>
+        )
+      }
+      return () => (
+          <>
+          <div class="divide-y dark:divide-gray-700 ">
+              {
+                  data.map((article:any) => {
+                    return (<ArticleCard
+                      title={article.title}
+                      description={article.description}
+                      date={article.date}
+                      tags={article.tags?article.tags:[]}
+                      href={article['_path']}
+                    ></ArticleCard>)
+                  })
+              }
+          </div>
+          </>          
+      )
+    }
+  })
 export default ArticleList

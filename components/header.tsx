@@ -8,7 +8,7 @@ export default defineComponent({
   name: 'Header',
   setup(props, { emit, slots, expose }) {
       return () => (
-            <header class="sticky top-0 ">
+            <header class="sticky top-0 bg-primary dark:bg-#091a28  z-8000">
             <div  class="  items-center p-5 max-w-7xl m-auto h-15">
             {/* <div> */}
             <div class="flex  justify-between w-full">

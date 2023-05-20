@@ -1,5 +1,7 @@
 <script setup>
 import Container from '@/components/container'
+// const route = useRoute()
+// console.log(route.path)
 </script>
 <template>
         <Container>
@@ -12,5 +14,6 @@ import Container from '@/components/container'
                         <div class="i-carbon-moon"></div>
                         <div class="i-material-symbols:arrow-right-rounded"></div>
                         <div class="i-material-symbols:computer-outline"></div>
+                        <div class="i-mdi-open-in-new"></div>
         </div>
 </template>

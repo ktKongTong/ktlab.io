@@ -30,10 +30,10 @@ export default defineComponent({
                     <div class="tag">
                         <div class="text-sm">🏷️TAGS</div>
                         {
-                            <div class="grid grid-cols-2">
+                            <div class="flex flex-wrap">
                                 {tags.map((tag)=>{
                                     return (
-                                        <Link  className="m-x-a hover:text-yellow-500  text-yellow-700  dark:text-primary" href={`/tags/${tag}`}>{tag}</Link>
+                                        <Link  className="m-x-a hover:text-yellow-500  text-yellow-700 text-ellipsis" href={`/tags/${tag}`}>{tag}</Link>
                                     )
                                 })}
                             </div>
@@ -45,7 +45,7 @@ export default defineComponent({
                                 <div class="divide-y border-blueGray border-solid border-width-0.1 m-x-2"></div>
                                 <div>
                                     <div class="text-sm">PREVIOUS</div>
-                                    <Link className="m-x-a  hover:text-yellow-500  text-yellow-700  dark:text-primary" href={previous?._path}>{previous?.title}</Link>
+                                    <Link className="m-x-a  hover:text-yellow-500  text-yellow-700 " href={previous?._path}>{previous?.title}</Link>
                                 </div>   
                             </>
                         )
@@ -55,14 +55,14 @@ export default defineComponent({
                             <>
                                 <div>
                                     <div class="text-sm">NEXT</div>
-                                    <Link className="m-x-a  hover:text-yellow-500  text-yellow-700 dark:text-primary" href={next?._path}>{next?.title}</Link>
+                                    <Link className="m-x-a  hover:text-yellow-500  text-yellow-700" href={next?._path}>{next?.title}</Link>
                                 </div>                            
                             </>
                         )
                     }
                         <div class="divide-y border-blueGray border-solid border-width-0.1 m-x-2"></div>
                         <div>
-                            <Link className="text-sm hover:text-yellow-500  text-yellow-700 dark:text-primary" href="/blog">CD ../</Link>
+                            <Link className="text-sm hover:text-yellow-500  text-yellow-700" href="/blog">CD ../</Link>
                         </div>
             </div>
         )

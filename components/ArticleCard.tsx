@@ -30,14 +30,14 @@ export default defineComponent({
       return()=> (
         <>
         <div key={href} class="py-4">
-            <div class="space-y-2 xl:grid xl:grid-cols-6 xl:items-baseline xl:space-y-0">
+            <div class="space-y-2 lg:grid lg:grid-cols-6 lg:items-baseline lg:space-y-0">
               <div>
                 <div class="sr-only">Published on</div>
                 <div class="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                   <time datetime={date}>{dateFormatEn(date)}</time>
                 </div>
               </div>
-              <div class="space-y-5 xl:col-span-5">
+              <div class="space-y-5 lg:col-span-5">
                 <div>
                   <h3 class="text-2xl font-bold leading-8 tracking-tight">
                     <Link href={href} class="text-gray-900 dark:text-gray-100">{title}</Link>
