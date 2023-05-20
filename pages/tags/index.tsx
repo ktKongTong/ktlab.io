@@ -12,17 +12,17 @@ const TagList = ({data})=>{
     }, {})
   const sortedTags = Object.keys(res).sort((a, b) => res[b] - res[a])
     return (
-        <div className="flex max-w-lg flex-wrap">
+        <div class="flex flex-wrap">
         {Object.keys(sortedTags).length === 0 && 'No tags found.'}
         {
             sortedTags.map((name) => {
                 const cnt = res[name]
                 return (
-                    <div key={name} className="mt-2 mb-2 mr-5 border-red-3">
+                    <div key={name} class="mt-2 mb-2 mr-5 border-red-3">
                     <Tag
                         text={`${name} (${cnt})`}
                         href={`/tags/${name}`}
-                        className="text-xl font-semibold uppercase text-gray-600 dark:text-gray-300"
+                        class="text-xl font-semibold uppercase text-gray-600 dark:text-gray-300"
                     />
                 </div>
                 )
