@@ -59,7 +59,7 @@ export default defineComponent({
                                   <div class="col-span-2 lg:block hidden"><PostNav previous={prev} next={next} tags={doc.tags} class="pt-3 sticky top-25"/></div>
                                   <div   class="col-span-12 lg:col-span-8">
                                       <ContentRenderer value={doc} />
-                                      { doc.comments !== false && <Waline class='mt-2' login={false}  search={false} emoji={siteMetadata.presetEmoji} requiredMeta={['nick', 'mail']} dark={color.value=='dark'} serverURL={serverURL} path={path.value}/>}
+                                      { doc.comments !== false && <Waline class='mt-2' login='disable'  search={false} emoji={siteMetadata.presetEmoji} requiredMeta={['nick', 'mail']} dark={color.value=='dark'} serverURL={serverURL} path={path.value}/>}
                                       <div class="col-span-2 lg:hidden"><BottomNav previous={prev} next={next} tags={doc.tags}/></div>
                                   </div>
                                   <div  class="col-span-2 lg:block hidden"><TOC class= "pt-3 sticky top-25" toc={doc.body.toc.links} depth={0}/></div>
@@ -68,7 +68,7 @@ export default defineComponent({
                                 <>
                                   <ContentRenderer value={doc} />
                                   {
-                                  doc.comments !== false && <Waline class='mt-2' login={false}  search={false} emoji={siteMetadata.presetEmoji} requiredMeta={['nick', 'mail']} dark={color.value=='dark'} serverURL={serverURL} path={path.value}/>
+                                  doc.comments !== false && <Waline class='mt-2' login='disable'  search={false} emoji={siteMetadata.presetEmoji} requiredMeta={['nick', 'mail']} dark={color.value=='dark'} serverURL={serverURL} path={path.value}/>
                                   }                                
                                 </>
                         )}
