@@ -1,5 +1,5 @@
 import ArticleCard from "@/components/ArticleCard"
-import Image from "@/components/Image.vue"
+import {NuxtImg} from '#components'
 const notFound = defineComponent({
   name: 'notFound',
   props: {
@@ -13,11 +13,10 @@ const notFound = defineComponent({
     }
   },
   setup({imageSrc,notFoundTips}, { emit, slots, expose }) {
-    console.log(imageSrc)
     return () => (
       <>
           <h1> {notFoundTips}</h1>
-          <Image
+          <NuxtImg
                 src={imageSrc}
                 alt="not found"
                 class="w-1/2"

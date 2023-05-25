@@ -1,6 +1,6 @@
 import { Link } from "@/components/Link"
 import Tag from "@/components/tag"
-import { dateFormatEn } from "~/utils/utils"
+import { dateFormatEn } from "@/utils/utils"
 
 export default defineComponent({
     name: 'ArticleCard',

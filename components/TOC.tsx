@@ -39,7 +39,7 @@ const TOC =  defineComponent({
                                         <div class={`col-span-2 i-material-symbols:arrow-right-rounded ${visible.value?'rotate-90':''} text-xl mb-a mt-a`} onClick={toggle}></div>                                        
                                         ):null}
                                     </div>
-                                    <TOC toc={item.children} sub={true} depth={props.depth + 1} class={`${visible.value?' ':'invisible'}`}></TOC>
+                                    <TOC toc={item.children} sub={true} depth={props.depth + 1} class={`${visible.value?' ':'hidden'}`}></TOC>
                                 </div>
                             )
                         })}

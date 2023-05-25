@@ -24,29 +24,28 @@ const projects = [
 ]
 
 export const siteMetadata = {
-    waliineServeUrl: 'https://waline-blog-iota-lake.vercel.app',
-    presetEmoji:['https://unpkg.com/@waline/emojis@1.1.0/alus',
-    'https://unpkg.com/@waline/emojis@1.1.0/bilibili',
-    'https://unpkg.com/@waline/emojis@1.1.0/weibo',
-    'https://unpkg.com/@waline/emojis@1.1.0/tieba',
-    'https://unpkg.com/@waline/emojis@1.1.0/bmoji',
-],
     title: "ktlab",
+    language: 'zh-cn',
     author: 'kongtong',
     headerTitle: 'ktlab',
-    headerImg: '/avatar-no-bg.png',
-    description: '👋 halo, traveler',
-    maxRencentPosts: 2,
-    language: 'zh-cn',
-    theme: 'system',
     siteUrl: 'https://ktlab.io',
+    headerImg: '/avatar-no-bg.png',
+    thumbImg: '/home_thumb.png',
+    description: '👋 halo, traveler',
+
+    theme: 'system',
+
+    maxRencentPosts: 2,
+    pageSize: 3,
+
+    headerNavLinks,
+    projects,
+    // footer icons
     socialIcons:[
         {
             id: 'i-mdi-email',
             dark:'i-mdi-email',
             primarycolor: '#24292e',
-            hoverActionType: 'bounce',
-            source: 'solid',
             href: 'mailto:kt@ktlab.io',
         },
         {
@@ -54,16 +53,16 @@ export const siteMetadata = {
             dark:'i-mdi-github',
             source: 'brands',
             primarycolor: '#24292e',
-            hoverActionType: 'bounce',
             href: 'https://github.com/ktKongTong',
         }
     ],
-    headerNavLinks,
-    icons:[
-        "i-mdi-email",
-        "i-mdi-github",
-        "i-carbon-sun",
-        "i-carbon-moon",
+    // comment
+    waliineServeUrl: 'https://waline-blog-iota-lake.vercel.app',
+    presetEmoji:[
+        'https://unpkg.com/@waline/emojis@1.1.0/alus',
+        'https://unpkg.com/@waline/emojis@1.1.0/bilibili',
+        'https://unpkg.com/@waline/emojis@1.1.0/weibo',
+        'https://unpkg.com/@waline/emojis@1.1.0/tieba',
+        'https://unpkg.com/@waline/emojis@1.1.0/bmoji',
     ],
-    projects
 }

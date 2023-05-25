@@ -1,13 +1,12 @@
-import { PageSEO } from '@/components/seo'
+import PageSEO from '@/components/seo'
 import {siteMetadata} from '@/data/siteMetadata'
-import PageTitle from '~/components/title'
-import { ArticleList } from  '~/components/ArticleList'
+import PageTitle from '@/components/title'
+import { ArticleList } from  '@/components/ArticleList'
+import { Link } from '@/components/Link'
 
-import { Link } from '~/components/Link'
+import { ContentDoc } from '#components'
+
 const MAX_RECENT_ARTICLES = siteMetadata.maxRencentPosts
-
-
-
 
 export default defineComponent({
   name: 'Home',

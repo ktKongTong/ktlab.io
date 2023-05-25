@@ -1,7 +1,6 @@
 
 export const Link = defineComponent({
     name: 'Link',
-    inheritAttrs: true,
     props: {  
       href: {
         type: String,
@@ -11,10 +10,6 @@ export const Link = defineComponent({
         type: String,
         default: undefined,
         required: false
-      },
-      className: {
-        type: String,
-        default: ''
       }
     },
     setup(props, { slots }) {
@@ -22,16 +17,18 @@ export const Link = defineComponent({
       const isAnchorLink = props.href && props.href.startsWith('#')
         if (isInternalLink) {
           return ()=>(
-            <a href={props.href} ref="noopener noreferrer"  class={` ${props.className}`} >{slots.default() }</a>
+            <a href={props.href} ref="noopener noreferrer">{slots.default?.() }</a>
         )
       }
       if (isAnchorLink) {
         return ()=>(
-        <a href={props.href} rel="noopener noreferrer" class={`${props.className}`} >{slots.default() }</a>
+        <a href={props.href} rel="noopener noreferrer">{slots.default?.() }</a>
         )
       }
       return ()=>(
-        <a target="_blank" ref="noopener noreferrer"  href={props.href} class={`${props.className}`} >{slots.default() }</a>
+        <a target="_blank" ref="noopener noreferrer"  href={props.href} >{slots.default?.() }</a>
       )
     }
 })
+
+export default Link

@@ -53,6 +53,15 @@ export default defineNuxtConfig({
     classPrefix: '',
     classSuffix: '',
     storageKey: 'nuxt-color-mode'
+  },
+  content: {
+    highlight:{
+      preload:['c','cpp','go'],
+        theme: {
+          default: 'github-light',
+          dark: 'github-dark',
+        }
+    }
   }
 
 })

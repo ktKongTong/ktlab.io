@@ -4,4 +4,4 @@ export const dateFormatEn = (date: string) => {
     const day = dateObj.getDate()
     const year = dateObj.getFullYear()
     return `${month} ${day}, ${year}`
-  }
+}

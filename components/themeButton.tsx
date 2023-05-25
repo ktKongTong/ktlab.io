@@ -1,3 +1,5 @@
+import { ColorScheme } from "#components"
+
 export default defineComponent({
   name: 'ThemeButton',
   setup(props, { slots, emit, expose }) {
@@ -21,7 +23,7 @@ export default defineComponent({
           class={`ml-1 mr-1 h-4 w-4  p-1 sm:ml-4 ${icon.value}`}
           onClick={onTheme}
             />
-            </ColorScheme>
+        </ColorScheme>
       )
   }
 })
