@@ -1,4 +1,4 @@
-import { Link } from "./Link"
+import Link from "@/components/Link"
 
 export default defineComponent({
     name: 'Tag',
@@ -14,7 +14,7 @@ export default defineComponent({
     },
     setup({ text, href }) {
         return () => (
-            <Link href={href} class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">{text}</Link>
-            )
+            <Link href={href} class="mr-3 text-sm font-medium text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">{text}</Link>
+        )
     }
 })

@@ -2,23 +2,8 @@ import { defineConfig, presetIcons, presetUno } from 'unocss'
 import presetTheme from 'unocss-preset-theme'
 import type { Theme } from 'unocss/preset-uno'
 export default defineConfig<Theme>({
-  rules: [
-    [/^text-(.*)$/, ([, c], { theme }) => {
-      // console.log(c, theme.colors[c])
-      if (theme.colors[c])
-        return { color: theme.colors[c] }
-    }],
-  ],
-  
   theme: {
     colors: {
-
-    // --color: #243746;
-    // --color-primary: #000;
-    // --color-secondary: #0e2233;
-    // --bg: #f3f5f4;
-    // --bg-secondary: #fff;
-    // --border-color: #ddd;
       'primary': '#f3f5f4',
       'primary-border': '#1677ff',
       'text': 'rgba(0, 0, 0, 0.88)',
@@ -26,19 +11,10 @@ export default defineConfig<Theme>({
       'background': '#f3f5f4',
       'border': '#d9d9d9',
     },
-    spacing: {
-      xss: '4px',
-      xs: '8px',
-      sm: '12px',
-      base: '16px',
-      lg: '24px',
-      xl: '32px',
-    },
   },
   presets: [
     presetUno({}),
     presetIcons({
-
       cdn: 'https://esm.sh/',
     }),
     presetTheme<Theme>({

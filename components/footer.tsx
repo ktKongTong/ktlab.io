@@ -1,4 +1,4 @@
-import LinkedIcon from './icon'
+import LinkedIcon from '@/components/icon'
 
 export default defineComponent({
   name: 'Footer',

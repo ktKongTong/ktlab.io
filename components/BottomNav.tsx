@@ -26,7 +26,7 @@ export default defineComponent({
                             <div class="grid grid-cols-2">
                                 {tags.map((tag)=>{
                                     return (
-                                        <Link  className="m-x-a hover:text-yellow-500  text-yellow-700" href={`/tags/${tag}`}>{tag}</Link>
+                                        <Link  class="m-x-a hover:text-yellow-500  text-yellow-700" href={`/tags/${tag}`}>{tag}</Link>
                                     )
                                 })}
                             </div>
@@ -40,7 +40,7 @@ export default defineComponent({
                             <>
                             <div class="m-r-a ml-2">
                                 <div class="text-sm">PREVIOUS</div>
-                                <Link className="m-x-a  hover:text-yellow-500  text-yellow-700" href={previous?._path}>{previous?.title}</Link>
+                                <Link class="m-x-a  hover:text-yellow-500  text-yellow-700" href={previous?._path}>{previous?.title}</Link>
                             </div>
                             </>
                         )
@@ -50,7 +50,7 @@ export default defineComponent({
                             <>
                             <div class="m-l-a mr-2">
                                     <div class="text-sm">NEXT</div>
-                                    <Link className="m-x-a  hover:text-yellow-500  text-yellow-700" href={next?._path}>{next?.title}</Link>
+                                    <Link class="m-x-a  hover:text-yellow-500  text-yellow-700" href={next?._path}>{next?.title}</Link>
                             </div>
                             </>
                         )
@@ -58,7 +58,7 @@ export default defineComponent({
 
                     </div>
                     <div  class="m-l-a mr-2">
-                        <Link className="text-sm hover:text-yellow-500  text-yellow-700" href="/blog">CD ../</Link>
+                        <Link class="text-sm hover:text-yellow-500  text-yellow-700" href="/blog">CD ../</Link>
                     </div>
             </div>
         )

@@ -6,16 +6,15 @@ export default defineComponent({
     setup(props, { emit, slots, expose }) {
         return () => (
             <section class="h-full max-w-100% px-4 sm:px-6  xl:px-0 bg-primary dark:bg-#091a28">
-             <div class="flex flex-col justify-between min-h-screen ">
-            <Header></Header>
-              <main class="mb-auto m-x-2">{slots.default?.()}</main>
-              <Footer 
-                  socialIcons={siteMetadata.socialIcons}
-                  author={siteMetadata.author}
-                  title={siteMetadata.title}
-              ></Footer>
-              </div>
-              </section>
-            )
+                <div class="flex flex-col justify-between min-h-screen ">
+                    <Header/>
+                    <main class="mb-auto m-x-2">{slots.default?.()}</main>
+                    <Footer 
+                    socialIcons={siteMetadata.socialIcons}
+                    author={siteMetadata.author}
+                    title={siteMetadata.title} />
+                </div>
+            </section>
+        )
     }
 })

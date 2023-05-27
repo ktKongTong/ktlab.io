@@ -1,6 +1,6 @@
 import { siteMetadata } from "@/data/siteMetadata"
 
-  export const PageSEO = defineComponent({
+export const PageSEO = defineComponent({
     name: 'SEO',
     props: {
         title: {
@@ -13,8 +13,6 @@ import { siteMetadata } from "@/data/siteMetadata"
     },
     },
     setup({ title, description}) {
-
-      const ogImageUrl = ""
       const router = useRouter()
       useHead({
           title: title,
@@ -36,6 +34,10 @@ import { siteMetadata } from "@/data/siteMetadata"
                   content: 'website',
               },
               {
+                  property: 'og:image',
+                  content: siteMetadata.thumbImg,
+              },
+              {
                   property: 'og:site_name',
                   content: siteMetadata.title,
               },
@@ -53,4 +55,5 @@ import { siteMetadata } from "@/data/siteMetadata"
         <div></div>
         )
     }
-  })
+})
+export default PageSEO
