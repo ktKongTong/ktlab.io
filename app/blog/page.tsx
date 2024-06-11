@@ -2,6 +2,7 @@ import ArticleItem, {ArticleItemProps} from "@/components/article-item";
 import {notFound} from "next/navigation";
 import {getBlogPosts} from "@/queries/blog";
 
+export const dynamic = 'force-dynamic'
 
 export default async function Page(
   {
