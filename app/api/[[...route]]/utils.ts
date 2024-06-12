@@ -29,8 +29,9 @@ export const convertCatalogToTree = (catalogs:any[])=> {
     const index = allItems.find(it=> it.pathId.includes('/index/') && it.pathId.replace('/index','') === item.dir)
     if(!index) {
       item.href = undefined
+    }else {
+      item.title = index.title ?? item.title
     }
-    item.title = index.title ?? item.title
     allItems = allItems.filter(it=> !(it.pathId.includes('/index/') && it.pathId.replace('/index','') === item.dir))
     let rest = allItems.filter(it=> it.parentId === item.dir)
     const childrenDir = allDir
