@@ -1,98 +1,61 @@
-import {Hono} from 'hono'
+import {Hono, Schema,Env as HEnv} from 'hono'
 import {handle} from 'hono/vercel'
-import {allPosts,allKnowledgebases} from "contentlayer/generated";
 import activities from "@/mock/activity";
-import {convertCatalogToTree} from "@/app/api/[[...route]]/utils";
+import {Remote} from "@/app/api/[[...route]]/remote";
+import {clerkMiddleware, getAuth} from "@hono/clerk-auth";
+import actions from "@/app/api/[[...route]]/action";
+import comment from "@/app/api/[[...route]]/comment";
+import {DBMiddleware} from "@/app/api/[[...route]]/middleware/db";
+import { cors } from 'hono/cors'
+import {customClerkMiddleware} from "@/app/api/[[...route]]/middleware/clerk";
+import process from "process";
+const privilegedMethods = ['POST', 'PUT', 'PATCH', 'DELETE']
+export const runtime = 'nodejs';
 
-export const runtime = 'edge';
+// @ts-ignore
+class App<E extends HEnv, S extends Schema = {}, BasePath extends string> extends Hono<E,S,BasePath> {
 
-const app = new Hono().basePath('/api')
-
-
-app.get('/knowledgebase/catalog', async (c)=> {
-  const res = allKnowledgebases.map(it=> ({
-    id: it.pathId,
-    title: it.title,
-    href: it.url,
-    description: it.description,
-    tags: it.tags,
-    level: 1,
-    pathId: it.pathId,
-    parentId: it.parentPathId,
-  }))
-  const tree = convertCatalogToTree(res)
-  return c.json({
-    status: 'ok',
-    success: true,
-    data: tree
-  })
-})
-
-app.get('/knowledge-base/*', async (c)=> {
-  let path = c.req.path.split('/knowledge-base')?.[1]
-  if(!path?.endsWith('/')) {
-    path = path + '/'
+  apply(func: <T extends HEnv>(app: Hono<E,S,BasePath>) => void) {
+    func(this)
+    return this
   }
-  const post = allKnowledgebases.find(it=> it.pathId === path || it.pathId === path + 'index/')
-  if(!post) {
-    return c.json({
-      status: '404 NotFound',
-      success: false,
-      data: null
+
+  constructor() {
+    super()
+    this
+      .use('*',cors({origin:'*'}))
+      .use(DBMiddleware())
+      .on(privilegedMethods, '/*', clerkMiddleware({
+        publishableKey: process.env.CLERK_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+        secretKey: process.env.CLERK_SECRET_KEY,
+      }))
+      .on(privilegedMethods, '/*', customClerkMiddleware())
+    this
+      // @ts-ignore
+      .apply(Remote)
+      // @ts-ignore
+      .apply(comment)
+      // @ts-ignore
+      .apply(actions)
+
+    this.get('/api', (c) => {
+      const auth = getAuth(c)
+      if (!auth?.userId) {
+        return c.json({
+          message: 'You are not logged in.'
+        })
+      }
+      return c.json({
+        message: 'You are logged in!',
+        userId: auth.userId
+      })
     })
   }
-  return c.json({
-    status: 'ok',
-    success: true,
-    data: post
-  })
-})
+}
 
-app.get('/blog', async (c)=> {
-  const {topic} = c.req.query()
-  let posts = allPosts
-  if(topic) {
-    posts = allPosts.filter(it=>it.tags.includes(topic))
-  }
-  const res = posts.map(it=> ({
-    id: it.id,
-    title: it.title,
-    link: it.url,
-    description: it.description,
-    tags: it.tags,
-    hit: 100,
-    like: 0,
-    dislike: 0,
-    comments: 0,
-  }))
-  return c.json({
-    status: 'ok',
-    success: true,
-    data: res
-  })
-})
+const app = new App()
 
-
-app.get('/blog/:id', async (c)=> {
-  const {id} = c.req.param()
-  // currently it's
-  const post = allPosts.find(it=> it.id === id)
-  if(!post) {
-    return c.json({
-      status: '404 NotFound',
-      success: false,
-      data: null
-    })
-  }
-  return c.json({
-    status: 'ok',
-    success: true,
-    data: post
-  })
-})
-
-
-app.get('/activity', async (c)=> {
+app.get('/api/activity', async (c)=> {
   return c.json({
     status: 'ok',
     success: true,
@@ -102,3 +65,5 @@ app.get('/activity', async (c)=> {
 
 export const GET = handle(app)
 export const POST = handle(app)
+export const PUT = handle(app)
+export const PATCH = handle(app)

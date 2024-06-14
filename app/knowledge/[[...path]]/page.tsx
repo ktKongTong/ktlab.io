@@ -2,7 +2,8 @@ import PostLayout from "@/app/(post-layout)";
 import {notFound} from "next/navigation";
 import {Metadata} from "next";
 import { getKnowledgeBaseByPath } from "@/queries/knowledge";
-import {useArticle} from "@/hooks/useArticle";
+import {Suspense} from "react";
+import {Skeleton} from "@/components/ui/skeleton";
 
 
 const metadata: Metadata = {
@@ -22,7 +23,7 @@ export async function generateMetadata(
   if(content?.title) {
     return {
       title: "ktlab | " + content.title,
-      description: content.description,
+      description: content.excerpt,
     }
   }
   return metadata
@@ -33,11 +34,24 @@ export default async function KnowledgeBasePage({
 }: {
   params: { path?: string[]  }
 }) {
-  let id = params.path ?? []
-  const content = await getKnowledgeBaseByPath(id.join('/'))
-  if (!content) {
+  let path = params.path ?? []
+  return <Suspense fallback={<Skeleton className={'w-full h-full'}/>}>
+    <PostLoader path={path}/>
+  </Suspense>
+}
+
+
+async function PostLoader(
+  {
+    path
+  }:{
+    path: string[]
+  }
+) {
+
+  const article = await getKnowledgeBaseByPath(path.join('/'))
+  if (!article) {
     notFound()
   }
-  const postDetail = useArticle(content)
-  return <PostLayout {...postDetail}/>
+  return <PostLayout {...article} withCommentArea={true}/>
 }

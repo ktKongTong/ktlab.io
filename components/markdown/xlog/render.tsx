@@ -21,3 +21,14 @@ export const MarkdownRender = ({content}:{content: string})=> {
     </>
   )
 }
+
+export const RawMarkdownRender = ({content}:{content: string})=> {
+  const inParsedContent = useMemo(()=>renderPageContent({content}), [content])
+  return (
+    <>
+      <div className="md-content prose">
+        {inParsedContent?.toElement()}
+      </div>
+    </>
+  )
+}

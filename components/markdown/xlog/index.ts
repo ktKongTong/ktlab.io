@@ -70,6 +70,21 @@ const hashCodeThemeKey = (codeTheme?: Record<string, any>): string => {
   return Object.values(codeTheme).join(",")
 }
 
+const createPreComponent = (codeTheme: Record<string, any> | undefined) => {
+  let Pre: FC<
+    ClassAttributes<HTMLPreElement> &
+    HTMLAttributes<HTMLPreElement> &
+    ExtraProps
+  > = memoedPreComponentMap[hashCodeThemeKey(codeTheme)]
+  if (!Pre) {
+    Pre = function Pre(props: any) {
+      return createElement(ShikiRemark, { ...props, codeTheme }, props.children)
+    }
+    memoedPreComponentMap[hashCodeThemeKey(codeTheme)] = Pre
+  }
+  return Pre
+}
+
 export const renderPageContent = ({
   content,
   strictMode,
@@ -134,22 +149,9 @@ export const renderPageContent = ({
       toast.error(error?.message)
     }
   }
-  let Pre: FC<
-    ClassAttributes<HTMLPreElement> &
-      HTMLAttributes<HTMLPreElement> &
-      ExtraProps
-  > = memoedPreComponentMap[hashCodeThemeKey(codeTheme)]
-  if (!Pre) {
-    Pre = function Pre(props: any) {
-      return createElement(ShikiRemark, { ...props, codeTheme }, props.children)
-    }
-    memoedPreComponentMap[hashCodeThemeKey(codeTheme)] = Pre
-  }
   return {
     tree: hastTree,
-
-    toToc: () => mdastTree &&
-      toc(mdastTree, {
+    toToc: () => mdastTree && toc(mdastTree, {
         tight: true,
         ordered: true,
       }),
@@ -173,7 +175,7 @@ export const renderPageContent = ({
           // @ts-expect-error
           h5: HeadRenderMap.h5,
           // @ts-expect-error
-          pre: Pre,
+          pre: createPreComponent(codeTheme),
         },
         ignoreInvalidStyle: true,
         // @ts-expect-error: untyped.

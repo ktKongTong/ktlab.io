@@ -16,9 +16,7 @@ const scheme = deepmerge(defaultSchema, {
     "aside",
     "rss",
     ...["svg", "path", "circle"],
-    "custom",
     "lucide",
-    "documentation-page",
   ],
   attributes: {
     "*": ["className", "style"],

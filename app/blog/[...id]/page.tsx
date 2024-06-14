@@ -21,7 +21,7 @@ export async function generateMetadata(
   if(blog?.title) {
     return {
       title: "ktlab | " + blog.title,
-      description: blog.description,
+      description: blog.excerpt,
     }
   }
   return metadata
@@ -36,8 +36,8 @@ export default async function KnowledgeBasePage({
   if (!blog) {
     notFound()
   }
-  const article = useArticle(blog)
+  // const article = useArticle(blog)
   return (
-    <PostLayout {...article}/>
+    <PostLayout {...blog} withCommentArea={true}/>
   )
 }

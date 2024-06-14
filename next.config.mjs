@@ -1,9 +1,17 @@
 import { withContentlayer } from 'next-contentlayer'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    transpilePackages: ['lucide-react']
+    transpilePackages: ['lucide-react'],
+    // webpack: (config, { webpack }) => {
+    //     config.plugins.push(new webpack.IgnorePlugin({
+    //         resourceRegExp: /^pg-native$|^cloudflare:sockets$/,
+    //     }))
+    //
+    //     return config
+    // },
 };
 
 
 
-export default withContentlayer(nextConfig)
+export default nextConfig
+// withContentlayer()

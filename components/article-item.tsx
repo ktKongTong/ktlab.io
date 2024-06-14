@@ -1,8 +1,9 @@
 'use client'
 import {HTMLProps, useEffect, useRef} from "react";
-import {cn} from "@/lib/utils";
-import {Hourglass, MessageCircle, MousePointerClickIcon, ThumbsDown, ThumbsUp} from "lucide-react";
+import {cn, formatTime} from "@/lib/utils";
+import {Calendar, Hourglass, MousePointerClickIcon, TagIcon, ThumbsDown, ThumbsUp} from "lucide-react";
 import Link from "@/components/link";
+import Tag from "@/components/tags";
 
 export interface ArticleItemProps {
   title: string
@@ -10,17 +11,18 @@ export interface ArticleItemProps {
   description: string
   tags: string[]
   image?: string
-  date?: Date
-  hit: number
+  createdAt?: string
+  lastModifiedAt?: string
+  wordCount: number,
   like: number,
   dislike: number,
-  comments: number,
+  click: number,
 }
 
 export default function ArticleItem(
 {
-  title, description, tags,link,
-  image, date, like, dislike, comments,hit,
+  title, description, tags,link,wordCount,
+  image, createdAt, lastModifiedAt, like, dislike,click,
   ...rest
 }: ArticleItemProps & HTMLProps<HTMLDivElement>
 ) {
@@ -60,33 +62,32 @@ export default function ArticleItem(
           className={'transition-all duration-500 underline underline-offset-4 hover:underline-offset-8 decoration-secondary-foreground/10 hover:decoration-accent-foreground/100'}
           >{title}</Link>
         </div>
-        <div className={'py-2 flex items-center'}>
-          <div>
-            {date?.toDateString()}
-          </div>
-          {tags.map((tag, idx) => <span key={idx} className={'px-2'}>{tag}</span>)}
+        <div className={'py-2 flex items-center space-x-4  font-medium text-sm'}>
+          {
+            createdAt && <div className={'flex items-center justify-between space-x-1'}>
+              <Calendar className={'h-4 w-4'}/>
+              <span>{formatTime(createdAt)}</span>
+              </div>
+          }
+          {
+            tags.length > 0 &&
+            <div className={'flex items-center justify-between space-x-1'}>
+              <TagIcon className={'h-4 w-4'}/>
+              <div className={'space-x-1'}>
+                {tags.map((tag, idx) => <Tag key={idx} href={`/blog/categories/${tag}`} className={'px-0'}>{tag}</Tag>)}
+              </div>
+            </div>
+          }
         </div>
         <div className={'text-xs text-opacity-70'}>{description}</div>
-        <div className={'flex items-center space-x-4 pt-2 hidden'}>
-          <div className={'flex items-center text-sm font-medium space-x-1'}>
-            <ThumbsUp className={'h-3 w-3'}/>
-            <span>{like}</span>
-          </div>
-          <div className={'flex items-center text-sm font-medium space-x-1'}>
-            <ThumbsDown className={'h-3 w-3'}/>
-            <span>{dislike}</span>
-          </div>
+        <div className={'flex items-center space-x-4 pt-2'}>
           <div className={'flex items-center text-sm font-medium space-x-1'}>
             <MousePointerClickIcon className={'h-3 w-3'}/>
-            <span>{hit}</span>
-          </div>
-          <div className={'flex items-center text-sm font-medium space-x-1'}>
-            <MessageCircle className={'h-3 w-3'}/>
-            <span>{comments}</span>
+            <span>{click}</span>
           </div>
           <div className={'flex items-center text-sm font-medium space-x-1'}>
             <Hourglass className={'h-3 w-3'}/>
-            <span>{1}min</span>
+            <span>{wordCount} 字</span>
           </div>
         </div>
       </div>

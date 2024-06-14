@@ -6,14 +6,17 @@ import ThemeSwitch from "@/app/(header)/themeSwitch";
 import NavItem, {NavItemProps} from "@/app/(header)/navItem";
 import Toc from "@/app/(post-layout)/toc";
 import useTOC from "@/hooks/useTOC";
-import {CatalogItem} from "@/app/knowledge-base/catalog";
+import {CatalogItem} from "@/app/knowledge/catalog";
 import {useMeasure} from "@uidotdev/usehooks";
 import twConfig from '@/tailwind.config'
 import resolveConfig from 'tailwindcss/resolveConfig'
 type BreakpointKey = keyof typeof breakpoints;
-import {Menu} from "lucide-react";
+import {LogIn, Menu} from "lucide-react";
 import {motion, AnimatePresence} from "framer-motion";
 import {useMediaQuery} from "usehooks-ts";
+import LockBodyScroll from "@/components/LockBodyScroll";
+import {SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
+import {useTheme} from "next-themes";
 
 const fullConfig = resolveConfig(twConfig)
 const breakpoints = fullConfig.theme.screens;
@@ -59,6 +62,7 @@ export default function Header({
     };
   }, []);
   const {isLg} = useBreakpoint('lg')
+  const {theme} = useTheme()
   return (
     <header
       {...rest}
@@ -72,7 +76,7 @@ export default function Header({
             <AvatarImage src={img}/>
             <AvatarFallback>{fallback}</AvatarFallback>
           </Avatar>
-          <ul className={'flex items-center justify-center space-x-2 px-4'}>
+          <ul className={'flex items-center justify-center space-x-2 px-4 '}>
             {
               navItems.map((navItem: NavItemProps, idx) => (
                 <li key={idx} className={''}>
@@ -98,23 +102,39 @@ export default function Header({
                 </motion.div>
             }
           </AnimatePresence>
+
+
+          <SignedOut>
+            <SignInButton mode={'modal'}>
+              <LogIn className={'h-10 w-10 rounded-full p-3'}/>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+
         </div>
+
         {
           !isLg && <div
                 ref={popoverRef}
-                className={` overflow-hidden relative lg:hidden bg-background/90`}
+                className={`max-h-[calc(100vh-64px)] overflow-y-scroll lg:hidden bg-background/90`}
             >
+            {
+              ((showCatalog && catalogs) || (showToc && toc ))
+              && <LockBodyScroll/>
+            }
               <AnimatePresence>
                 {showCatalog && catalogs &&
                     <motion.div
                       initial={{height: 0}}
                       animate={{ height:'auto' }}
                       exit={{height: 0}}
-                      className={'relative p-2'} style={{
+                      className={'overflow-y-scroll p-2'} style={{
                         maxWidth: width ?? 0
                       }}
                     >
-                        <ul className={'space-y-4 overflow-hidden'}>
+                        <ul className={'space-y-4 '}>
                           {
                             catalogs.map((catalog, idx) => (<CatalogItem key={idx} {...catalog} />))
                           }

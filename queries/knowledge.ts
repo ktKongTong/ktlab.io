@@ -1,36 +1,31 @@
 import * as _ from "lodash-es";
 import {Constants} from "@/lib/constants";
+import {Article} from "@/interfaces/article";
 
 export async function getKnowledgeBaseByPath(path: string): Promise<Article | null> {
-  return fetch(`${Constants().BASE_URL}/api/knowledge-base/${path}`, {}).then(res => res.json()).then(data=>data.data).catch(reason => null);
+  const url = `${Constants().BASE_URL}/api/knowledge/${path}`
+  const resp =await fetch(url, {
+    cache: "no-cache",
+  }).then(res => res.json())
+  return resp.data
 }
 
 
 
 
-interface Article {
-  id: string,
-  url: string,
-  title: string
-  description: string
-  tags: string[]
-  image?: string
-  date?: Date
-  content: string,
-  click: number
-  like: number,
-  dislike: number
-  comments: number
-}
 
 interface CatalogItem {
+  id: string,
   href?: string,
   title: string,
-  level: number,
-  catalogs: CatalogItem[]
+  createdAt: string,
+  lastModifiedAt: string,
+  children: CatalogItem[]
 }
 export async function getKnowledgeBaseCatalog(): Promise<CatalogItem[]> {
-  const res = await fetch(`${Constants().BASE_URL}/api/knowledgebase/catalog`, {}).then(res => res.json())
+  const res = await fetch(`${Constants().BASE_URL}/api/catalog/knowledge`, {
+    cache: "no-cache",
+  }).then(res => res.json())
   return res.data
 }
 

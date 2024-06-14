@@ -1,14 +1,16 @@
-interface Article {
-  id: string
+
+export interface Article {
+  id: string,
+  slug: string,
   title: string
-  link: string
-  description: string
+  excerpt?: string
   tags: string[]
-  markdownContent: string
   image?: string
-  date?: Date
-  hit?: number
-  like?: number,
-  dislike?: number,
-  comments?: number,
+  createdAt?: string
+  lastModifiedAt?: string
+  content: string,
+  wordCount: number,
+  click: number
+  like: number,
+  dislike: number
 }

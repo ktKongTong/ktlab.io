@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import {ThemeProvider} from "next-themes";
 import Header from "@/app/(header)";
+import Providers from "@/components/providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,10 +26,15 @@ const navItems = [{
     name: '个人',
     link:'/blog/categories/personal',
     childrenNav: []
+  },
+  {
+    name: '技术流水账',
+    link:'/blog/categories/tech',
+    childrenNav: []
   }]
 }, {
   name: '知识库',
-  link:'/knowledge-base',
+  link:'/knowledge',
   childrenNav: []
 }]
 
@@ -41,12 +46,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-      <ThemeProvider>
+      <Providers>
         <main className={'min-h-screen'}>
           <Header img={"/avatar.jpg"} navItems={navItems} fallback={"KT"} className=" w-full fixed top-0 bg-background/90 z-10 backdrop-blur-sm" />
           {children}
         </main>
-      </ThemeProvider>
+      </Providers>
       </body>
     </html>
   );

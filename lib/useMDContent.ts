@@ -11,10 +11,6 @@ interface MDContent {
 }
 
 export const useMDContent =  async (id: string):Promise<MDContent> => {
-  // const [mdContent, setMdContent] = useState([])
-  // const res = await fetch('https://obsidian.ktlab.io/blog%2Fblog%2Fasync-concurrent-and-more.md')
-  // const textContent = await res.text()
-
   const data = matter(exampleMarkdown)
 
   return {

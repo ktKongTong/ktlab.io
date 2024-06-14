@@ -4,6 +4,12 @@ import {CircleArrowUp, MessageCircleMore, ThumbsDown, ThumbsUp} from "lucide-rea
 import ClientNavLink from "@/app/(post-layout)/NavLink";
 import Toc from "@/app/(post-layout)/toc";
 import ScrollToTop from "@/app/(post-layout)/scrollToTop";
+import {Article} from "@/interfaces/article";
+import Comments from "@/components/comment/comments";
+import {ClientOnly} from "@/components/client-only";
+import CommentEditor from "@/components/comment/comment-editor";
+import CommentDialog from "@/components/comment/CommentDialog";
+import Reaction from "@/components/comment/reaction";
 
 
 type  PostLayoutProps = Article & {
@@ -17,24 +23,40 @@ export default function PostLayout(
 {
   id,
   title,
-  date,
+  createdAt,
   tags,
-  markdownContent,
+  content,
+  click,
+  like,
+  dislike,
+  wordCount,
   withCommentArea = false,
   withToc = true,
-  withReactionArea = false,
+  withReactionArea = true,
   withHeader = true,
 }:PostLayoutProps) {
-
-  return  <div className={'flex space-x-2 slide-in-from-bottom-10 animate-in duration-500  transition-all mx-auto'}>
+  return  <div className={'flex space-x-2 slide-in-from-bottom-10 animate-in duration-500 grow transition-all mx-auto'}>
     <div className={'flex flex-col space-y-10  max-w-3xl px-4 grow mx-auto'}>
       <article className={'pb-10'}>
-        {withHeader && <Header title={title} date={date} wordcount={""} tags={tags.map(tag=> ({name:tag, href:`/blog/categories/${tag}`}))} />}
-        <Markdown content={markdownContent}/>
+        {withHeader &&
+          <Header
+            title={title}
+            createdAt={createdAt}
+            wordCount={wordCount}
+            tags={tags.map(tag=> ({name:tag, href:`/blog/categories/${tag}`}))}
+            click={click}
+          />
+        }
+        <Markdown content={content}/>
       </article>
-
       {
-        withCommentArea && <div>comment area</div>
+        withCommentArea &&
+        <div>
+            <ClientOnly>
+                <CommentEditor documentId={id}/>
+                <Comments documentId={id} />
+            </ClientOnly>
+        </div>
       }
     </div>
     <div className={'sticky top-32 hidden lg:flex flex-col max-h-[calc(100vh-96px)]   w-[180px]   p-2'}>
@@ -48,12 +70,8 @@ export default function PostLayout(
       </ScrollToTop>
       {
         withReactionArea && <>
-              <div className={'pb-20 mt-auto transition-all duration-500 '}>
-                  <div className={'  mt-auto flex flex-col'}>
-                      <MessageCircleMore className={'w-6 h-6 m-2 opacity-70 hover:opacity-100'}/>
-                      <ThumbsUp className={'w-6 h-6 m-2 opacity-70 hover:opacity-100'}/>
-                      <ThumbsDown className={'w-6 h-6 m-2 opacity-70 hover:opacity-100'}/>
-                  </div>
+              <div className={'pb-20 mt-auto'}>
+                  <Reaction id={id} />
               </div>
           </>
       }
