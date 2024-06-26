@@ -55,6 +55,7 @@ const Mermaid = dynamic(() => import("./components/Mermaid"))
 const Icon = dynamic(() => import("./components/Icon"))
 const GithubRepo = dynamic(() => import("@/components/GithubRepo"))
 const ShikiRemark = dynamic(() => import("./components/shiki"))
+const AdvancedImage = dynamic(() => import("./components/AdvancedImage"))
 
 const HeadRenderMap = {
   h1: createMarkdownHeaderComponent("h1"),
@@ -161,6 +162,8 @@ export const renderPageContent = ({
       toJsxRuntime(hastTree, {
         Fragment,
         components: {
+          // @ts-expect-error
+          img: AdvancedImage,
           mermaid: Mermaid,
           lucide: Icon,
           "github-repo": GithubRepo,

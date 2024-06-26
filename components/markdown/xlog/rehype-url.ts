@@ -11,8 +11,8 @@ const toGateway = (src: string)=> {
       base = base.substring(0, base.length - 1)
     }
     let s = src
-    if(!src.startsWith("/")) {
-      s+= "/"
+    if(!s.startsWith("/")) {
+      s= "/" + s
     }
     return base + s
   }

@@ -64,7 +64,7 @@ export function CatalogItem({
                       height: 0,
                       opacity: 0,
                     }}
-                        className={` group pointer-events-auto flex flex-col  overflow-hidden  ml-4 border-l pl-2 mt-4 space-y-4`}>
+                        className={` group pointer-events-auto flex flex-col  overflow-hidden  ml-4 border-l pl-2 pt-4 space-y-4`}>
                     {children.map((item, idx: number) => <CatalogItem {...item} key={idx}/>)}
                     </motion.ul>
                 }
