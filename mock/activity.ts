@@ -41,7 +41,7 @@ const activities = [musicActivity, steamActivity,githubActivity]
 const blogActivities = [blogActivity]
 const ac:Activity[] = [
   // ...blogActivities,
-//  ...activities
+ ...activities
 ]
 
 export default ac

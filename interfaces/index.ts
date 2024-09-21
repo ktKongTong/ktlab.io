@@ -17,6 +17,7 @@ interface MusicActivity {
   name: string,
   author: string,
   link?: string,
+  // playable: boolean,
 }
 
 interface GameActivity {

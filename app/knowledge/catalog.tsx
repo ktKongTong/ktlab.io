@@ -33,15 +33,15 @@ export function CatalogItem({
           <li
             className={`
               block
-              text-md font-medium
+              text-md font-medium py-2
             `}
           >
-            <div className={' flex justify-between items-center mt-0'}>
+            <div className={' flex justify-between items-center mt-0 overflow-ellipsis '}>
               {href ? <Link
                 className={`                
                   text-md font-medium
-                  hover:text-primary/80
-                  transition-all
+                  hover:text-primary/80 break-all
+                  transition-all  overflow-ellipsis line-clamp-2 
                   ${current ? 'text-primary':'text-muted-foreground'}
                 `}
                 href={href}>{title}</Link> : <span className={'cursor-default'}>{title}</span> }
@@ -64,7 +64,7 @@ export function CatalogItem({
                       height: 0,
                       opacity: 0,
                     }}
-                        className={` group pointer-events-auto flex flex-col  overflow-hidden  ml-4 border-l pl-2 pt-4 space-y-4`}>
+                        className={` group pointer-events-auto flex flex-col  ml-4 border-l pl-2 overflow-x-visible`}>
                     {children.map((item, idx: number) => <CatalogItem {...item} key={idx}/>)}
                     </motion.ul>
                 }
@@ -76,15 +76,15 @@ export function CatalogItem({
     ) : (
       <li
         className={`
-          block
+          block py-2
           text-md font-medium
-          transition-colors duration-300
-          hover:text-primary/80
+          transition-colors duration-300 break-all
+          hover:text-primary/80 
           ${current ? 'text-primary' : 'text-muted-foreground'}
         `}
       >
-        <span className={'pt-1'}>{href ? <Link href={href}>{title}</Link> :
-          <span className={'cursor-default'}>{title}</span>}</span>
+        <span className={'pt-1'}>{href ? <Link className={" overflow-ellipsis line-clamp-2"} href={href}>{title}</Link> :
+          <span className={'cursor-default overflow-ellipsis line-clamp-2'}>{title}</span>}</span>
       </li>
     )
     }
@@ -109,7 +109,7 @@ export default function Catalog({
 
   return (
     <div {...rest}  className={cn('relative', rest.className)}>
-      <ul className={'space-y-4'}>
+      <ul className={''}>
         {
           catalogs.map((catalog ,idx)=> (<CatalogItem key={idx} {...catalog} />))
         }

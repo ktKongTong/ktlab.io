@@ -9,7 +9,6 @@ import {
 import kv from "@/lib/kv";
 import {Constants} from "@/lib/constants";
 import convertToTree from "@/app/api/[[...route]]/converToTree";
-import {Env as HEnv, Schema} from "hono";
 
 export const kvKey = {
   postMeta: (id:string)=> `ktlab.io:document:meta:${id}`,

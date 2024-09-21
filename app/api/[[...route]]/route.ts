@@ -9,6 +9,7 @@ import {DBMiddleware} from "@/app/api/[[...route]]/middleware/db";
 import { cors } from 'hono/cors'
 import {customClerkMiddleware} from "@/app/api/[[...route]]/middleware/clerk";
 import process from "process";
+import {Activity} from "@/app/api/[[...route]]/rencent";
 const privilegedMethods = ['POST', 'PUT', 'PATCH', 'DELETE']
 export const runtime = 'nodejs';
 
@@ -31,12 +32,10 @@ class App<E extends HEnv, S extends Schema = {}, BasePath extends string> extend
       }))
       .on(privilegedMethods, '/*', customClerkMiddleware())
     this
-      // @ts-ignore
       .apply(Remote)
-      // @ts-ignore
       .apply(comment)
-      // @ts-ignore
       .apply(actions)
+      .apply(Activity)
 
     this.get('/api', (c) => {
       const auth = getAuth(c)

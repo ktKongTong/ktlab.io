@@ -1,4 +1,5 @@
 import Link from "@/components/link";
+import dayjs from "dayjs";
 
 export interface GameProps {
   platform: 'steam',
@@ -7,6 +8,8 @@ export interface GameProps {
   length: string,
   author?: string,
   link?: string,
+  // timestamp
+  time: number
 }
 
 export default function GameItem(props: GameProps) {
@@ -15,9 +18,7 @@ export default function GameItem(props: GameProps) {
       <img src={props.coverImage} className={'max-h-16 rounded-lg'}/>
       <div>
         <Link href={props.link ?? ""} target={'_blank'} className={'font-bold text-md'}><span>{props.name}</span></Link>
-        <div className={'text-xs'}>最近两周：{props.length}</div>
       </div>
-
     </div>
   )
 }

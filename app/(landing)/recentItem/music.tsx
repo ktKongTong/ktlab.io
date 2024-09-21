@@ -1,5 +1,6 @@
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import Link from "next/link";
+import {Spotify} from "react-spotify-embed";
 
 export interface MusicProps {
   platform: 'netease' | 'qq' | 'spotify' | 'other',
@@ -7,9 +8,17 @@ export interface MusicProps {
   name: string,
   author?: string,
   link?: string,
+  time: number
 }
 
 export function MusicItem(props: MusicProps) {
+  if(props.platform === 'spotify') {
+    return (
+      <div className={'flex flex-col items-start space-x-2 p-1'}>
+        <Spotify link={props.link!!} wide />
+      </div>
+    )
+  }
   return (
     <div className={'flex items-center space-x-2 p-1'}>
       <Avatar className={'h-6 w-6 rounded-full'}>

@@ -4,6 +4,7 @@ import {ChevronsDown, Github, MailIcon, RssIcon} from "lucide-react";
 import {codeToHtml} from "shiki";
 import Link from "next/link";
 import {getRecentActivity} from "@/queries/activities";
+import {Suspense} from "react";
 
 const code =
 `fun AreYouOK():Boolean {
@@ -33,7 +34,7 @@ export default async function Home() {
     lang: "kotlin",
     theme: "nord",
   });
-  const {activities, blogActivities} = await getRecentActivity()
+
   return (
     <>
       <MainPage img={"/avatar.jpg"} fallback={"KT"} className={'min-h-screen flex flex-col px-10 md:px-40 pt-[64px] items-center my-auto'}>
@@ -68,7 +69,10 @@ export default async function Home() {
           </div>
         </div>
       </MainPage>
-      <RecentlyPage className={'min-h-screen flex flex-col px-10 md:px-40 pt-[64px] items-center my-auto'} blogActivities={blogActivities} activities={activities}/>
+      <Suspense>
+        <RecentlyPage className={'min-h-screen flex flex-col px-10 md:px-40 pt-[64px] items-center my-auto'}/>
+      </Suspense>
+
     </>
   );
 }
