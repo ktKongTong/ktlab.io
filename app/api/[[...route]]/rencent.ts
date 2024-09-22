@@ -1,6 +1,6 @@
 import {Hono} from "hono";
 import {env} from "hono/adapter";
-
+// import * as _ from 'lodash-ts'
 import { createSpotifyAPI } from "./spotify";
 import {createSteamAPI} from "@/app/api/[[...route]]/steam";
 import {creatGitHubAPI} from "@/app/api/[[...route]]/github";
@@ -9,12 +9,13 @@ type ActivityEnv = {
   SPOTIFY_TOKEN: string
   STEAM_API_KEY: string
   GITHUB_TOKEN: string
+  STEAM_ID: string
 }
 
 const convertGitHubEvent = (event: any) => {
   const action = event.payload.action
   let ghType: string = ''
-  if(action === 'stared') {
+  if(action === 'started') {
     ghType = 'star'
   }
 
@@ -27,6 +28,7 @@ const convertGitHubEvent = (event: any) => {
   }
 
   return {
+    id: Math.random().toString(36),
     type: 'github',
     ghType: ghType,
     relateRepo: event.repo.name,
@@ -49,19 +51,21 @@ const convertGitHubEvent = (event: any) => {
 // }
 export const Activity = (app:Hono)=>{
 
-  app.get( '/api/activities/recent', async (c)=> {
+  app.get('/api/activities/recent', async (c)=> {
     const activityEnv = env<ActivityEnv>(c)
     const spotifyAPI = createSpotifyAPI(activityEnv.SPOTIFY_TOKEN)
     const steamAPI = createSteamAPI(activityEnv.STEAM_API_KEY)
     const githubAPI = creatGitHubAPI(activityEnv.GITHUB_TOKEN)
 
-    const [recentGamePlaytime, recentTracks, recentGitHubEvents]= await Promise.all([
-      steamAPI.getOwnedGame("76561198339986544"),
+    const [ recentOwnedGame,recentGamePlaytime, recentTracks, recentGitHubEvents]= await Promise.all([
+      steamAPI.getOwnedGame(activityEnv.STEAM_ID),
+      steamAPI.getRecentPlayTime(activityEnv.STEAM_ID),
       spotifyAPI.getRecentTracks(),
       githubAPI.getRecentEvent("ktKongTong"),
     ])
 
     const spotifyActivities = recentTracks.map((recentTrack: any) => ({
+      id: Math.random().toString(36),
       type: 'music',
       platform: 'spotify',
       author: recentTrack.track.artists[0].name,
@@ -72,18 +76,29 @@ export const Activity = (app:Hono)=>{
     }))
 
     const  recentGitHubEvent = recentGitHubEvents.map((githubEvent:any) => convertGitHubEvent(githubEvent))
+    const gameActivities = recentOwnedGame.slice(0,5).map((game: any) => {
+      const recentGame = recentGamePlaytime.find((recentGame: any) => recentGame.appid === game.appid);
+      return {
+        id: Math.random().toString(36),
+        type: 'game',
+        platform: 'steam',
+        coverImage: `https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg`,
+        name: recentGame?.name ?? 'Unknown Game',
+        length: recentGame?.playtime_2weeks ?? 0,
+        link: `https://store.steampowered.com/app/${game.appid}`,
+        time: game.rtime_last_played * 1000,
+      };
+    });
 
-    const gameActivities = recentGamePlaytime.slice(0,5).map((playtime: any) => ({
-      type: 'game',
-      platform: 'steam',
-      coverImage: `https://cdn.akamai.steamstatic.com/steam/apps/${playtime.appid}/header.jpg`,
-      name: playtime.name,
-      length: playtime.playtime_forever,
-      link: `https://store.steampowered.com/app/${playtime.appid}`,
-      time: playtime.rtime_last_played * 1000,
-    }))
-    const res = [...spotifyActivities, ...gameActivities, ...recentGitHubEvent]
-    res.sort((a,b) => b.time - a.time)
+
+    // const res = [...spotifyActivities, ...gameActivities, ...recentGitHubEvent]
+    // res.sort((a,b) => b.time - a.time)
+    const res = {
+      music: spotifyActivities,
+      game: gameActivities,
+      github: recentGitHubEvent,
+    }
+
     return c.json({
       status: "ok",
       success: true,
@@ -91,6 +106,66 @@ export const Activity = (app:Hono)=>{
     })
   })
 
+  app.get('/api/activities/recent/music', async (c)=> {
+    const before = c.req.query('before')
+    const activityEnv = env<ActivityEnv>(c)
+    const spotifyAPI = createSpotifyAPI(activityEnv.SPOTIFY_TOKEN)
+    const recentTracks = await spotifyAPI.getRecentTracks(10)
+    const spotifyActivities = recentTracks.map((recentTrack: any) => ({
+      id: Math.random().toString(36),
+      type: 'music',
+      platform: 'spotify',
+      author: recentTrack.track.artists[0].name,
+      name: recentTrack.track.name,
+      coverImage: recentTrack.track.album.images[0].url,
+      link: recentTrack.track.external_urls.spotify,
+      time: new Date(recentTrack.played_at).getTime(),
+    }))
+    return c.json({
+      status: "ok",
+      success: true,
+      data: spotifyActivities
+    })
+  })
+
+  app.get('/api/activities/recent/game', async (c)=> {
+    const before = c.req.query('before')
+    const activityEnv = env<ActivityEnv>(c)
+    const steamAPI = createSteamAPI(activityEnv.STEAM_API_KEY)
+    const [ recentOwnedGame,recentGamePlaytime]= await Promise.all([
+      steamAPI.getOwnedGame(activityEnv.STEAM_ID),
+      steamAPI.getRecentPlayTime(activityEnv.STEAM_ID),
+    ])
+    const gameActivities = recentOwnedGame.slice(0,20).map((game: any) => {
+      const recentGame = recentGamePlaytime.find((recentGame: any) => recentGame.appid === game.appid);
+      return {
+        type: 'game',
+        platform: 'steam',
+        coverImage: `https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg`,
+        name: recentGame?.name ?? 'Unknown Game',
+        length: recentGame?.playtime_2weeks ?? 0,
+        link: `https://store.steampowered.com/app/${game.appid}`,
+        time: game.rtime_last_played * 1000,
+      };
+    });
+    return c.json({
+      status: "ok",
+      success: true,
+      data: gameActivities
+    })
+  })
+
+  app.get('/api/activities/recent/github', async (c)=> {
+    const activityEnv = env<ActivityEnv>(c)
+    const githubAPI = creatGitHubAPI(activityEnv.GITHUB_TOKEN)
+    const recentGitHubEvents = await githubAPI.getRecentEvent("ktKongTong", 20)
+    const  recentGitHubEvent = recentGitHubEvents.map((githubEvent:any) => convertGitHubEvent(githubEvent))
+    return c.json({
+      status: "ok",
+      success: true,
+      data: recentGitHubEvent
+    })
+  })
 }
 
 

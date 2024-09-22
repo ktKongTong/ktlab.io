@@ -1,7 +1,7 @@
 'use client'
 import {HTMLProps, useEffect, useRef} from "react";
 import {cn, formatTime} from "@/lib/utils";
-import {Calendar, Hourglass, MousePointerClickIcon, TagIcon, ThumbsDown, ThumbsUp} from "lucide-react";
+import {Calendar, Hourglass, MousePointerClickIcon, TagIcon} from "lucide-react";
 import Link from "@/components/link";
 import Tag from "@/components/tags";
 
@@ -59,7 +59,7 @@ export default function ArticleItem(
         <div
           className={'text-xl inline-flex w-fit relative font-medium cursor-pointer'}>
           <Link href={link}
-          className={'transition-all duration-500 underline underline-offset-4 hover:underline-offset-8 decoration-secondary-foreground/10 hover:decoration-accent-foreground/100'}
+          className={'animate-underline'}
           >{title}</Link>
         </div>
         <div className={'py-2 flex items-center space-x-4  font-medium text-sm'}>

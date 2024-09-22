@@ -16,3 +16,7 @@ export const formatTime = (t: string) => {
   return dayjs(t)
     .fromNow()
 }
+
+export const formatRelativeTime = (time: any) => {
+  return dayjs().to(dayjs(time))
+}

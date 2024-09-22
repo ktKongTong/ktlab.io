@@ -1,10 +1,11 @@
 import MainPage from "@/app/(landing)/main";
-import RecentlyPage from "@/app/(landing)/recently";
+import RecentlyPage from "@/app/(landing)/recentActivity";
 import {ChevronsDown, Github, MailIcon, RssIcon} from "lucide-react";
 import {codeToHtml} from "shiki";
 import Link from "next/link";
 import {getRecentActivity} from "@/queries/activities";
 import {Suspense} from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const code =
 `fun AreYouOK():Boolean {
@@ -69,7 +70,7 @@ export default async function Home() {
           </div>
         </div>
       </MainPage>
-      <Suspense>
+      <Suspense fallback={<Skeleton className={'w-full min-h-screen'}/>}>
         <RecentlyPage className={'min-h-screen flex flex-col px-10 md:px-40 pt-[64px] items-center my-auto'}/>
       </Suspense>
 
