@@ -12,7 +12,7 @@ export const customClerkMiddleware = (): MiddlewareHandler => {
       let userInfo = {
         imageUrl: user?.imageUrl!,
         email: user?.emailAddresses[0].emailAddress!,
-        name: user?.username ?? user?.lastName == user.firstName ? user.lastName : `${user.firstName}${user.lastName}`
+        name: (user?.username ?? user?.lastName == user.firstName ? user.lastName : `${user.firstName}${user.lastName}`) ?? "Unknown",
       }
       c.set('userId',auth.userId)
       c.set('userInfo', userInfo)
