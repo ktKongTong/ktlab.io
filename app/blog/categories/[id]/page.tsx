@@ -3,7 +3,17 @@ import {ArticleList} from "@/components/article-list";
 import {unstable_cache} from "next/cache";
 
 export async function generateStaticParams() {
-  return ["life", "tech", "personal"]
+  return [
+    {
+      id: "life"
+    },
+    {
+      id: "tech",
+    },
+    {
+      id: "personal"
+    }
+  ]
 }
 
 const getCategoryBlogs = unstable_cache(getBlogPostsMetaByCategory, ['blogs'], {

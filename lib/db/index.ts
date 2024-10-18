@@ -43,5 +43,5 @@ export const getAllDocumentWithoutFolderByStartPath = (startPath:string) => {
 }
 
 export const getDocumentsByTags = (tags: string[]) => {
-  return  db.select().from(documents).where(and(arrayContains(documents.tags, tags), eq(documents.type, 'file'), like(documents.parentId, `%blog`)))
+  return  db.select().from(documents).where(and(arrayContains(documents.tags, tags), eq(documents.type, 'file'), like(documents.parentId, `blog%`)))
 }
