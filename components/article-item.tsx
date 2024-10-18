@@ -1,5 +1,4 @@
-'use client'
-import {HTMLProps, useEffect, useRef} from "react";
+import { HTMLProps } from "react";
 import {cn, formatTime} from "@/lib/utils";
 import {Calendar, Hourglass, MousePointerClickIcon, TagIcon} from "lucide-react";
 import Link from "@/components/link";
@@ -26,35 +25,8 @@ export default function ArticleItem(
   ...rest
 }: ArticleItemProps & HTMLProps<HTMLDivElement>
 ) {
-  const ref= useRef<HTMLDivElement>(null);
-  useEffect(()=> {
-    const cur = ref.current;
-    if(!cur) {
-      return
-    }
-    const handlerHover = () => {
-      let prev = cur.previousElementSibling;
-      while (prev) {
-        prev.classList.add('previous-peer');
-        prev = prev.previousElementSibling;
-      }
-    }
-    cur.addEventListener('mouseover', handlerHover);
-    const handlerHoverOut = ()=> {
-      let prev = cur.previousElementSibling;
-      while (prev) {
-        prev.classList.remove('previous-peer');
-        prev = prev.previousElementSibling;
-      }
-    }
-    cur.addEventListener('mouseout', handlerHoverOut);
-    return ()=> {
-      cur.removeEventListener('mousemove', handlerHover);
-      cur.removeEventListener('mouseout', handlerHoverOut);
-    };
-  }, [ref])
   return (
-    <div {...rest} ref={ref} className={cn(' flex w-full justify-between relative m-2 article-item transition-all peer-hover:blur-sm peer cursor-default duration-500 hover:scale-105', rest.className)}>
+    <div {...rest} className={cn(' flex w-full justify-between relative m-2 article-item transition-all peer cursor-default duration-500 hover:scale-105', rest.className)}>
       <div className={'flex flex-col'}>
         <div
           className={'text-xl inline-flex w-fit relative font-medium cursor-pointer'}>

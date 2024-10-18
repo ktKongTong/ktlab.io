@@ -1,9 +1,10 @@
 import BlogActivity, {BlogActivityProps} from "@/app/(landing)/_components/recentItem/blog";
 import GithubActivity, {GithubActivityProps} from "@/app/(landing)/_components/recentItem/github";
 import {VideoProps} from "@/app/(landing)/_components/recentItem/video";
-import {MusicItem, MusicProps} from "@/app/(landing)/_components/recentItem/music";
+import MusicItem, { MusicProps} from "@/app/(landing)/_components/recentItem/music";
 import {Video} from "lucide-react";
 import GameItem, {GameProps} from "@/app/(landing)/_components/recentItem/steam";
+import React from "react";
 
 
 export type RecentItemProps = MusicProps & {type:'music'}
@@ -13,7 +14,7 @@ export type RecentItemProps = MusicProps & {type:'music'}
   | GameProps & { type: 'game'}
 
 
-export default function RecentItem({
+ function RecentItem({
  type,
  ...rest
 }:RecentItemProps) {
@@ -30,3 +31,4 @@ export default function RecentItem({
       return <GameItem {...rest as GameProps}/>
   }
 }
+export default React.memo(RecentItem)

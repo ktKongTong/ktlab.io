@@ -10,6 +10,7 @@ declare module 'hono' {
 export const getDB = (c:Context):IDBProvider => {
   return c.get('db')
 }
+
 export const DBMiddleware = (): MiddlewareHandler => {
   return async (c, next) => {
     c.set('db', slcDB)

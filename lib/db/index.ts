@@ -7,7 +7,6 @@ import DB from "@/lib/db/db";
 const connectionString = process.env.DATABASE_URL as string;
 
 export const slcDB = DB(connectionString)
-//Disable prefetch as it is not supported for "Transaction" pool mode
 const client = postgres(connectionString, { prepare: false });
 
 export const db = drizzle(client);
@@ -36,9 +35,12 @@ export const getAllDocumentWithFolders = () => {
 }
 
 export const getAllDocumentWithoutFolder = () => {
-  return  db.select().from(documents).where(and(eq(documents.type, 'file'), like(documents.parentId, `%blog`)))
+  return  db.select().from(documents).where(and(eq(documents.type, 'file'), like(documents.parentId, `blog%`)))
 }
 
+export const getAllDocumentWithoutFolderByStartPath = (startPath:string) => {
+  return  db.select().from(documents).where(and(eq(documents.type, 'file'), like(documents.parentId, `${startPath}%`)))
+}
 
 export const getDocumentsByTags = (tags: string[]) => {
   return  db.select().from(documents).where(and(arrayContains(documents.tags, tags), eq(documents.type, 'file'), like(documents.parentId, `%blog`)))

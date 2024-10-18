@@ -21,6 +21,7 @@ interface KVOptions {
 export const getKV = (c:Context)=> {
   return c.get('kv')
 }
+
 export const KVMiddleware = (options?: ClerkOptions): MiddlewareHandler => {
   return async (c, next) => {
     const kvEnv = env<KVEnv>(c)

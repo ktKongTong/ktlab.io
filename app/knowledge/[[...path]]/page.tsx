@@ -1,17 +1,30 @@
 import PostLayout from "@/app/(post-layout)";
-import {notFound} from "next/navigation";
 import {Metadata} from "next";
 import { getKnowledgeBaseByPath } from "@/queries/knowledge";
 import {Suspense} from "react";
 import {Skeleton} from "@/components/ui/skeleton";
+import {getAllDocumentWithoutFolderByStartPath} from "@/lib/db";
+import NotFound from "@/app/not-found";
+import {unstable_cache} from "next/cache";
+import {getBlogPostMetas} from "@/queries/blog";
 
 
 const metadata: Metadata = {
   title: 'ktlab | knowledge base',
-  description: 'knowledge base page of ktlab.io',
+  description: 'knowledge-base page of ktlab.io',
 };
 
+export async function generateStaticParams() {
+  const res = await getAllDocumentWithoutFolderByStartPath("知识库")
+  return res.map((post) => ({
+    path: post.relativePath.split('/'),
+  }))
+}
 
+const getContentByPath = unstable_cache(getKnowledgeBaseByPath, ['knowledge-base-item'], {
+  revalidate: false,
+  tags: ['knowledge-base-item']
+})
 export async function generateMetadata(
   { params }: {
   params: { path?: string[]  }
@@ -19,7 +32,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
 
   let path = params.path ?? []
-  const content = await getKnowledgeBaseByPath(path.join('/'))
+  const content = await getContentByPath(path.join('/'))
   if(content?.title) {
     return {
       title: "ktlab | " + content.title,
@@ -35,23 +48,9 @@ export default async function KnowledgeBasePage({
   params: { path?: string[]  }
 }) {
   let path = params.path ?? []
-  return <Suspense fallback={<Skeleton className={'w-full h-full'}/>}>
-    <PostLoader path={path}/>
-  </Suspense>
-}
-
-
-async function PostLoader(
-  {
-    path
-  }:{
-    path: string[]
-  }
-) {
-
-  const article = await getKnowledgeBaseByPath(path.join('/'))
+  const article = await getContentByPath(path.join('/'))
   if (!article) {
-    notFound()
+    return <NotFound />
   }
   return <PostLayout {...article} withCommentArea={true}/>
 }

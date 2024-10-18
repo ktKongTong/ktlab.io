@@ -34,7 +34,7 @@ const navItems = [{
   }]
 }, {
   name: '知识库',
-  link:'/knowledge',
+  link:'/knowledge/知识库/index.md',
   childrenNav: []
 }]
 

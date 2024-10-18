@@ -12,13 +12,16 @@ export default function Link({
   href,
   ...rest
 }: LinkProps) {
-  const isExternal = typeof href === 'string' && !href.startsWith('/');
-
+  const isExternal = href && typeof href === 'string' && !href.startsWith('/');
+  let iconLink: string = ''
+  if(isExternal && href) {
+    iconLink = `https://favicon.yandex.net/favicon/${new URL(href).hostname}`
+  }
   return (
-    <NextLink target="_blank" href={href} {...rest}>
+    <NextLink target={isExternal ? '_blank': '_self'} href={href} {...rest}>
       {isExternal && withFavicon && (
         <Image
-          src={`https://favicon.yandex.net/favicon/${new URL(href).hostname}`}
+          src={iconLink}
           alt="Favicon"
           className="inline-block mr-1 w-4 h-4 rounded-full"
           width={16}

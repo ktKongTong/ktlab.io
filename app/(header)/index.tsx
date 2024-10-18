@@ -16,7 +16,6 @@ import {motion, AnimatePresence} from "framer-motion";
 import {useMediaQuery} from "usehooks-ts";
 import LockBodyScroll from "@/components/LockBodyScroll";
 import {SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
-import {useTheme} from "next-themes";
 
 const fullConfig = resolveConfig(twConfig)
 const breakpoints = fullConfig.theme.screens;
@@ -62,7 +61,6 @@ export default function Header({
     };
   }, []);
   const {isLg} = useBreakpoint('lg')
-  const {theme} = useTheme()
   return (
     <header
       {...rest}

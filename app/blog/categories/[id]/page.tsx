@@ -1,6 +1,15 @@
-import ArticleItem, {ArticleItemProps} from "@/components/article-item";
-import {notFound} from "next/navigation";
-import {getBlogPostsByCategory} from "@/queries/blog";
+import { getBlogPostsByCategory as getBlogPostsMetaByCategory } from "@/queries/blog";
+import {ArticleList} from "@/components/article-list";
+import {unstable_cache} from "next/cache";
+
+export async function generateStaticParams() {
+  return ["life", "tech", "personal"]
+}
+
+const getCategoryBlogs = unstable_cache(getBlogPostsMetaByCategory, ['blogs'], {
+  revalidate: 3600,
+  tags: ['blogs']
+})
 
 export default async function Page(
 {
@@ -10,19 +19,11 @@ export default async function Page(
     id: string
   }
 }) {
-  const posts = await getBlogPostsByCategory(params.id);
-  if(!posts || !posts.length) {
-    notFound()
-  }
+  const posts = getCategoryBlogs(params.id);
   return (
     <div className={'max-w-2xl w-full  mx-10'}>
       <div className={'text-3xl font-bold '}>{params.id}</div>
-      <div className={'pt-10 text-lg  font-medium text-opacity-30'}>共 {posts.length} 篇文稿</div>
-      <ul className={'pt-8 group'}>
-        {(posts as ArticleItemProps[]).map((article,index)=>
-          <ArticleItem key={index} {...article}  className={'p-4'}/>
-        )}
-      </ul>
+      <ArticleList postsPromise={posts}/>
     </div>
   )
 }

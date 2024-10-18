@@ -1,59 +1,46 @@
-import {Hono, Schema,Env as HEnv} from 'hono'
+import { Hono } from 'hono'
 import {handle} from 'hono/vercel'
-import activities from "@/mock/activity";
-import {Remote} from "@/app/api/[[...route]]/remote";
-import {clerkMiddleware, getAuth} from "@hono/clerk-auth";
-import actions from "@/app/api/[[...route]]/action";
-import comment from "@/app/api/[[...route]]/comment";
-import {DBMiddleware} from "@/app/api/[[...route]]/middleware/db";
 import { cors } from 'hono/cors'
-import {customClerkMiddleware} from "@/app/api/[[...route]]/middleware/clerk";
-import process from "process";
-import {Activity} from "@/app/api/[[...route]]/rencent";
+import {DBMiddleware,customClerkMiddleware} from "@/app/api/[[...route]]/_middleware";
+import {clerkMiddleware, getAuth} from "@hono/clerk-auth";
+
+import {reactionRoute,commentRoute, contentRoute, activityRoute} from "@/app/api/[[...route]]/_routes";
+
 const privilegedMethods = ['POST', 'PUT', 'PATCH', 'DELETE']
+
 export const runtime = 'nodejs';
 
-// @ts-ignore
-class App<E extends HEnv, S extends Schema = {}, BasePath extends string> extends Hono<E,S,BasePath> {
+const app = new Hono()
 
-  apply(func: <T extends HEnv>(app: Hono<E,S,BasePath>) => void) {
-    func(this)
-    return this
-  }
+app
+.use('*',cors({origin:'*'}))
+.use(DBMiddleware())
+.on(privilegedMethods, '/*', clerkMiddleware({
+  publishableKey: process.env.CLERK_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+  secretKey: process.env.CLERK_SECRET_KEY,
+}))
+.on(privilegedMethods, '/*', customClerkMiddleware())
 
-  constructor() {
-    super()
-    this
-      .use('*',cors({origin:'*'}))
-      .use(DBMiddleware())
-      .on(privilegedMethods, '/*', clerkMiddleware({
-        publishableKey: process.env.CLERK_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-        secretKey: process.env.CLERK_SECRET_KEY,
-      }))
-      .on(privilegedMethods, '/*', customClerkMiddleware())
-    this
-      .apply(Remote)
-      .apply(comment)
-      .apply(actions)
-      .apply(Activity)
 
-    this.get('/api', (c) => {
-      const auth = getAuth(c)
-      if (!auth?.userId) {
-        return c.json({
-          message: 'You are not logged in.'
-        })
-      }
-      return c.json({
-        message: 'You are logged in!',
-        userId: auth.userId
-      })
+app.route('/', commentRoute)
+app.route('/', reactionRoute)
+app.route('/', activityRoute)
+app.route('/', contentRoute)
+
+app.get('/api', (c) => {
+  const auth = getAuth(c)
+  if (!auth?.userId) {
+    return c.json({
+      message: 'You are not logged in.'
     })
   }
-}
+  return c.json({
+    message: 'You are logged in!',
+    userId: auth.userId
+  })
+})
 
-const app = new App()
-
+import activities from "@/mock/activity";
 app.get('/api/activity', async (c)=> {
   return c.json({
     status: 'ok',

@@ -41,10 +41,13 @@ export function CatalogItem({
                 className={`                
                   text-md font-medium
                   hover:text-primary/80 break-all
+                   w-full
                   transition-all  overflow-ellipsis line-clamp-2 
                   ${current ? 'text-primary':'text-muted-foreground'}
                 `}
-                href={href}>{title}</Link> : <span className={'cursor-default'}>{title}</span> }
+                href={href}>{title}</Link> :
+                <span onClick={()=>setActive(!active)} className={'cursor-pointer w-full'}>{title}</span>
+              }
               <ChevronRight className={`h-4 cursor-pointer w-4 transition-all ${active ? 'rotate-90':''}`}  onClick={()=>setActive(!active)}/>
             </div>
             {/*${active ? 'opacity-1' : 'opacity-0 max-h-0 '}*/}

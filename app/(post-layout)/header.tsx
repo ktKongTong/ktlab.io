@@ -1,6 +1,7 @@
 import {Calendar, EyeIcon, Hourglass, TagIcon} from "lucide-react";
 import {formatTime} from "@/lib/utils";
 import Tag from "@/components/tags";
+import {View} from "@/app/(post-layout)/view";
 
 interface Tag {
   name: string,
@@ -9,7 +10,7 @@ interface Tag {
 interface HeaderProps {
   title: string;
   createdAt?: string;
-  click: number,
+  lastModifiedAt?: string;
   wordCount: number;
   description?: string;
   tags: Tag[];
@@ -18,7 +19,6 @@ interface HeaderProps {
 
 export default function Header({
   title,
-  click,
   wordCount,
   createdAt,
   description,
@@ -49,9 +49,10 @@ export default function Header({
             <Hourglass className={'h-4 w-4'}/>
             <span>{wordCount} 字</span>
           </div>
+          {/*use client, and combine with use metadata("post_id")*/}
           <div className={'flex space-x-1 items-center'}>
             <EyeIcon className={'h-4 w-4'}/>
-            <span>{click}</span>
+            <span><View /></span>
           </div>
         </div>
         {

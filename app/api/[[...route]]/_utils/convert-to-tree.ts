@@ -2,12 +2,12 @@ import {DocumentSelect} from "@/lib/db/schema";
 
 export default function convertToTree(docs: DocumentSelect[],rootId:string|null) {
   let root:any = docs.find(doc=> doc.id === rootId);
-   root = {
-     id: root.id,
-     title: root.title,
-     createdAt: root.createdAt,
-     lastModifiedAt: root.lastModifiedAt,
-     tags: root.tags,
+  root = {
+    id: root.id,
+    title: root.title,
+    createdAt: root.createdAt,
+    lastModifiedAt: root.lastModifiedAt,
+    tags: root.tags,
     children: [] as any[]
   }
   // let tmp = docs

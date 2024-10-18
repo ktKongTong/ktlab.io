@@ -1,6 +1,7 @@
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import Link from "next/link";
 import {Spotify} from "react-spotify-embed";
+import React from "react";
 
 export interface MusicProps {
   platform: 'netease' | 'qq' | 'spotify' | 'other',
@@ -11,7 +12,7 @@ export interface MusicProps {
   time: number
 }
 
-export function MusicItem(props: MusicProps) {
+ function MusicItem(props: MusicProps) {
   if(props.platform === 'spotify') {
     return (
       <div className={'flex flex-col items-start space-x-2 p-1'}>
@@ -30,3 +31,4 @@ export function MusicItem(props: MusicProps) {
   )
 }
 
+export default React.memo(MusicItem);

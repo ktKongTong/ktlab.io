@@ -1,6 +1,6 @@
 import {Context} from "hono";
 
-export class APIResponse<T> {
+export class R<T> {
   private data:T
   private msg: string
   private code: number
@@ -12,12 +12,12 @@ export class APIResponse<T> {
     this.success = success
   }
   static success<T>(c:Context,data:T|null = null,msg:string="") {
-    return c.json(new APIResponse<T>(data,200, msg, true))
+    return c.json(new R<T>(data,200, msg, true))
   }
   static internalError<T>(c:Context,msg:string="internal error") {
-    return c.json(new APIResponse<T>(null,500, msg, false))
+    return c.json(new R<T>(null,500, msg, false))
   }
   static unauthorizedError<T>(c:Context,msg:string="unauthorized") {
-    return c.json(new APIResponse<T>(null,401, msg, false))
+    return c.json(new R<T>(null,401, msg, false))
   }
 }

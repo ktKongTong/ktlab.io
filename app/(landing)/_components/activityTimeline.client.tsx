@@ -3,19 +3,19 @@
 import { useActivity } from "@/hooks/query/useActivities";
 import RecentItem from "./recentItem";
 import { TimeLineItem } from "./timeline";
-import { HTMLProps } from "react";
+import React, { HTMLProps } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { motion, AnimatePresence } from 'framer-motion';
 interface ClientTimeLineProps {
-    type: string;
+    activityType: string;
     className?: string;
 }
 
 const itemRender = (item: any, idx: number) => <RecentItem {...item}/>
 
-export function ClientActivityTimeLine(props: ClientTimeLineProps) {
-    const { type, className, ...rest} = props;
+function ClientActivityTimeLine(props: ClientTimeLineProps) {
+    const { activityType:type, className, ...rest} = props;
     const { data, status, error } = useActivity(type)
 
     return (
@@ -57,7 +57,7 @@ export function ClientActivityTimeLine(props: ClientTimeLineProps) {
     );
 }
 
-
+export default React.memo(ClientActivityTimeLine)
 
 interface WrappedTimeLineProps<T extends {id: string, time: number}> {
     items: T[]; 

@@ -1,11 +1,30 @@
-import * as _ from "lodash-es";
 import {Constants} from "@/lib/constants";
 import {Article} from "@/interfaces/article";
+import {getAllDocumentWithFolders, getDocumentByPath} from "@/lib/db";
+import convertToTree from "@/app/api/[[...route]]/_utils/convert-to-tree";
 
 export async function getKnowledgeBaseByPath(path: string): Promise<Article | null> {
-  const url = `${Constants().BASE_URL}/api/knowledge/${path}`
-  const resp =await fetch(url).then(res => res.json())
-  return resp.data
+  const p = decodeURIComponent(path)
+  const res = await getDocumentByPath(p)
+  if(res) {
+    const resp = await fetch(`${Constants().RESOURCE_URL}/${res.relativePath}`)
+    const content = await resp.text()
+    return {
+      id: res.id,
+      title: res.title,
+      excerpt: res.excerpt ?? "",
+      slug: res.relativePath,
+      createdAt: res.createdAt.toString(),
+      lastModifiedAt: res.lastModifiedAt.toString(),
+      wordCount: 0,
+      tags: res.tags ?? [],
+      content,
+      click: 0,
+      like: 0,
+      dislike: 0,
+    }
+  }
+  return null;
 }
 
 
@@ -20,10 +39,13 @@ interface CatalogItem {
   lastModifiedAt: string,
   children: CatalogItem[]
 }
-export async function getKnowledgeBaseCatalog(): Promise<CatalogItem[]> {
-  const res = await fetch(`${Constants().BASE_URL}/api/catalog/knowledge`, {
-    cache: "no-cache",
-  }).then(res => res.json())
-  return res.data
-}
 
+export async function getKnowledgeBaseCatalog(): Promise<CatalogItem[]> {
+  const res = await getAllDocumentWithFolders()
+  const treeRes = convertToTree(res, "知识库")
+  return treeRes
+    // const res = await fetch(`${Constants().BASE_URL}/api/catalog/knowledge`, {
+    //   cache: "no-cache",
+    // }).then(res => res.json())
+    // return res.data
+}
