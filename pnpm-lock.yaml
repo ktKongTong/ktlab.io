@@ -25,10 +25,10 @@ importers:
         version: 0.17.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@hono/clerk-auth':
         specifier: ^2.0.0
-        version: 2.0.0(@clerk/backend@1.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(hono@4.4.4)
+        version: 2.0.0(@clerk/backend@1.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(hono@4.6.5)
       '@hono/zod-validator':
         specifier: ^0.2.2
-        version: 0.2.2(hono@4.4.4)(zod@3.23.8)
+        version: 0.2.2(hono@4.6.5)(zod@3.23.8)
       '@microflash/remark-callout-directives':
         specifier: ^4.1.0
         version: 4.1.0
@@ -102,8 +102,8 @@ importers:
         specifier: ^4.0.2
         version: 4.0.2
       hono:
-        specifier: ^4.4.4
-        version: 4.4.4
+        specifier: ^4.6.5
+        version: 4.6.5
       isomorphic-dompurify:
         specifier: ^2.12.0
         version: 2.12.0
@@ -656,6 +656,7 @@ packages:
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
     engines: {node: '>=10.10.0'}
+    deprecated: Use @eslint/config-array instead
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -663,6 +664,7 @@ packages:
 
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
+    deprecated: Use @eslint/object-schema instead
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -2326,6 +2328,7 @@ packages:
   eslint@8.57.0:
     resolution: {integrity: sha512-dZ6+mexnaTIbSBZWgou51U6OmzIhYM2VcNdtiTtI7qPNZm35Akpr0f6vtw3w1Kmn5PYo+tZVfh13WrhpS6oLqQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   espree@9.6.1:
@@ -2720,9 +2723,9 @@ packages:
     resolution: {integrity: sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw==}
     engines: {node: '>=12.0.0'}
 
-  hono@4.4.4:
-    resolution: {integrity: sha512-zO5+4K8yf1iuKhBZhwmpZ/0LzPMr8Zt1RugEGM1xvOqgh9DyLb7tslOtoBks4bmm5bIcLtzLCXUpYpXOkwpABA==}
-    engines: {node: '>=16.0.0'}
+  hono@4.6.5:
+    resolution: {integrity: sha512-qsmN3V5fgtwdKARGLgwwHvcdLKursMd+YOt69eGpl1dUCJb8mCd7hZfyZnBYjxCegBG7qkJRQRUy2oO25yHcyQ==}
+    engines: {node: '>=16.9.0'}
 
   html-encoding-sniffer@4.0.0:
     resolution: {integrity: sha512-Y22oTqIU4uuPgEemfz7NDJz6OeKf12Lsu+QC+s3BVpda64lTiMYCyGwg5ki4vFxkMwQdeZDl2adZoqUgdFuTgQ==}
@@ -4952,14 +4955,14 @@ snapshots:
       protobufjs: 7.3.0
       yargs: 17.7.2
 
-  '@hono/clerk-auth@2.0.0(@clerk/backend@1.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(hono@4.4.4)':
+  '@hono/clerk-auth@2.0.0(@clerk/backend@1.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(hono@4.6.5)':
     dependencies:
       '@clerk/backend': 1.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      hono: 4.4.4
+      hono: 4.6.5
 
-  '@hono/zod-validator@0.2.2(hono@4.4.4)(zod@3.23.8)':
+  '@hono/zod-validator@0.2.2(hono@4.6.5)(zod@3.23.8)':
     dependencies:
-      hono: 4.4.4
+      hono: 4.6.5
       zod: 3.23.8
 
   '@humanwhocodes/config-array@0.11.14':
@@ -7350,7 +7353,7 @@ snapshots:
 
   highlight.js@11.9.0: {}
 
-  hono@4.4.4: {}
+  hono@4.6.5: {}
 
   html-encoding-sniffer@4.0.0:
     dependencies:
