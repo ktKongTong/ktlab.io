@@ -57,7 +57,6 @@ export default function ThemeSwitch() {
     );
   }
   return (
-    <>
       <motion.div
         className={'p-2 w-10 h-10 border rounded-full border-transparent cursor-pointer'}
         onClick={() => setToggle()}
@@ -84,6 +83,5 @@ export default function ThemeSwitch() {
         }
         </AnimatePresence>
       </motion.div>
-    </>
   )
 }

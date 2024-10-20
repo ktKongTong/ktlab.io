@@ -1,7 +1,7 @@
 import {Calendar, EyeIcon, Hourglass, TagIcon} from "lucide-react";
 import {formatTime} from "@/lib/utils";
 import Tag from "@/components/tags";
-import {View} from "@/app/(post-layout)/view";
+import {View} from "@/app/_post-layout/view";
 
 interface Tag {
   name: string,

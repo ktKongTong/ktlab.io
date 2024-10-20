@@ -1,5 +1,5 @@
 'use client'
-import {useComments} from "@/hooks/useComments";
+import {useComments} from "@/hooks/query/use-comments";
 import {useCallback, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {Textarea} from "@/components/ui/textarea";

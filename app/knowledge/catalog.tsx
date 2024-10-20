@@ -1,11 +1,11 @@
 'use client';
-import React, {HTMLProps, useEffect, useMemo, useState} from "react";
+import React, {HTMLProps, useEffect, useState} from "react";
 import Link from "@/components/link";
 import {cn} from "@/lib/utils";
 import {ChevronRight} from "lucide-react";
-import {usePathname} from "next/navigation";
-import useTOC from "@/hooks/useTOC";
-import {AnimatePresence, motion} from "framer-motion";
+import useToc from "@/hooks/use-toc";
+import { AnimatePresence, motion } from "framer-motion";
+import { useMatchPath } from "@/hooks/use-match-path";
 
 interface CatalogItemProps{
   id: string,
@@ -22,30 +22,24 @@ export function CatalogItem({
   children
 }:CatalogItemProps) {
 
-  const pathname = usePathname()
-  const current = useMemo(()=> pathname === href || pathname +"/index.md" === href || pathname +"/index" === href, [pathname, href])
+  const match = useMatchPath(href ?? '')
   const [active, setActive] = useState<boolean>(false)
 
   return (
     <>
     { children.length ? (
         <>
-          <li
-            className={`
-              block
-              text-md font-medium py-2
-            `}
-          >
+          <li className={'block text-md font-medium py-2'}>
             <div className={' flex justify-between items-center mt-0 overflow-ellipsis '}>
               {href ? <Link
-                className={`                
+                className={cn(`                
                   text-md font-medium
-                  hover:text-primary/80 break-all
-                   w-full
-                  transition-all  overflow-ellipsis line-clamp-2 
-                  ${current ? 'text-primary':'text-muted-foreground'}
-                `}
-                href={href}>{title}</Link> :
+                  hover:text-primary/80 break-all w-full
+                  transition-all  overflow-ellipsis line-clamp-2`,
+                  match ? 'text-primary':'text-muted-foreground'
+                )}
+                href={href}
+                >{title}</Link> :
                 <span onClick={()=>setActive(!active)} className={'cursor-pointer w-full'}>{title}</span>
               }
               <ChevronRight className={`h-4 cursor-pointer w-4 transition-all ${active ? 'rotate-90':''}`}  onClick={()=>setActive(!active)}/>
@@ -72,7 +66,6 @@ export function CatalogItem({
                     </motion.ul>
                 }
               </AnimatePresence>
-
             </motion.div>
           </li>
         </>
@@ -83,7 +76,7 @@ export function CatalogItem({
           text-md font-medium
           transition-colors duration-300 break-all
           hover:text-primary/80 
-          ${current ? 'text-primary' : 'text-muted-foreground'}
+          ${match ? 'text-primary' : 'text-muted-foreground'}
         `}
       >
         <span className={'pt-1'}>{href ? <Link className={" overflow-ellipsis line-clamp-2"} href={href}>{title}</Link> :
@@ -102,7 +95,7 @@ export default function Catalog({
   catalogs:CatalogItemProps[]
 } & HTMLProps<HTMLDivElement>) {
 
-  const {updateCatalogs} = useTOC()
+  const {updateCatalogs} = useToc()
   useEffect(() => {
     updateCatalogs(catalogs)
     return ()=> {
@@ -112,7 +105,7 @@ export default function Catalog({
 
   return (
     <div {...rest}  className={cn('relative', rest.className)}>
-      <ul className={''}>
+      <ul>
         {
           catalogs.map((catalog ,idx)=> (<CatalogItem key={idx} {...catalog} />))
         }

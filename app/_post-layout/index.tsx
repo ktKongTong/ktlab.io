@@ -1,18 +1,21 @@
-import Header from "@/app/(post-layout)/header";
+import Header from "@/app/_post-layout/header";
 import Markdown from "@/components/markdown";
 import {CircleArrowUp} from "lucide-react";
-import ClientNavLink from "@/app/(post-layout)/NavLink";
-import Toc from "@/app/(post-layout)/toc";
-import ScrollToTop from "@/app/(post-layout)/scrollToTop";
-import {Article} from "@/interfaces/article";
+import ClientNavLink from "@/app/_post-layout/NavLink";
+import Toc from "@/app/_post-layout/toc";
+import ScrollToTop from "@/app/_post-layout/scrollToTop";
+import {SSRArticle, SSRArticleWithContent} from "@/interfaces/article";
 import Comments from "@/components/comment/comments";
 import {ClientOnly} from "@/components/client-only";
 import CommentEditor from "@/components/comment/comment-editor";
 import Reaction from "@/components/comment/reaction"
-import {PostContextProvider} from "@/app/(post-layout)/PostContextProvider";
+import {PostContextProvider} from "@/app/_post-layout/PostContextProvider";
+import {RawMarkdownRender} from "@/components/markdown/xlog/render";
+import {renderPageContent} from "@/components/markdown/xlog";
+import TocLoader from "@/app/_post-layout/toc-loader";
 
 
-type  PostLayoutProps = Article & {
+type  PostLayoutProps = SSRArticleWithContent & {
   withCommentArea?: boolean;
   withToc?: boolean
   withReactionArea?: boolean
@@ -32,10 +35,13 @@ export default function PostLayout(
   withReactionArea = true,
   withHeader = true,
 }:PostLayoutProps) {
+
+  const inParsedContent = renderPageContent({content})
+  const toc = inParsedContent.toToc()
   return (
     <PostContextProvider contentId={id}>
-      <div className={'flex space-x-2 slide-in-from-bottom-10 animate-in duration-500 grow transition-all mx-auto'}>
-        <div className={'flex flex-col space-y-10  max-w-3xl px-4 grow mx-auto'}>
+      <div className={'flex justify-between space-x-2 slide-in-from-bottom-2 grow mx-auto'}>
+        <div className={'flex flex-col space-y-10  px-4 max-w-4xl mx-auto'}>
           <article className={'pb-10'}>
             {withHeader &&
                 <Header
@@ -45,9 +51,8 @@ export default function PostLayout(
                     tags={tags.map(tag => ({name: tag, href: `/blog/categories/${tag}`}))}
                 />
             }
-            <ClientOnly>
-              <Markdown content={content}/>
-            </ClientOnly>
+
+              <RawMarkdownRender content={content}/>
           </article>
           {
             withCommentArea &&
@@ -60,9 +65,9 @@ export default function PostLayout(
           }
         </div>
         <div className={'sticky top-32 hidden lg:flex flex-col max-h-[calc(100vh-96px)]   w-[180px]   p-2'}>
-          {withToc && <Toc className={'min-w-[180px]'}/>}
-          <ClientNavLink href={''}
-                         className={'font-medium text-sm mt-4 underline hover:underline-offset-4 underline-offset-2 transition-all hover:text-primary'}>
+          {withToc && toc && <TocLoader toc={toc}/>}
+          {withToc && toc && <Toc className={'min-w-[180px]'} toc={toc}/>}
+          <ClientNavLink href={''} className={'font-medium text-sm mt-4 underline hover:underline-offset-4 underline-offset-2 transition-all hover:text-primary'}>
             CD ../
           </ClientNavLink>
           <ScrollToTop className={'text-sm font-medium mt-4 flex items-center space-x-1'}>

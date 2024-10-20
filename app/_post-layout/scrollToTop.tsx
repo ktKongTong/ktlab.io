@@ -31,7 +31,7 @@ export default function ScrollToTop(
     <div
       {...rest}
       onClick={()=>scrollTo({ left: 0, top: 0, behavior: "smooth" })}
-      className={cn('cursor-pointer transition-all duration-300',className)}
+      className={cn('cursor-pointer',className)}
       style={{
         opacity: opacity,
         ...restStyles

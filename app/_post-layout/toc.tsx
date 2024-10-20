@@ -1,7 +1,8 @@
 'use client'
 import {useWindowScroll} from '@uidotdev/usehooks'
-import React, {createElement, HTMLProps, useEffect, useRef, useState} from "react";
 import Link from "@/components/link";
+import React, {createElement, HTMLProps, useEffect, useRef, useState} from "react";
+
 interface TOCProps {
   id: string,
   title: string,
@@ -16,7 +17,6 @@ import {toHast} from "mdast-util-to-hast";
 
 import DOMPurify from "isomorphic-dompurify"
 import {List} from "mdast";
-import useTOC from "@/hooks/useTOC";
 
 
 
@@ -110,12 +110,12 @@ function generateContent(items: TocResult["map"]) {
 }
 
 export default function Toc({
-  // toc,
+  toc,
   ...rest
 }:{
-  // toc:TocResult
+  toc:TocResult
 } & HTMLProps<HTMLDivElement>){
-  const {toc} = useTOC()
+  // const {toc} = useTOC()
   if(!toc) {
     return (
       <>

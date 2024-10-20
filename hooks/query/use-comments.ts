@@ -2,13 +2,6 @@ import {create} from "zustand";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {useEffect} from "react";
 import {useUser} from "@clerk/nextjs";
-// @ts-ignore
-export default async function fetcher(...args) {
-  // @ts-ignore
-  const res = await fetch(...args)
-  return res.json()
-}
-
 
 type Comments = {
   documentId?: string,

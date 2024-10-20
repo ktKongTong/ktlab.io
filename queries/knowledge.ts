@@ -1,9 +1,9 @@
+import { SSRArticleWithContent } from "@/interfaces/article";
 import {Constants} from "@/lib/constants";
-import {Article} from "@/interfaces/article";
 import {getAllDocumentWithFolders, getDocumentByPath} from "@/lib/db";
 import convertToTree from "@/app/api/[[...route]]/_utils/convert-to-tree";
 
-export async function getKnowledgeBaseByPath(path: string): Promise<Article | null> {
+export async function getKnowledgeBaseByPath(path: string): Promise<SSRArticleWithContent | null> {
   const p = decodeURIComponent(path)
   const res = await getDocumentByPath(p)
   if(res) {
@@ -19,17 +19,10 @@ export async function getKnowledgeBaseByPath(path: string): Promise<Article | nu
       wordCount: 0,
       tags: res.tags ?? [],
       content,
-      click: 0,
-      like: 0,
-      dislike: 0,
     }
   }
   return null;
 }
-
-
-
-
 
 interface CatalogItem {
   id: string,
@@ -44,8 +37,4 @@ export async function getKnowledgeBaseCatalog(): Promise<CatalogItem[]> {
   const res = await getAllDocumentWithFolders()
   const treeRes = convertToTree(res, "知识库")
   return treeRes
-    // const res = await fetch(`${Constants().BASE_URL}/api/catalog/knowledge`, {
-    //   cache: "no-cache",
-    // }).then(res => res.json())
-    // return res.data
 }

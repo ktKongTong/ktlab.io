@@ -1,6 +1,6 @@
 'use client'
 
-import { useActivity } from "@/hooks/query/useActivities";
+import { useActivity } from "@/hooks/query/use-activity";
 import RecentItem from "./recentItem";
 import { TimeLineItem } from "./timeline";
 import React, { HTMLProps } from "react";

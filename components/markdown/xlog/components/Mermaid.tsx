@@ -5,7 +5,7 @@ import { toText } from "hast-util-to-text"
 import { nanoid } from "nanoid"
 import { memo, useEffect, useState } from "react"
 import Image from "next/image";
-import {useIsDark} from "@/hooks/useDarkMode";
+import {useIsDark} from "@/hooks/use-dark-mode";
 
 const Mermaid = memo(function Mermaid(props: {
   children: string

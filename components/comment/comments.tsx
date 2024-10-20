@@ -1,5 +1,5 @@
 'use client'
-import {useComments} from "@/hooks/useComments";
+import {useComments} from "@/hooks/query/use-comments";
 import {HTMLProps} from "react";
 import {cn, formatTime} from "@/lib/utils";
 import {RawMarkdownRender} from "@/components/markdown/xlog/render";

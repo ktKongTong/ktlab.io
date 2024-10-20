@@ -1,5 +1,5 @@
 'use client'
-import useTOC from "@/hooks/useTOC";
+import useToc from "@/hooks/use-toc";
 import {useEffect, useMemo} from "react";
 
 export default function TocSyncer({

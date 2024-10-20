@@ -1,3 +1,4 @@
+'use client'
 import {TImageProps} from "@/components/markdown/xlog/components/AdvancedImage";
 import dynamic from "next/dynamic";
 import {useEffect, useState} from "react";

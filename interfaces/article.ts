@@ -1,16 +1,27 @@
 
-export interface Article {
+export interface SSRArticle {
   id: string,
-  slug: string,
+
   title: string
   excerpt?: string
   tags: string[]
-  image?: string
   createdAt?: string
   lastModifiedAt?: string
-  content: string,
   wordCount: number,
-  click: number
-  like: number,
-  dislike: number
+  slug: string,
+  image?: string
+  path?: string,
+}
+
+export type SSRArticleWithContent = SSRArticle & {
+  content: string
+}
+
+export interface ArticleMetadata {
+  id: string,
+  reactions: Record<string, number>,
+  view: number,
+  click: number,
+  comments: number,
+  lastVisited?: number,
 }

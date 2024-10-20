@@ -13,7 +13,7 @@ type Action = {
   updateCatalogs: (catalogs?: any[]) => void
 }
 
-const useTOC = create<TOC & Action>((set) => ({
+const useToc = create<TOC & Action>((set) => ({
   toc: undefined,
   catalogs: undefined,
   updateToc: (toc?: TocResult) => {
@@ -23,4 +23,4 @@ const useTOC = create<TOC & Action>((set) => ({
     set((state)=> ({...state, catalogs: catalogs}))
   }
 }))
-export default useTOC
+export default useToc

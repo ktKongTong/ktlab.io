@@ -5,7 +5,7 @@ import { PostContext } from "./use-post";
 export function PostContextProvider({contentId, children }: {contentId:string, children: ReactNode }) {
   return (
 
-    <PostContext.Provider value={{contentId: contentId}}>
+    <PostContext.Provider value={{contentId: contentId, loading: true}}>
       {children}
     </PostContext.Provider>
   )

@@ -1,12 +1,11 @@
 'use client'
-import {ClientOnly} from "@/components/client-only";
 import CommentEditor from "@/components/comment/comment-editor";
 import Comments from "@/components/comment/comments";
-import {Dialog, DialogContent, DialogTitle, DialogTrigger} from "@/components/ui/dialog";
-import {useBreakpoint} from "@/app/(header)";
-import {Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTrigger} from "@/components/ui/drawer";
+import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog";
+import {Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerTrigger} from "@/components/ui/drawer";
 import {Button} from "@/components/ui/button";
 import {useState} from "react";
+import {useBreakpoint} from "@/hooks/use-breakpoint";
 
 export default function CommentDialog (
   {

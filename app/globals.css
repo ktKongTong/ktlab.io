@@ -17,7 +17,7 @@
 @layer base {
 
   .animate-underline {
-    @apply transition-all duration-500 underline underline-offset-4 hover:underline-offset-8 decoration-secondary-foreground/10 hover:decoration-accent-foreground/100;
+    @apply transition-all duration-300 underline underline-offset-4 hover:underline-offset-8 decoration-secondary-foreground/10 hover:decoration-accent-foreground/100;
   }
   * {
     @apply border-border;

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import PostLayout from "@/app/(post-layout)";
+import PostLayout from "app/_post-layout";
 import { getBlogPostById } from "@/queries/blog";
 import {Metadata} from "next";
 import {getAllDocumentWithoutFolder} from "@/lib/db";
@@ -13,8 +13,7 @@ const metadata: Metadata = {
 
 export const revalidate = false;
 
-const getPosts = unstable_cache(getBlogPostById,['blogs'], { revalidate: false}
-)
+const getPosts = unstable_cache(getBlogPostById,['blogs'], { revalidate: false})
 
 export async function generateStaticParams() {
   const blogs = await getAllDocumentWithoutFolder()
@@ -42,7 +41,7 @@ export async function generateMetadata(
 export default async function BlogPage({
   params
 }: {
-  params: { id: string[]  }
+  params: { id: string[] }
 }) {
   const blog =  await getPosts(params.id.join('/'));
   if (!blog) {

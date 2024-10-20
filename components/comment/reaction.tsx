@@ -1,6 +1,6 @@
 'use client'
-import {useComments} from "@/hooks/useComments";
-import CommentDialog from "@/components/comment/CommentDialog";
+import {useComments} from "@/hooks/query/use-comments";
+import CommentDialog from "@/components/comment/comment-dialog";
 import {MessageCircleMore, ThumbsDown, ThumbsUp} from "lucide-react";
 
 export default function Reaction({id}: {id: string}) {

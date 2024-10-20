@@ -30,7 +30,7 @@ const links = [
 export function ContactDock() {
   return (
     <FloatingDock
-      mobileClassName="translate-y-20" // only for demo, remove for production
+      mobileClassName="translate-y-20"
       items={links}
     />
   )

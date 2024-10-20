@@ -1,4 +1,4 @@
-import {ImageProps} from "next/image";
+import Image, {ImageProps} from "next/image";
 
 import {ExcalidrawSource} from "@/components/markdown/xlog/components/Excalidraw";
 export type TImageProps = {
@@ -23,10 +23,7 @@ export default function AdvancedImage(props: TImageProps) {
   if(isExcalidrawLink(props.src)) {
     return <ExcalidrawSource {...props} className={"rounded-lg"} />
   }
-  // const = props.src
-  return <>
-    <img src={props.src} className={'relative rounded-lg border border-gray-300 mx-auto'} loading="lazy" alt={props.alt} />
-  </>
+  return <Image src={props.src} className={'relative rounded-lg border mx-auto'} loading="lazy" alt={props.alt} />
 }
 
 

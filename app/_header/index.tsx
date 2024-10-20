@@ -2,31 +2,18 @@
 import React, {useEffect, useRef, useState} from "react";
 import {cn} from "@/lib/utils";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
-import ThemeSwitch from "@/app/(header)/themeSwitch";
-import NavItem, {NavItemProps} from "@/app/(header)/navItem";
-import Toc from "@/app/(post-layout)/toc";
-import useTOC from "@/hooks/useTOC";
+import ThemeSwitch from "@/app/_header/theme-switch";
+import NavItem, {NavItemProps} from "@/app/_header/nav-item";
+import Toc from "@/app/_post-layout/toc";
+import useToc from "@/hooks/use-toc";
 import {CatalogItem} from "@/app/knowledge/catalog";
 import {useMeasure} from "@uidotdev/usehooks";
-import twConfig from '@/tailwind.config'
-import resolveConfig from 'tailwindcss/resolveConfig'
-type BreakpointKey = keyof typeof breakpoints;
 import {LogIn, Menu} from "lucide-react";
 import {motion, AnimatePresence} from "framer-motion";
-import {useMediaQuery} from "usehooks-ts";
 import LockBodyScroll from "@/components/LockBodyScroll";
 import {SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
+import {useBreakpoint} from "@/hooks/use-breakpoint";
 
-const fullConfig = resolveConfig(twConfig)
-const breakpoints = fullConfig.theme.screens;
-export function useBreakpoint<K extends BreakpointKey>(breakpointKey: K) {
-  const bool = useMediaQuery( `only screen and (min-width: ${breakpoints[breakpointKey]})`,);
-  const capitalizedKey = breakpointKey[0].toUpperCase() + breakpointKey.substring(1);
-  type Key = `is${Capitalize<K>}`;
-  return {
-    [`is${capitalizedKey}`]: bool,
-  } as Record<Key, boolean>;
-}
 
 interface HeaderProps {
   img: string
@@ -41,7 +28,7 @@ export default function Header({
   ...rest
 }: HeaderProps & React.HTMLProps<HTMLDivElement>) {
   //
-  const {catalogs, toc} = useTOC()
+  const {catalogs, toc} = useToc()
   const [showToc, setShowToc] = useState<boolean>(false)
   const [showCatalog, setShowCatalog] = useState<boolean>(false)
   const popoverRef = useRef<HTMLDivElement>(null);
@@ -68,13 +55,12 @@ export default function Header({
       <motion.div
         className={" border-b lg:border absolute top-0 overflow-hidden my-3 rounded-[24px] grow lg:grow-0 transition-all duration-300 border"}>
         <div
-          ref={ref} className={'flex items-center justify-center '}>
-          {/*lg:rounded-full grow lg:grow-0 lg:m-3 lg:py-0 py-3 transition-all duration-300*/}
+          ref={ref} className={'flex items-center justify-center'}>
           <Avatar className={'w-10 h-10 rounded-full'} onClick={()=>!isLg && setShowCatalog(true)}>
             <AvatarImage src={img}/>
             <AvatarFallback>{fallback}</AvatarFallback>
           </Avatar>
-          <ul className={'flex items-center justify-center space-x-2 px-4 '}>
+          <ul className={'flex items-center justify-center gap-2'}>
             {
               navItems.map((navItem: NavItemProps, idx) => (
                 <li key={idx} className={''}>
@@ -83,9 +69,7 @@ export default function Header({
               ))
             }
           </ul>
-          {/*<ClientOnly>*/}
-            <ThemeSwitch/>
-          {/*</ClientOnly>*/}
+          <ThemeSwitch/>
           <AnimatePresence>
             {
               !isLg && toc &&
@@ -148,7 +132,7 @@ export default function Header({
                       animate={{ height:'auto' }}
                       exit={{height: 0}}
                   >
-                      <Toc className={'relative p-2'}/>
+                      <Toc className={'relative p-2'} toc={toc}/>
                   </motion.div>
               }
             </AnimatePresence>

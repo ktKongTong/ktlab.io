@@ -1,4 +1,16 @@
-import {pgTable, timestamp, varchar} from "drizzle-orm/pg-core";
+
+import {
+  integer,
+  json,
+  pgEnum,
+  primaryKey,
+  uniqueIndex,
+  pgTable,
+  timestamp,
+  varchar,
+  index
+} from 'drizzle-orm/pg-core';
+import {relations} from "drizzle-orm";
 
 export const documents = pgTable('obsidiandocuments', {
   id: varchar('id').notNull(),
@@ -12,16 +24,6 @@ export const documents = pgTable('obsidiandocuments', {
   type: varchar('type').notNull(),
 })
 
-
-import {
-  integer,
-  json,
-  pgEnum,
-  primaryKey,
-  uniqueIndex,
-  index
-} from 'drizzle-orm/pg-core';
-import {relations} from "drizzle-orm";
 
 export const userTypeEnum = pgEnum('user_type', ['TRAVELLER', 'USER']);
 
@@ -68,6 +70,7 @@ export const commentToUserRelation = relations(comment,({one})=>({
 
 
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   comment,
   user,
