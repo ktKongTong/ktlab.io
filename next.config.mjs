@@ -12,6 +12,10 @@ const nextConfig = {
                 hostname: 'cdn.akamai.steamstatic.com',
                 protocol: 'https',
             },
+            {
+                hostname: 'cdn.nlark.com',
+                protocol: 'https',
+            },
         ],
     },
     // webpack: (config, { webpack }) => {

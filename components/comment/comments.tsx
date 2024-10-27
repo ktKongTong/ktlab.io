@@ -86,7 +86,6 @@ function CommentItem (
       </Avatar>
       <div className={'text-sm font-medium'}>
         {parentId && <div>
-        {/*  todo discord like   */}
         </div>}
         <div className={'space-x-2 flex items-center justify-start mb-1'}>
           <span>{userInfo.name}</span>

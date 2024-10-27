@@ -8,7 +8,7 @@ import Toc from "@/app/_post-layout/toc";
 import useToc from "@/hooks/use-toc";
 import {CatalogItem} from "@/app/knowledge/catalog";
 import {useMeasure} from "@uidotdev/usehooks";
-import {LogIn, Menu} from "lucide-react";
+import {LogIn, Menu, UserRoundPlus} from "lucide-react";
 import {motion, AnimatePresence} from "framer-motion";
 import LockBodyScroll from "@/components/LockBodyScroll";
 import {SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
@@ -53,7 +53,7 @@ export default function Header({
       {...rest}
       className={cn('flex items-center justify-center min-h-16', rest.className)}>
       <motion.div
-        className={" border-b lg:border absolute top-0 overflow-hidden my-3 rounded-[24px] grow lg:grow-0 transition-all duration-300 border"}>
+        className={" border-b lg:border absolute top-0 overflow-hidden mt-6 rounded-[24px] grow lg:grow-0 transition-all border"}>
         <div
           ref={ref} className={'flex items-center justify-center'}>
           <Avatar className={'w-10 h-10 rounded-full'} onClick={()=>!isLg && setShowCatalog(true)}>
@@ -88,7 +88,7 @@ export default function Header({
 
           <SignedOut>
             <SignInButton mode={'modal'}>
-              <LogIn className={'h-10 w-10 rounded-full p-3'}/>
+              <UserRoundPlus className={'h-10 w-10 rounded-full p-2'}/>
             </SignInButton>
           </SignedOut>
           <SignedIn>
@@ -100,7 +100,7 @@ export default function Header({
         {
           !isLg && <div
                 ref={popoverRef}
-                className={`max-h-[calc(100vh-64px)] overflow-y-scroll lg:hidden bg-background/90`}
+                className={`max-h-[calc(100vh-64px)] overflow-y-scroll lg:hidden bg-background`}
             >
             {
               ((showCatalog && catalogs) || (showToc && toc ))
@@ -116,11 +116,11 @@ export default function Header({
                         maxWidth: width ?? 0
                       }}
                     >
-                        <ul className={'space-y-4 '}>
-                          {
-                            catalogs.map((catalog, idx) => (<CatalogItem key={idx} {...catalog} />))
-                          }
-                        </ul>
+                      <ul className={''}>
+                        {
+                          catalogs.map((catalog, idx) => (<CatalogItem key={idx} {...catalog} />))
+                        }
+                      </ul>
                     </motion.div>
                 }
               </AnimatePresence>

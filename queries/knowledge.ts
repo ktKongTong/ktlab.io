@@ -2,6 +2,7 @@ import { SSRArticleWithContent } from "@/interfaces/article";
 import {Constants} from "@/lib/constants";
 import {getAllDocumentWithFolders, getDocumentByPath} from "@/lib/db";
 import convertToTree from "@/app/api/[[...route]]/_utils/convert-to-tree";
+import {pathPrefix} from "@/config";
 
 export async function getKnowledgeBaseByPath(path: string): Promise<SSRArticleWithContent | null> {
   const p = decodeURIComponent(path)
@@ -35,6 +36,6 @@ interface CatalogItem {
 
 export async function getKnowledgeBaseCatalog(): Promise<CatalogItem[]> {
   const res = await getAllDocumentWithFolders()
-  const treeRes = convertToTree(res, "知识库")
+  const treeRes = convertToTree(res, pathPrefix['knowledge-base'])
   return treeRes
 }

@@ -29,7 +29,7 @@ export function CatalogItem({
     <>
     { children.length ? (
         <>
-          <li className={'block text-md font-medium py-2'}>
+          <li className={'block text-md font-medium py-1'}>
             <div className={' flex justify-between items-center mt-0 overflow-ellipsis '}>
               {href ? <Link
                 className={cn(`                
@@ -72,7 +72,7 @@ export function CatalogItem({
     ) : (
       <li
         className={`
-          block py-2
+          block py-1
           text-md font-medium
           transition-colors duration-300 break-all
           hover:text-primary/80 
@@ -104,10 +104,11 @@ export default function Catalog({
   }, [catalogs, updateCatalogs]);
 
   return (
-    <div {...rest}  className={cn('relative', rest.className)}>
+    <div {...rest} className={cn('relative', rest.className)}>
+      <div className={'text-lg font-bold py-2'}>Catalog</div>
       <ul>
         {
-          catalogs.map((catalog ,idx)=> (<CatalogItem key={idx} {...catalog} />))
+          catalogs.map((catalog, idx) => (<CatalogItem key={idx} {...catalog} />))
         }
       </ul>
     </div>

@@ -57,7 +57,7 @@ export default function ArticleItem(
         </div>
       </div>
       {
-        image && <Image alt={''} className={'hidden ml-2 sm:block shadow-sm max-h-30 max-w-40 object-cover right-0 top-1/2  rounded-lg'} src={image}/>
+        image && <Image alt={''} className={'hidden ml-2 sm:block shadow-sm max-h-30 max-w-40 object-cover right-0 top-1/2  rounded-lg'} src={image} width={'800'} height={'400'} />
       }
     </div>
   )

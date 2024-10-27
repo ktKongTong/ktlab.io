@@ -4,6 +4,7 @@ import { getKnowledgeBaseByPath } from "@/queries/knowledge";
 import {getAllDocumentWithoutFolderByStartPath} from "@/lib/db";
 import NotFound from "@/app/not-found";
 import {unstable_cache} from "next/cache";
+import {pathPrefix} from "@/config";
 
 
 const metadata: Metadata = {
@@ -29,7 +30,7 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams() {
-  const res = await getAllDocumentWithoutFolderByStartPath("知识库")
+  const res = await getAllDocumentWithoutFolderByStartPath(pathPrefix["knowledge-base"])
   return res.map((post) => ({
     path: post.relativePath.split('/'),
   }))

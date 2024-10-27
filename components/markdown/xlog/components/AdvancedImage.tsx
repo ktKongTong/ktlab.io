@@ -23,7 +23,7 @@ export default function AdvancedImage(props: TImageProps) {
   if(isExcalidrawLink(props.src)) {
     return <ExcalidrawSource {...props} className={"rounded-lg"} />
   }
-  return <Image src={props.src} className={'relative rounded-lg border mx-auto'} loading="lazy" alt={props.alt} />
+  return <Image src={props.src} className={'relative rounded-lg border mx-auto'} loading="lazy" alt={props.alt} width={'800'} height={'400'} />
 }
 
 

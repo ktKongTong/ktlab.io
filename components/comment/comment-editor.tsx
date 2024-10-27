@@ -4,7 +4,7 @@ import {useCallback, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {Textarea} from "@/components/ui/textarea";
 import {RawMarkdownRender} from "@/components/markdown/xlog/render";
-import {motion} from "framer-motion";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 
 export default function CommentEditor(
 {
@@ -21,41 +21,36 @@ export default function CommentEditor(
   const [disabled, setDisabled] = useState<boolean>(false);
   const handleDataSubmit = useCallback(async (data: string)=> {
     setDisabled(true)
-    await addComment({comment:data, parentId})
+    addComment({comment: data, parentId})
     setInput("")
     setDisabled(false)
   },[parentId, addComment])
-
-  const [show, setShow] = useState(false)
-
-  const [mode, setMode] = useState<'edit'|'preview'>('edit')
   return (
     <>
       <div className={'flex flex-col space-y-2'}>
-        <div className={'flex flex-row space-x-2'}>
-          <Button variant={'link'}  className={mode == 'edit' ? 'text-muted-foreground':''} onClick={() => {
-            setMode('edit')
-          }}>edit</Button>
-          <Button variant={'link'} className={mode == 'edit' ? '':'text-muted-foreground'} onClick={() => {
-            setMode('preview')
-          }}>preview</Button>
-        </div>
-        <motion.div className={'max-h-80 overflow-y-scroll min-h-40'}>
-          {mode === 'preview' && <div className={'p-2 border rounded-lg h-full grow min-h-40 overflow-y-scroll border-secondary'}><RawMarkdownRender content={input}/></div>}
-          {
-            mode === 'edit' && <Textarea
-                  className={`w-full h-full rounded-lg min-h-40`}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Write your comment here."
-                  value={input}
-                  disabled={disabled}
-              />
-          }
-        </motion.div>
+        <Tabs defaultValue={'edit'} className={' className="w-full overflow-y-hidden"'}>
+          <TabsList className="flex items-center justify-start w-auto gap-1 bg-transparent p-0 mt-0">
+            <TabsTrigger value={'edit'} className={'data-[state=active]:bg-transparent bg-transparent px-1'}>Edit</TabsTrigger>
+            <TabsTrigger value={'preview'} className={'data-[state=active]:bg-transparent bg-transparent px-1'}>Preview</TabsTrigger>
+          </TabsList>
+          <TabsContent value={'edit'}>
+            <Textarea
+              className={`w-full h-full rounded-lg min-h-60 resize-none`}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Write your comment here."
+              value={input}
+              disabled={disabled}
+            />
 
+          </TabsContent>
+          <TabsContent value={'preview'}>
+            <div className={'p-2 border rounded-lg grow overflow-y-scroll border-secondary h-60'}>
+              <RawMarkdownRender content={input}/></div>
+          </TabsContent>
+        </Tabs>
         <div className={'justify-self-end self-end items-end space-x-2'}>
-          <Button variant={'link'} onClick={() => setInput("")}>clear</Button>
-          <Button variant={'link'} onClick={() => handleDataSubmit(input)}>Submit</Button>
+          <Button variant={'ghost'} onClick={() => setInput("")}>clear</Button>
+          <Button variant={'ghost'} onClick={() => handleDataSubmit(input)}>Submit</Button>
         </div>
 
       </div>

@@ -12,6 +12,7 @@ import convertToTree from "../_utils/convert-to-tree";
 import {kvKey, R} from "../_utils";
 import {env} from "hono/adapter";
 import {HONO_ENV} from "../env";
+import {pathPrefix} from "@/config";
 
 
 
@@ -20,7 +21,7 @@ const app = new Hono()
 
 app.get('/api/catalog/knowledge', async (c)=>{
   const res = await getAllDocumentWithFolders()
-  const treeRes = convertToTree(res, "知识库")
+  const treeRes = convertToTree(res, pathPrefix["knowledge-base"])
   return c.json({
     status: "ok",
     success: true,

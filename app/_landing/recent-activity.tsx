@@ -40,7 +40,7 @@ export default function RecentlyPage({
           </Tabs>
           <Tabs defaultValue="io" className="w-full overflow-y-hidden h-[calc(100vh-160px)] lg:h-[calc(100vh-188px)] flex-col hidden lg:flex">
             <TabsList className="flex items-center justify-start w-auto gap-1 bg-transparent p-0 mt-0">
-              <TabsTrigger value="github" className="data-[state=active]:bg-transparent bg-transparent px-1">最近IO</TabsTrigger>
+              <TabsTrigger value="io" className="data-[state=active]:bg-transparent bg-transparent px-1">最近IO</TabsTrigger>
             </TabsList>
             <TabsContent value={'io'} className="p-2 overflow-y-auto" style={{height: tabContentHeight}}>
               <ClientActivityTimeLine activityType={'github'} className="pl-4"/>
