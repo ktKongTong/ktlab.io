@@ -1,5 +1,5 @@
 import { drizzle } from "drizzle-orm/postgres-js";
-import {arrayContained, eq, or, and, sql, like, arrayContains} from "drizzle-orm";
+import { eq, or, and, like, arrayContains, notLike} from "drizzle-orm";
 import postgres from "postgres";
 import {documents, DocumentSelect} from "@/lib/db/schema";
 import DB from "@/lib/db/db";
@@ -35,19 +35,26 @@ const res = await db.select().from(documents)
 //add ignore path pattern
 
 export const getAllDocumentWithFolders = () => {
-  return  db.select().from(documents).execute()
+  return  db.select().from(documents).where(notLike(documents.relativePath, `%\.excalidraw\.md`)).execute()
 }
 
 export const getAllDocumentWithoutFolder = () => {
-  return  db.select().from(documents).where(and(eq(documents.type, 'file'), like(documents.parentId, `${pathPrefix.blog}%`)))
+  return  db.select().from(documents).where(and(eq(documents.type, 'file'), like(documents.parentId, `${pathPrefix.blog}%`), notLike(documents.relativePath, `%\.excalidraw\.md`)))
 }
 
 export const getAllDocumentWithoutFolderByStartPath = (startPath:string) => {
-  return  db.select().from(documents).where(and(eq(documents.type, 'file'), like(documents.parentId, `${startPath}%`)))
+  return db.select().from(documents).where(and(eq(documents.type, 'file'), like(documents.parentId, `${startPath}%`), notLike(documents.relativePath, `%\.excalidraw\.md`)))
 }
 
 
-
+// ignore path pattern
 export const getDocumentsByTags = (tags: string[]) => {
-  return  db.select().from(documents).where(and(arrayContains(documents.tags, tags), eq(documents.type, 'file'), like(documents.parentId, `${pathPrefix.blog}%`)))
+  return  db.select().from(documents).where(
+    and(
+      arrayContains(documents.tags, tags),
+      eq(documents.type, 'file'),
+      like(documents.parentId, `${pathPrefix.blog}%`),
+      notLike(documents.relativePath, `%\.excalidraw\.md`)
+    )
+  )
 }
