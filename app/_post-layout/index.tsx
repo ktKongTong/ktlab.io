@@ -1,19 +1,20 @@
 import Header from "@/app/_post-layout/header";
-import Markdown from "@/components/markdown";
 import {CircleArrowUp} from "lucide-react";
 import ClientNavLink from "@/app/_post-layout/NavLink";
 import Toc from "@/app/_post-layout/toc";
 import ScrollToTop from "@/app/_post-layout/scrollToTop";
-import {SSRArticle, SSRArticleWithContent} from "@/interfaces/article";
-import Comments from "@/components/comment/comments";
-import {ClientOnly} from "@/components/client-only";
-import CommentEditor from "@/components/comment/comment-editor";
+import { SSRArticleWithContent} from "@/interfaces/article";
 import Reaction from "@/components/comment/reaction"
 import {PostContextProvider} from "@/app/_post-layout/PostContextProvider";
 import {RawMarkdownRender} from "@/components/markdown/xlog/render";
 import {renderPageContent} from "@/components/markdown/xlog";
 import TocLoader from "@/app/_post-layout/toc-loader";
+import dynamic from "next/dynamic";
+import {Skeleton} from "@/components/ui/skeleton";
 
+const LzyFooter = dynamic(() => import('./footer'), {
+  loading: ()=> <Skeleton className={'w-full h-full'}/>
+})
 
 type  PostLayoutProps = SSRArticleWithContent & {
   withCommentArea?: boolean;
@@ -42,29 +43,18 @@ export default function PostLayout(
     <PostContextProvider contentId={id}>
       <div className={'flex justify-between space-x-2 slide-in-from-bottom-2 grow mx-auto'}>
         <main className={'flex flex-col px-4 max-w-4xl grow mx-auto'}>
-          <article>
-            {withHeader &&
-                <Header
-                    title={title}
-                    createdAt={createdAt}
-                    wordCount={wordCount}
-                    tags={tags.map(tag => ({name: tag, href: `/blog/categories/${tag}`}))}
-                />
-            }
-
-              <RawMarkdownRender content={content}/>
-          </article>
-          {
-            withCommentArea &&
-              <div>
-                  <ClientOnly>
-                      <div className={'hidden lg:block'} >
-                          <CommentEditor documentId={id}/>
-                      </div>
-                      <Comments documentId={id}/>
-                  </ClientOnly>
-              </div>
+          {withHeader &&
+              <Header
+                  title={title}
+                  createdAt={createdAt}
+                  wordCount={wordCount}
+                  tags={tags.map(tag => ({name: tag, href: `/blog/categories/${tag}`}))}
+              />
           }
+          <article>
+             <RawMarkdownRender content={content}/>
+          </article>
+          <LzyFooter documentId={id} className={'pb-10 pt-5 mt-5 border-t  border-dashed'} />
         </main>
         <aside className={'sticky top-32 hidden lg:flex flex-col max-h-[calc(100vh-96px)] w-[180px] p-2'}>
           {withToc && toc && <TocLoader toc={toc}/>}

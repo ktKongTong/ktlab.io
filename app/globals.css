@@ -278,7 +278,7 @@
 }
 
 .prose .md-table-wrapper {
-  @apply min-w-full rounded-xl text-sm my-7 whitespace-nowrap overflow-auto;
+  @apply min-w-full rounded-xl text-sm my-7 whitespace-normal overflow-auto;
   @apply border border-border;
 }
 

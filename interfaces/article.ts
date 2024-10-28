@@ -1,7 +1,6 @@
 
 export interface SSRArticle {
   id: string,
-
   title: string
   excerpt?: string
   tags: string[]

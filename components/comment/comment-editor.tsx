@@ -35,7 +35,7 @@ export default function CommentEditor(
           </TabsList>
           <TabsContent value={'edit'}>
             <Textarea
-              className={`w-full h-full rounded-lg min-h-60 resize-none`}
+              className={`w-full h-full rounded-lg min-h-60 resize-none border-dashed`}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Write your comment here."
               value={input}
@@ -44,7 +44,7 @@ export default function CommentEditor(
 
           </TabsContent>
           <TabsContent value={'preview'}>
-            <div className={'p-2 border rounded-lg grow overflow-y-scroll border-secondary h-60'}>
+            <div className={'p-2 border border-dashed rounded-lg grow overflow-y-scroll h-60'}>
               <RawMarkdownRender content={input}/></div>
           </TabsContent>
         </Tabs>

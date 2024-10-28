@@ -31,6 +31,9 @@ const res = await db.select().from(documents)
   return null
 }
 
+
+//add ignore path pattern
+
 export const getAllDocumentWithFolders = () => {
   return  db.select().from(documents).execute()
 }
@@ -42,6 +45,8 @@ export const getAllDocumentWithoutFolder = () => {
 export const getAllDocumentWithoutFolderByStartPath = (startPath:string) => {
   return  db.select().from(documents).where(and(eq(documents.type, 'file'), like(documents.parentId, `${startPath}%`)))
 }
+
+
 
 export const getDocumentsByTags = (tags: string[]) => {
   return  db.select().from(documents).where(and(arrayContains(documents.tags, tags), eq(documents.type, 'file'), like(documents.parentId, `${pathPrefix.blog}%`)))

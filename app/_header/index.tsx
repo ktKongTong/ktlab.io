@@ -6,7 +6,7 @@ import ThemeSwitch from "@/app/_header/theme-switch";
 import NavItem, {NavItemProps} from "@/app/_header/nav-item";
 import Toc from "@/app/_post-layout/toc";
 import useToc from "@/hooks/use-toc";
-import {CatalogItem} from "@/app/knowledge/catalog";
+import {CatalogItem} from "@/app/knowledge/catalog-item";
 import {useMeasure} from "@uidotdev/usehooks";
 import {LogIn, Menu, UserRoundPlus} from "lucide-react";
 import {motion, AnimatePresence} from "framer-motion";
