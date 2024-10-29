@@ -3,9 +3,9 @@ import kv from "@/lib/kv";
 import {kvKey, R} from "@/app/api/[[...route]]/_utils";
 import {getGEO} from "@/app/api/[[...route]]/_middleware";
 
-const interactionRoute = new Hono();
 
-interactionRoute.get('/api/document/:id/interaction-data',
+const app = new Hono();
+app.get('/api/document/:id/interaction-data',
 async (c)=> {
   const {id}= c.req.param()
   const  [reactions, view, lastVisitor] = await kv.mget<[Record<string, number>, number, string]>(kvKey.postReaction(id),kvKey.postView(id),kvKey.postLastVisitor(id))
@@ -17,7 +17,7 @@ async (c)=> {
   })
 })
 
-interactionRoute.get('/api/document/:id/interaction/report',
+app.get('/api/document/:id/interaction/report',
 async (c)=> {
   const {id}= c.req.param()
   const geo = getGEO(c)
@@ -26,4 +26,4 @@ async (c)=> {
   return R.success(c,{})
 })
 
-export {interactionRoute}
+export { app as interactionRoute}

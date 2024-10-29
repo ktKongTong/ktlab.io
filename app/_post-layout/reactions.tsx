@@ -24,11 +24,11 @@ export default function Reactions(
       reactions.map(({name, count}) => <MemorizedReaction key={name} count={count} onAdd={()=>addReactionAsync(name)}>{reactionDict[name]}</MemorizedReaction>)
     }
     <Popover>
-      <PopoverTrigger><SmilePlus className={'w-4 h-4'} /></PopoverTrigger>
-      <PopoverContent className={'max-w-40 overflow-hidden'} >
-        <ul className={'grid gap-2 grid-cols-5'}>
+      <PopoverTrigger><SmilePlus className={'w-6 h-6 '} /></PopoverTrigger>
+      <PopoverContent className={'max-w-48 overflow-hidden'} >
+        <ul className={'grid gap-2 grid-cols-4'}>
           {
-            allReactions.map(({name, node}) => <div key={name} onClick={()=>addReactionAsync(name)} className={'p-1 cursor-pointer border-dashed rounded-xl'}>{node}</div>)
+            allReactions.map(({name, node}) => <li key={name} onClick={()=>addReactionAsync(name)} className={'p-1 cursor-pointer border-dashed rounded-xl'}>{node}</li>)
           }
         </ul>
       </PopoverContent>

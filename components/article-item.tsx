@@ -27,9 +27,9 @@ export default function ArticleItem(
         <div className={'text-xl inline-flex w-fit relative font-medium cursor-pointer'}>
           <Link href={slug} className={'animate-underline'}>{title}</Link>
         </div>
-        <div className={'py-2 flex items-center space-x-4  font-medium text-sm'}>
+        <div className={'py-2 flex flex-wrap *:pr-3 items-center font-medium text-sm'}>
           {
-            createdAt && <div className={'flex items-center justify-between space-x-1'}>
+            createdAt && <div className={'flex items-center space-x-1'}>
                   <Calendar className={'h-3 w-3'}/>
                   <span>{formatTime(createdAt)}</span>
               </div>
@@ -40,7 +40,7 @@ export default function ArticleItem(
           </div>
           {
             tags.length > 0 &&
-              <div className={'flex items-center justify-between space-x-1'}>
+              <div className={'flex items-center space-x-1'}>
                   <TagIcon className={'h-3 w-3'}/>
                   <div className={'space-x-1'}>
                     {tags.map((tag, idx) => <Tag key={idx} href={`/blog/categories/${tag}`}
