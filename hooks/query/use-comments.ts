@@ -25,42 +25,33 @@ const useCommentStore = create<Comments & Action>((set) => ({
   updateReactions:(reactions) => set((state)=>({ ...state,reactions: reactions })),
 }));
 
-export const useComments = () => {
+export const useComments = (contentId: string) => {
   const queryClient = useQueryClient()
   const documentId= useCommentStore(state => state.documentId)
   const updateDocumentId = useCommentStore(state => state.updateDocumentId)
+  if(documentId != contentId){
+    updateDocumentId(contentId)
+  }
   const updateComments = useCommentStore(state => state.updateComments)
   const comments = useCommentStore(state => state.comments)
   const reactions = useCommentStore(state => state.reactions)
   const updateReactions = useCommentStore(state => state.updateReactions)
   // Queries
   const  { status, data, error } = useQuery({
-    queryKey: ['comments', documentId],
+    queryKey: ['comments', contentId],
     queryFn: async () => {
-      const res = await fetch(`/api/document/${documentId}/comment`);
+      const res = await fetch(`/api/document/${contentId}/comment`);
       return await res.json();
     }
   })
 
-  const  { status:reactionStatus, data:reactionData, error:reactionError } = useQuery({
-    queryKey: ['reactions', documentId],
-    queryFn: async () => {
-      const res = await fetch(`/api/document/${documentId}/reactions`);
-      return await res.json();
-    }
-  })
-  useEffect(()=> {
-    if(reactionData?.data) {
-      updateReactions(reactionData.data)
-    }
-  },[updateReactions,reactionData])
   useEffect(()=> {
     if(data) {
       updateComments(data.data)
     }
   },[updateComments,data])
   const { isSignedIn, user, isLoaded } = useUser();
-  const {mutate:addComment} = useMutation({
+  const {mutate:addComment, mutateAsync: addCommentAsync} = useMutation({
     mutationFn: async ({comment, parentId}:{comment: string, parentId?:string})=> {
       if(!isSignedIn) {
         throw Error("you are not sign in");
@@ -84,29 +75,39 @@ export const useComments = () => {
     },
   })
 
-  const {mutate:addReaction} = useMutation({
+  const {mutate:addReaction, mutateAsync: addReactionAsync} = useMutation({
     mutationFn: async (type:string)=> {
-      let reaction = reactions
-      if(reaction[type]) {
-        reaction[type] = reaction[type] + 1;
-      }else {
-        reaction[type] = 1
-      }
-      updateReactions({ ...reaction })
+      // let reaction = reactions
+      // if(reaction[type]) {
+      //   reaction[type] = reaction[type] + 1;
+      // }else {
+      //   reaction[type] = 1
+      // }
+      // updateReactions({ ...reaction })
       return fetch(`/api/document/${documentId}/reactions?type=${type}`, {
         method: 'PATCH'
       }).then(res=>res.json())
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reactions', documentId] })
+    onMutate: async (type)=> {
+      await queryClient.cancelQueries({ queryKey: ['content-meta', contentId] })
+      // const previousData = queryClient.getQueryData(['content-meta', contentId])
+      // queryClient.setQueryData(['content-meta', contentId], (old:any) => ({...old, data: {...old.data, reactions: {...reactions, [type]: (reactions[type]??0) + 1}}}))
+      // return { previousData }
+    },
+    onError: (err, type, context) => {
+      // queryClient.setQueryData(['interaction-data', contentId], context?.previousData)
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['content-meta', contentId] })
     },
   })
-
 
   return {
     isLoadingMore:status === 'pending',
     addComment,
+    addCommentAsync,
     addReaction,
+    addReactionAsync,
     reactions,
     comments,
     updateDocumentId

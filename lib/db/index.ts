@@ -1,5 +1,5 @@
 import { drizzle } from "drizzle-orm/postgres-js";
-import { eq, or, and, like, arrayContains, notLike} from "drizzle-orm";
+import {eq, or, and, like, arrayContains, notLike, sql} from "drizzle-orm";
 import postgres from "postgres";
 import {documents, DocumentSelect} from "@/lib/db/schema";
 import DB from "@/lib/db/db";
@@ -31,6 +31,17 @@ const res = await db.select().from(documents)
   return null
 }
 
+export const getDocumentByIdOrSlug = async (id: string):Promise<DocumentSelect|null> => {
+  const res = await db.select().from(documents)
+    .where(and(
+      eq(documents.type, 'file'),
+      or(eq(documents.id, id), sql`${documents.mdMetadata}->>'slug' = '${id}'`)
+    ))
+  if(res.length > 0) {
+    return res[0]
+  }
+  return null
+}
 
 //add ignore path pattern
 

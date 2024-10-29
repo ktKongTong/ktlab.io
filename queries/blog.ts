@@ -13,7 +13,15 @@ export async function getBlogPostById(id: string): Promise<SSRArticleWithContent
   }
   const content = await resp.text()
   return {
-    ...res,
+    id: res.id,
+    title: res.title,
+    excerpt: res.mdMetadata?.excerpt ?? "",
+    slug: res.mdMetadata?.slug ?? res.relativePath,
+    createdAt: res.createdAt.toString(),
+    lastModifiedAt: res.lastModifiedAt.toString(),
+    timeliness: res.mdMetadata?.timeliness ?? false,
+    wordcount: res.mdMetadata?.wordcount ?? 0,
+    tags: res.tags ?? [],
     content
   }
 }
@@ -25,11 +33,12 @@ export async function getBlogPostsByCategory(categoryId: string): Promise<SSRArt
     id: it.id,
     title: it.title,
     slug: `/blog/`+it.id,
-    excerpt: it.excerpt ?? "",
+    excerpt: it.mdMetadata?.excerpt ?? "",
     createdAt: it.createdAt.toString(),
     lastModifiedAt: it.lastModifiedAt.toString(),
+    timeliness: it.mdMetadata?.timeliness ?? false,
     tags: it.tags,
-    wordCount: 0,
+    wordcount: it.mdMetadata?.wordcount ?? 0,
   }))
 }
 
@@ -39,11 +48,12 @@ export async function getBlogPostMetas():Promise<SSRArticle[]> {
     id: it.id,
     title: it.title,
     slug: `/blog/`+it.id,
-    excerpt: it.excerpt ?? '',
+    excerpt: it.mdMetadata?.excerpt ?? '',
     createdAt: it.createdAt.toString(),
     lastModifiedAt: it.lastModifiedAt.toString(),
+    timeliness: it.mdMetadata?.timeliness ?? false,
     tags: it.tags,
-    wordCount: 0,
+    wordcount: it.mdMetadata?.wordcount ?? 0,
   }))
   return res
 }

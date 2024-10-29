@@ -2,14 +2,15 @@
 export interface SSRArticle {
   id: string,
   title: string
-  excerpt?: string
   tags: string[]
-  createdAt?: string
-  lastModifiedAt?: string
-  wordCount: number,
+  wordcount: number,
   slug: string,
+  excerpt?: string
   image?: string
   path?: string,
+  timeliness?:boolean,
+  createdAt: string
+  lastModifiedAt: string
 }
 
 export type SSRArticleWithContent = SSRArticle & {

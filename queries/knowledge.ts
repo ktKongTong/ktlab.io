@@ -13,11 +13,12 @@ export async function getKnowledgeBaseByPath(path: string): Promise<SSRArticleWi
     return {
       id: res.id,
       title: res.title,
-      excerpt: res.excerpt ?? "",
-      slug: res.relativePath,
+      excerpt: res.mdMetadata?.excerpt ?? "",
+      slug: res.mdMetadata?.slug ?? res.relativePath,
       createdAt: res.createdAt.toString(),
       lastModifiedAt: res.lastModifiedAt.toString(),
-      wordCount: 0,
+      wordcount: res.mdMetadata?.wordcount ?? 0,
+      timeliness: res.mdMetadata?.timeliness ?? false,
       tags: res.tags ?? [],
       content,
     }

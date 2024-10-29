@@ -1,10 +1,13 @@
 'use client'
 import {useComments} from "@/hooks/query/use-comments";
-import CommentDialog from "@/components/comment/comment-dialog";
+import CommentDialog from "./comment-dialog";
 import {MessageCircleMore, ThumbsDown, ThumbsUp} from "lucide-react";
+import {useCurrentPostId} from "@/app/_post-layout/use-post";
 
 export default function Reaction({id}: {id: string}) {
-  const { reactions, addReaction } = useComments()
+  const { contentId } = useCurrentPostId()
+  const { reactions, addReaction } = useComments(contentId)
+
   return (
     <div className={'mt-auto flex flex-col w-fit'}>
       <CommentDialog documentId={id}>

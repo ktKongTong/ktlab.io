@@ -1,21 +1,20 @@
 'use client'
 import {useComments} from "@/hooks/query/use-comments";
 import {HTMLProps} from "react";
-import {cn, formatTime} from "@/lib/utils";
+import {cn, formatTime, relativeTime} from "@/lib/utils";
 import {RawMarkdownRender} from "@/components/markdown/xlog/render";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {LayoutGroup, motion} from "framer-motion";
 import {Skeleton} from "@/components/ui/skeleton";
 
 export default function Comments({
-  documentId,
+  contentId,
   className,
   ...rest
 }:{
-  documentId:string,
+  contentId:string,
 }& HTMLProps<HTMLDivElement>) {
-  const {isLoadingMore, comments, updateDocumentId} = useComments()
-  updateDocumentId(documentId)
+  const { isLoadingMore, comments } = useComments(contentId)
   return (
     <div className={className} {...rest}>
       {
@@ -80,19 +79,18 @@ function CommentItem (
 }:CommentProps & HTMLProps<HTMLDivElement>) {
   return (
     <div className={'flex'}>
-      <Avatar className={'w-10 h-10 rounded-full mx-2 drop-shadow-md translate-y-2'}>
+      <Avatar className={'w-8 h-8 rounded-full mx-2 drop-shadow-md translate-y-2'}>
         <AvatarImage src={userInfo.imageUrl}/>
         <AvatarFallback >{userInfo.name}</AvatarFallback>
       </Avatar>
       <div className={'text-sm font-medium'}>
-        {parentId && <div>
-        </div>}
-        <div className={'space-x-2 flex items-center justify-start mb-1'}>
+        {parentId && <div></div>}
+        <div className={'space-x-2 flex items-center justify-start mb-1  text-xs'}>
           <span>{userInfo.name}</span>
-          <span>{formatTime(createAt)}</span>
+          <span>{relativeTime(createAt)}</span>
         </div>
 
-        <div className={cn('relative p-2 rounded-lg bg-secondary text-secondary-foreground w-fit', className)} {...rest}>
+        <div className={cn('relative px-2 py-0.5 rounded-lg bg-secondary text-secondary-foreground w-fit', className)} {...rest}>
           {
             version > 1 && <div className={'absolute'}>
               已编辑

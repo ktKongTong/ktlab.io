@@ -15,9 +15,8 @@ export default function CommentEditor(
   parentId?:string
 }
 ) {
-  const {addComment, comments, updateDocumentId} = useComments()
+  const {addComment, comments} = useComments(documentId)
   const [input, setInput] = useState("");
-  updateDocumentId(documentId)
   const [disabled, setDisabled] = useState<boolean>(false);
   const handleDataSubmit = useCallback(async (data: string)=> {
     setDisabled(true)
@@ -35,7 +34,7 @@ export default function CommentEditor(
           </TabsList>
           <TabsContent value={'edit'}>
             <Textarea
-              className={`w-full h-full rounded-lg min-h-60 resize-none border-dashed`}
+              className={`w-full h-full rounded-lg max-h-60 min-h-16 resize-none border-dashed`}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Write your comment here."
               value={input}
@@ -44,8 +43,9 @@ export default function CommentEditor(
 
           </TabsContent>
           <TabsContent value={'preview'}>
-            <div className={'p-2 border border-dashed rounded-lg grow overflow-y-scroll h-60'}>
-              <RawMarkdownRender content={input}/></div>
+            <div className={'p-2 border border-dashed rounded-lg grow overflow-y-scroll max-h-60 min-h-16'}>
+              <RawMarkdownRender content={input}/>
+            </div>
           </TabsContent>
         </Tabs>
         <div className={'justify-self-end self-end items-end space-x-2'}>

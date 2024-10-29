@@ -28,7 +28,7 @@ export default function convertToTree(docs: DocumentSelect[],rootId:string|null)
         createdAt: it.createdAt,
         href: `/knowledge/${it.relativePath}`,
         lastModifiedAt: it.lastModifiedAt,
-        wordCount: 0,
+        wordcount: it.mdMetadata?.wordcount ?? 0,
         tags: it.tags,
         children: []
       }))
@@ -50,7 +50,7 @@ export default function convertToTree(docs: DocumentSelect[],rootId:string|null)
       cur.lastModifiedAt = curIndex.lastModifiedAt
       cur.tags = curIndex.tags
       cur.href =  `/knowledge/${curIndex.relativePath}`
-      cur.wordCount = 0
+      cur.wordcount = curIndex.mdMetadata?.wordcount ?? 0
     }else {
       cur.href = undefined
     }

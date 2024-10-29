@@ -1,5 +1,5 @@
-import {Calendar, EyeIcon, Hourglass, TagIcon} from "lucide-react";
-import {formatTime} from "@/lib/utils";
+import {Calendar, Clock, EyeIcon, Hourglass, PencilLine, TagIcon, TriangleAlert} from "lucide-react";
+import {dayDiff, formatTime, relativeTime} from "@/lib/utils";
 import Tag from "@/components/tags";
 import {View} from "@/app/_post-layout/view";
 
@@ -11,54 +11,63 @@ interface HeaderProps {
   title: string;
   createdAt?: string;
   lastModifiedAt?: string;
-  wordCount: number;
-  description?: string;
+  timeliness?: boolean,
+  wordcount: number;
+  excerpt?: string;
   tags: Tag[];
 }
 
 
 export default function Header({
-  title,
-  wordCount,
-  createdAt,
-  description,
-  tags
+title,
+wordcount,
+createdAt,
+lastModifiedAt,
+timeliness = false,
+excerpt,
+tags
 }:HeaderProps) {
+  const showLastModifiedAt = true
+  //
+  const diffDay = -dayDiff(lastModifiedAt!)
+  const warningText = (timeliness && (-diffDay) > 45) ?
+    <span className={'inline-flex gap-1 items-center'}>
+      <TriangleAlert className={'w-3 h-3'}/><span>本文最后修改于{diffDay}天前，请注意时效性</span>
+    </span> :
+    <span className={'inline-flex gap-1 items-center'}>
+      <Clock className={'w-3 h-3'}/><span>最后修改于{relativeTime(lastModifiedAt!)}</span>
+    </span>
+
   return (
     <>
     <div>
       <h1 className={'text-4xl font-bold'}>{title}</h1>
-      <div className={'flex space-x-4 pt-4  text-sm font-medium'}>
-        <div className={'py-2 flex items-center space-x-4  font-medium text-sm'}>
+      <div className={'flex pt-4  text-sm font-medium justify-between md:flex-row flex-col'}>
+        <div className={'py-2 flex items-center gap-2  font-medium text-sm flex-wrap'}>
           {
-            createdAt && <div className={'flex items-center justify-between space-x-1'}>
-                  <Calendar className={'h-4 w-4'}/>
-                  <span>{formatTime(createdAt)}</span>
-              </div>
+            createdAt && <div className={'flex items-center justify-between space-x-1'}><Calendar className={'h-3 w-3'}/><span>{formatTime(createdAt)}</span></div>
           }
+          <div className={'flex space-x-1 items-center'}>
+            <PencilLine className={'h-3 w-3'}/>
+            <span>{wordcount} 字</span>
+          </div>
+          <div className={'flex space-x-1 items-center'}>
+            <EyeIcon className={'h-3 w-3'}/>
+            <View />
+          </div>
           {
             tags.length > 0 &&
               <div className={'flex items-center justify-between space-x-1'}>
-                  <TagIcon className={'h-4 w-4'}/>
+                  <TagIcon className={'h-3 w-3'}/>
                   <div className={'space-x-1'}>
                     {tags.map((tag, idx) => <Tag key={idx} href={tag.href} className={'px-0'}>{tag.name}</Tag>)}
                   </div>
               </div>
           }
-          <div className={'flex space-x-1 items-center'}>
-            <Hourglass className={'h-4 w-4'}/>
-            <span>{wordCount} 字</span>
-          </div>
-          {/*use client, and combine with use metadata("post_id")*/}
-          <div className={'flex space-x-1 items-center'}>
-            <EyeIcon className={'h-4 w-4'}/>
-            <span><View /></span>
-          </div>
         </div>
-        {
-          description && <div
-                className={'text-sm font-medium inline-flex justify-center items-center space-x-0.5'}>{description}</div>
-        }
+        <div className={'relative flex items-center'}>
+          { showLastModifiedAt && <>{warningText}</> }
+        </div>
       </div>
     </div>
     </>

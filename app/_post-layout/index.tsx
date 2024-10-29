@@ -4,8 +4,7 @@ import ClientNavLink from "@/app/_post-layout/NavLink";
 import Toc from "@/app/_post-layout/toc";
 import ScrollToTop from "@/app/_post-layout/scrollToTop";
 import { SSRArticleWithContent} from "@/interfaces/article";
-import Reaction from "@/components/comment/reaction"
-import {PostContextProvider} from "@/app/_post-layout/PostContextProvider";
+import {PostContextProvider} from "@/app/_post-layout/post-context-provider";
 import {RawMarkdownRender} from "@/components/markdown/xlog/render";
 import {renderPageContent} from "@/components/markdown/xlog";
 import TocLoader from "@/app/_post-layout/toc-loader";
@@ -28,12 +27,12 @@ export default function PostLayout(
   id,
   title,
   createdAt,
+  lastModifiedAt,
   tags,
   content,
-  wordCount,
-  withCommentArea = false,
+  wordcount,
+  timeliness,
   withToc = true,
-  withReactionArea = true,
   withHeader = true,
 }:PostLayoutProps) {
 
@@ -47,7 +46,9 @@ export default function PostLayout(
               <Header
                   title={title}
                   createdAt={createdAt}
-                  wordCount={wordCount}
+                  wordcount={wordcount}
+                  lastModifiedAt={lastModifiedAt}
+                  timeliness={timeliness}
                   tags={tags.map(tag => ({name: tag, href: `/blog/categories/${tag}`}))}
               />
           }
@@ -64,15 +65,8 @@ export default function PostLayout(
           </ClientNavLink>
           <ScrollToTop className={'text-sm font-medium mt-4 flex items-center space-x-1'}>
             <span>scroll to top</span>
-            <span><CircleArrowUp className={'h-4 w-4'}/></span>
+            <CircleArrowUp className={'h-4 w-4'}/>
           </ScrollToTop>
-          {
-            withReactionArea && <>
-                  <div className={'pb-20 mt-auto'}>
-                      <Reaction id={id}/>
-                  </div>
-              </>
-          }
         </aside>
       </div>
     </PostContextProvider>
