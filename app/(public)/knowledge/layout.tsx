@@ -1,7 +1,7 @@
 import {getKnowledgeBaseCatalog} from "@/queries/knowledge";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CatalogLoader } from "@/app/knowledge/catalog-loader";
+import { CatalogLoader } from "@/app/(public)/knowledge/catalog-loader";
 
 
 

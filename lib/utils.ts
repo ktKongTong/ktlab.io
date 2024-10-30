@@ -28,3 +28,10 @@ export const formatTime = (t: string, format: string = 'YYYY-MM-DD') => {
 export const formatRelativeTime = (time: any) => {
   return dayjs().to(dayjs(time))
 }
+
+export const truncate = (str: string, length: number = 20) => {
+  if (str.length <= length) {
+    return str
+  }
+  return str.slice(0, length) + "..."
+}

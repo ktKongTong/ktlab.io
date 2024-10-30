@@ -1,6 +1,6 @@
 import {CatalogItem} from "@/interfaces/catalog-item";
 import {use} from "react";
-import Catalog from "@/app/knowledge/catalog";
+import Catalog from "./catalog";
 
 export function CatalogLoader(
   {

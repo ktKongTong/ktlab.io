@@ -1,7 +1,7 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import {eq, or, and, like, arrayContains, notLike, sql} from "drizzle-orm";
 import postgres from "postgres";
-import {documents, DocumentSelect} from "@/lib/db/schema";
+import {comment, documents, DocumentSelect} from "@/lib/db/schema";
 import DB from "@/lib/db/db";
 import {pathPrefix} from "@/config";
 

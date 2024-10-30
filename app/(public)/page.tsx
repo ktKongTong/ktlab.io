@@ -21,7 +21,7 @@ export default async function Home() {
     className: 'bg-zinc-700'
   },{
     name: 'rss',
-    link: '/feed',
+    link: '/feed.xml',
     c: RssIcon,
     className: 'bg-yellow-500'
   },{

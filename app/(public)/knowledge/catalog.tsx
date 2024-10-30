@@ -2,7 +2,7 @@
 import React, {HTMLProps, useEffect } from "react";
 import {cn} from "@/lib/utils";
 import useToc from "@/hooks/use-toc";
-import {CatalogItem, CatalogItemProps} from "@/app/knowledge/catalog-item";
+import {CatalogItem, CatalogItemProps} from "./catalog-item";
 
 export default function Catalog({
   catalogs,

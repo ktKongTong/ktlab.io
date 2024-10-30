@@ -11,14 +11,19 @@ export const CommentDtoSchema = z.object({
     text: z.string()
   }),
   userInfo: z.object({
-    name: z.string(),
-    email: z.string(),
-    address: z.string()
+    imageUrl: z.string(),
+    name: z.string().nullish(),
+    email: z.string()
   }),
   parentId: z.string().nullish(),
-  createdAt: z.string()
+  createdAt: z.union([z.string().date(), z.date().nullish()])
 })
 
+export const CommentWithContentInfoDtoSchema = CommentDtoSchema.merge(z.object({
+  documentInfo: z.any()
+}))
+
+export type CommentWithDocumentDto = z.infer<typeof CommentWithContentInfoDtoSchema>
 export type CommentDto = z.infer<typeof CommentDtoSchema>
 const userInfoSchema = z.object({
   name: z.string(),

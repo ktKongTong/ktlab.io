@@ -54,14 +54,14 @@ export const commentStateEnum = pgEnum('CommentState', ['NORMAL', 'BLOCKED', 'DE
 
 export const comment = pgTable('comment', {
   id: varchar('id').notNull(),
-  body: json("body").notNull(),
+  body: json("body").$type<{text: string;paragraphId?: string;inlineParagraphId?: string}>().notNull(),
   version: integer("version").notNull(),
   documentId: varchar("document_id", { length: 255 }).notNull(),
   state: commentStateEnum('state').notNull().default("NORMAL"),
   authorId: varchar("author_id").notNull(),
-  userInfo: json('userInfo').notNull(),
+  userInfo: json('userInfo').$type<{imageUrl: string, name?: string, email: string}>().notNull(),
   parentId: varchar("parent_id"),
-  createAt: timestamp('createAt', { withTimezone: true }).defaultNow(),
+  createdAt: timestamp('create_at', { withTimezone: true }).defaultNow(),
   // lastModifiedAt: timestamp('lastModifiedAt', {withTimezone: true}).defaultNow()
 }, (comment) => {
   return {

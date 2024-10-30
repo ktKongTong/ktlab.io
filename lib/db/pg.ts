@@ -29,7 +29,7 @@ export default class DrizzlePGDB<TSchema extends Record<string, unknown>> implem
     const res = await
       this.db.query.comment.findMany({
         where:eq(this.commentTable.documentId, documentId),
-        orderBy: desc(this.commentTable.createAt),
+        orderBy: desc(this.commentTable.createdAt),
       })
     return (res as any as CommentDto[])
   }
