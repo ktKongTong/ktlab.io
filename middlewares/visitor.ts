@@ -1,7 +1,6 @@
 import {MiddlewareFactory} from "@/middlewares/factory";
-import {NextFetchEvent, NextRequest, NextResponse} from "next/server";
-import kv from "@/lib/kv";
-import {kvKey} from "@/app/api/[[...route]]/_utils";
+import { NextFetchEvent, NextRequest } from "next/server";
+import kv, {kvKey} from "@/lib/kv";
 
 export const withVisitor: MiddlewareFactory = (next) => {
   return async(request: NextRequest, _next: NextFetchEvent) => {

@@ -15,7 +15,7 @@ const app = new Hono()
 app
 .use('*',cors({origin:'*'}))
 .use(DBMiddleware())
-  .use(GEOMiddleware())
+.use(GEOMiddleware())
 .on(privilegedMethods, '/*', clerkMiddleware({
   publishableKey: process.env.CLERK_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
   secretKey: process.env.CLERK_SECRET_KEY,

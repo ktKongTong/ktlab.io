@@ -10,8 +10,9 @@ import relative from 'dayjs/plugin/relativeTime'
 import zh from 'dayjs/locale/zh-cn'
 dayjs.extend(relative)
 dayjs.locale(zh)
-export const isServerSide = () => typeof window === "undefined"
 
+export const isServerSide = () => typeof window === "undefined"
+export const isProd = () => process.env.NODE_ENV === "production"
 export const relativeTime = (t: string) => {
   return dayjs(t)
     .fromNow()

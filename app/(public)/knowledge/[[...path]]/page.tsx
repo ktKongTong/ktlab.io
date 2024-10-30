@@ -5,8 +5,6 @@ import {getAllDocumentWithoutFolderByStartPath} from "@/lib/db";
 import NotFound from "@/app/not-found";
 import {unstable_cache} from "next/cache";
 import {pathPrefix} from "@/config";
-import kv from "@/lib/kv";
-import {kvKey} from "@/app/api/[[...route]]/_utils";
 
 
 const metadata: Metadata = {
