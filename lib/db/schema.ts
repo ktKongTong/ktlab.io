@@ -11,6 +11,7 @@ import {
   index, jsonb
 } from 'drizzle-orm/pg-core';
 import {relations} from "drizzle-orm";
+
 type MDMetadata = {
   excerpt?: string;
   slug?: string;
@@ -27,7 +28,6 @@ export const documents = pgTable('obsidiandocuments', {
   parentId: varchar('parent_id'),
   tags: varchar('tags').array().notNull().default([]),
   type: varchar('type').notNull(),
-  // metadata
   mdMetadata: jsonb('md_metadata').$type<MDMetadata>(),
 })
 
@@ -52,6 +52,8 @@ export const user = pgTable('users', {
 
 export const commentStateEnum = pgEnum('CommentState', ['NORMAL', 'BLOCKED', 'DELETED']);
 
+type userInfo = {imageUrl: string, name?: string, email: string}
+
 export const comment = pgTable('comment', {
   id: varchar('id').notNull(),
   body: json("body").$type<{text: string;paragraphId?: string;inlineParagraphId?: string}>().notNull(),
@@ -59,7 +61,7 @@ export const comment = pgTable('comment', {
   documentId: varchar("document_id", { length: 255 }).notNull(),
   state: commentStateEnum('state').notNull().default("NORMAL"),
   authorId: varchar("author_id").notNull(),
-  userInfo: json('userInfo').$type<{imageUrl: string, name?: string, email: string}>().notNull(),
+  userInfo: json('userInfo').$type<userInfo>().notNull(),
   parentId: varchar("parent_id"),
   createdAt: timestamp('create_at', { withTimezone: true }).defaultNow(),
   // lastModifiedAt: timestamp('lastModifiedAt', {withTimezone: true}).defaultNow()

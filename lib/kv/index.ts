@@ -9,12 +9,12 @@ const redis = new Redis({
 const wrapEnv = (key: string) => isProd() ? `${key}:prod` : `${key}:dev`
 
 export const kvKey = {
-  postMeta: (id:string)=> wrapEnv(`ktlab.io:document:meta:${id}`),
-  postReaction: (id:string)=> wrapEnv(`ktlab.io:document:reaction:${id}`),
-  postView: (id:string)=> wrapEnv(`ktlab.io:document:view:${id}`),
-  postLastVisitor: (id:string)=> wrapEnv(`ktlab.io:document:last-visitor:${id}`),
-  siteLastVisitor: wrapEnv(`ktlab.io:last-visitor`),
-  siteView: wrapEnv(`ktlab.io:view`),
+  postReaction: (id:string)=> wrapEnv(`ktlab.io:post:reaction:${id}`),
+  postView: (id:string)=> wrapEnv(`ktlab.io:post:view:${id}`),
+  postLastVisitor: (id:string)=> wrapEnv(`ktlab.io:post:last-visitor:${id}`),
+  siteLastVisitor: wrapEnv(`ktlab.io:site:last-visitor`),
+  siteCurrentVisitor: wrapEnv(`ktlab.io:site:current-visitor`),
+  siteView: wrapEnv(`ktlab.io:site:view`),
 }
 
 export default redis;
