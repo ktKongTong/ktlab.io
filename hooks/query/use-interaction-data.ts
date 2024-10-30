@@ -1,8 +1,9 @@
-import {useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {defaultReaction} from "@/config/reaction";
 import {useEffect} from "react";
 
 export const useContentInteractionData = (id: string)=> {
+  const queryClient = useQueryClient()
   const  { status, data, error, isLoading } = useQuery({
     queryKey: ['content-meta', id],
     queryFn: async () => {
@@ -20,12 +21,29 @@ export const useContentInteractionData = (id: string)=> {
       }
     })
   }
+
+  const {mutate:addReaction, mutateAsync: addReactionAsync} = useMutation({
+    mutationFn: async (type:string)=> {
+      return fetch(`/api/document/${id}/reactions?type=${type}`, {
+        method: 'PATCH'
+      }).then(res=>res.json())
+    },
+    onMutate: async (type)=> {
+      await queryClient.cancelQueries({ queryKey: ['content-meta', id] })
+    },
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['content-meta', id] })
+    },
+  })
+
   return {
     isLoading,
     view: data?.data?.view ?? 0,
     click: data?.data?.view ?? 0,
     lastVisitor: data?.data?.lastVisitor ?? 'Unknown',
-    reactions: reactions
+    reactions: reactions,
+    addReactionAsync,
+    addReaction,
   }
 }
 

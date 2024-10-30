@@ -15,7 +15,7 @@ export default function CommentEditor(
   parentId?:string
 }
 ) {
-  const {addComment, comments} = useComments(documentId)
+  const { addComment } = useComments(documentId)
   const [input, setInput] = useState("");
   const [disabled, setDisabled] = useState<boolean>(false);
   const handleDataSubmit = useCallback(async (data: string)=> {

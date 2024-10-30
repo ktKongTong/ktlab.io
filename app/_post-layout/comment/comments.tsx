@@ -29,9 +29,9 @@ export default function Comments({
             comments?.map((comment, idx) => (
               <motion.li
                 layout={'position'}
-                initial={{x:40, opacity: 0}}
+                initial={{x:20, opacity: 0}}
                 animate={{x: 0, opacity: 1}}
-                exit={{x:40, opacity: 0}}
+                exit={{x:20, opacity: 0}}
                 key={comment.id}
               >
                 <CommentItem {...comment} />

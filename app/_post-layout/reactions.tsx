@@ -1,7 +1,7 @@
+'use client'
 import React, {HTMLProps, useOptimistic, useTransition} from "react";
 import {cn} from "@/lib/utils";
 import {useContentInteractionData} from "@/hooks/query/use-interaction-data";
-import {useComments} from "@/hooks/query/use-comments";
 import {allReactions, reactionDict} from "@/config/reaction";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import { SmilePlus } from "lucide-react";
@@ -15,20 +15,24 @@ export default function Reactions(
     contentId: string
   } & HTMLProps<HTMLDivElement>
 ) {
-  const {reactions} = useContentInteractionData(contentId)
-  const {addReactionAsync} = useComments(contentId)
+  const {reactions, addReactionAsync} = useContentInteractionData(contentId)
   const [open, setOpen] = React.useState(false);
+
+  const addReaction = (name: string)=> {
+    addReactionAsync(name);
+    setOpen(false)
+  }
   return <>
   <div className={cn('flex items-center gap-2 flex-wrap', className)} {...rest}>
     {
       reactions.map(({name, count}) => <MemorizedReaction key={name} count={count} onAdd={()=>addReactionAsync(name)}>{reactionDict[name]}</MemorizedReaction>)
     }
-    <Popover>
+    <Popover open={open} onOpenChange={(s)=>setOpen(s)}>
       <PopoverTrigger><SmilePlus className={'w-6 h-6 '} /></PopoverTrigger>
       <PopoverContent className={'max-w-48 overflow-hidden'} >
         <ul className={'grid gap-2 grid-cols-4'}>
           {
-            allReactions.map(({name, node}) => <li key={name} onClick={()=>addReactionAsync(name)} className={'p-1 cursor-pointer border-dashed rounded-xl'}>{node}</li>)
+            allReactions.map(({name, node}) => <li key={name} onClick={()=> addReaction(name)} className={'p-1 cursor-pointer border-dashed rounded-xl'}>{node}</li>)
           }
         </ul>
       </PopoverContent>
@@ -55,7 +59,7 @@ function Reaction(
   function onClick () {
     if(!isPending) {
       startTransition(async ()=> {
-        addOptimistic(count);
+        addOptimistic(optimisticCount);
         await onAdd()
       })
     }
