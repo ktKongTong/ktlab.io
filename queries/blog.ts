@@ -4,8 +4,8 @@ import {getAllDocumentWithoutFolder, getDocumentById, getDocumentsByTags} from "
 
 
 
-export async function getBlogPostById(id: string): Promise<SSRArticleWithContent> {
-  const res = await getDocumentById(id) as any
+export async function getBlogPostById(id: string): Promise<SSRArticleWithContent | null> {
+  const res = await getDocumentById(id)
   const resp = await fetch(`${Constants().RESOURCE_URL}/${res.relativePath}`)
 
   if(resp.status >= 300) {
@@ -29,6 +29,7 @@ export async function getBlogPostById(id: string): Promise<SSRArticleWithContent
 
 export async function getBlogPostsByCategory(categoryId: string): Promise<SSRArticle[]> {
   const posts = await getDocumentsByTags([categoryId])
+  // DocumentDBO to SSRArticle
   return posts.map((it,idx)=> ({
     id: it.id,
     title: it.title,

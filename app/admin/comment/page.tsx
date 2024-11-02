@@ -4,7 +4,7 @@ import {Label} from "@/components/ui/label";
 import {FileText, MessageCircleMore, PencilLine} from "lucide-react";
 import {getCommentStatistic} from "@/lib/db/statistic";
 import CommentsTable from "@/app/admin/comment/comments-table";
-import {CommentWithDocumentDto} from "@/interfaces/dbo";
+import { CommentWithDocumentVO } from "@/interfaces/vo";
 import {getRecentComments} from "@/lib/db/comment";
 
 //
@@ -37,7 +37,7 @@ const DashboardCardItem = (
 
 export default async function AdminCommentPage() {
   const res = await getCommentStatistic()
-  const comments:CommentWithDocumentDto[] = await getRecentComments()
+  const comments = await getRecentComments()
   return <>
     <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
       <SidebarTrigger className="-ml-1"/>

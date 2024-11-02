@@ -6,7 +6,7 @@ import {getDB} from "@/app/api/[[...route]]/_middleware/db";
 import {commentInsertVOSchema} from "@/interfaces/vo";
 import {z} from "zod";
 
-const userInfoSchema = z.object({
+const clerkUserInfoSchema = z.object({
   imageUrl: z.string().url(),
   email: z.string().email(),
   name: z.string()
@@ -15,7 +15,7 @@ const userInfoSchema = z.object({
 declare module 'hono' {
   interface ContextVariableMap {
     userId: string|undefined
-    userInfo: z.infer<typeof userInfoSchema>
+    userInfo: z.infer<typeof clerkUserInfoSchema>
   }
 }
 

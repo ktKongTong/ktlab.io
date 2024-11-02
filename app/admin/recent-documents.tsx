@@ -1,17 +1,15 @@
-import {CommentWithDocumentDto} from "@/interfaces/dbo";
+
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
-import {Label} from "@/components/ui/label";
 import Link from "@/components/link";
 import {formatTime, truncate} from "@/lib/utils";
-import {DocumentSelect} from "@/lib/db/schema";
 import {TagIcon} from "lucide-react";
+import {DocumentVO} from "@/interfaces/vo";
 
 export default function RecentDocuments(
   {
     documents
   }:{
-    documents: DocumentSelect[];
+    documents: DocumentVO[];
   }) {
   return  <Table>
     <TableHeader>

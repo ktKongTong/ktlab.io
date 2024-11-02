@@ -1,7 +1,7 @@
 'use client'
 
 
-import {CommentDto, CommentWithDocumentDto} from "@/interfaces/dbo";
+import { CommentWithDocumentVO } from "@/interfaces/vo";
 import {
   Table,
   TableBody,
@@ -21,7 +21,7 @@ export default function RecentComments(
 {
   comments
 }:{
-  comments: CommentWithDocumentDto[];
+  comments: CommentWithDocumentVO[];
 }) {
   return  <Table>
     <TableHeader>

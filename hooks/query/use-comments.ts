@@ -1,59 +1,45 @@
 import {create} from "zustand";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {useEffect} from "react";
 import {useUser} from "@clerk/nextjs";
+import { CommentVO } from "@/interfaces/vo";
 
-type Comments = {
-  documentId?: string,
-  comments: any[],
-  reactions: Record<string, number>
-}
+// type CommentItem = CommentVO & {
+//   sending?: boolean
+// }
 
-interface Comment {
-  contentId: string,
-  comments: any[],
-// paging
-}
+// interface Comments {
+//   contentId: string,
+//   comments: CommentItem[],
+// // paging
+// }
 // id to comments
 // type CommentStore = Record<string, Comments>
-
-type Action = {
-  updateDocumentId: (documentId?: string) => void
-  updateComments: (comments?: any[]) => void
-  updateReactions: (reactions: Record<string, number>) => void
-}
-
-const useCommentStore = create<Comments & Action>((set) => ({
-  comments: [],
-  documentId: undefined,
-  reactions: {},
-  updateDocumentId: (id) => set((state) => ({ ...state, documentId: id })),
-  updateComments: (comments) => set((state)=>({ ...state,comments: comments })),
-  addComment: (comment: Comment) => set((state) => ({ comments: [...state.comments,comment] })),
-  updateReactions:(reactions) => set((state)=>({ ...state,reactions: reactions })),
-}));
+//
+// type Action = {
+//   updateDocumentId: (documentId?: string) => void
+//   updateComments: (comments?: any[]) => void
+//   updateReactions: (reactions: Record<string, number>) => void
+// }
+//
+// const useCommentStore = create<Comments & Action>((set) => ({
+//   comments: [] as CommentItem[],
+//   contentId: '',
+//   updateDocumentId: (id) => set((state) => ({ ...state, documentId: id })),
+//   updateComments: (comments) => set((state)=>({ ...state,comments: comments })),
+//   updateReactions:(reactions) => set((state)=>({ ...state,reactions: reactions })),
+//   addComment: (comment: CommentVO) => set((state) => ({ comments: [...state.comments, comment], contentId: state.contentId })),
+// }));
 
 export const useComments = (contentId: string) => {
   const queryClient = useQueryClient()
-  // const documentId= useCommentStore(state => state.documentId)
-  // const updateDocumentId = useCommentStore(state => state.updateDocumentId)
-  // if(documentId != contentId){
-  //   updateDocumentId(contentId)
-  // }
-  const updateComments = useCommentStore(state => state.updateComments)
-
-  const comments = useCommentStore(state => state.comments)
-
-  const  { status, data, error } = useQuery({
+  const  { status, data:comments, error,isLoading } = useQuery<CommentVO[]>({
     queryKey: ['comments', contentId],
     queryFn: async () => {
       const res = await fetch(`/api/document/${contentId}/comment`);
-      return await res.json();
+      return (await res.json()).data;
     },
+    initialData: []
   })
-  useEffect(()=> {
-    if(data) { updateComments(data.data) }
-  },[updateComments,data])
   const { isSignedIn, user, isLoaded } = useUser();
   const {mutate:addComment, mutateAsync: addCommentAsync} = useMutation({
     mutationFn: async ({comment, parentId}:{comment: string, parentId?:string})=> {
@@ -80,7 +66,7 @@ export const useComments = (contentId: string) => {
   })
 
   return {
-    isLoadingMore:status === 'pending',
+    isLoadingMore:isLoading,
     addComment,
     addCommentAsync,
     comments

@@ -1,15 +1,15 @@
 import {db} from "@/lib/db/index";
-import {comment, documents} from "@/lib/db/schema";
+import {comment, documents} from "@/interfaces/schema";
 import {eq} from "drizzle-orm";
-import {z} from "zod";
-import {CommentWithDocumentDto} from "@/interfaces/dbo";
+import {DocumentVO, CommentWithDocumentVO} from "@/interfaces/vo";
 
-export const getRecentComments = (limit: number = 10) => {
-  return db.select(
+export const getRecentComments = async (limit: number = 10):Promise<CommentWithDocumentVO[]> => {
+  const res = await db.select(
     {
       id: comment.id,
       version: comment.version,
       documentId: comment.documentId,
+      state: comment.state,
       authorId: comment.authorId,
       body: comment.body,
       userInfo: comment.userInfo,
@@ -21,10 +21,11 @@ export const getRecentComments = (limit: number = 10) => {
     .innerJoin(documents, eq(comment.documentId, documents.id))
     .orderBy(comment.createdAt)
     .limit(limit)
+  return res
 }
 
 
-export const getRecentDocuments = (limit: number = 10) => {
+export const getRecentDocuments = (limit: number = 10):Promise<DocumentVO[]> => {
   return db.select().from(documents)
     .orderBy(documents.createdAt)
     .limit(limit)

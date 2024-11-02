@@ -1,6 +1,6 @@
-import {DocumentSelect} from "@/lib/db/schema";
+import {DocumentVO} from "@/interfaces/vo";
 
-export default function convertToTree(docs: DocumentSelect[],rootId:string|null) {
+export default function convertToTree(docs: DocumentVO[],rootId:string|null) {
   let root:any = docs.find(doc=> doc.id === rootId);
   root = {
     id: root.id,

@@ -1,20 +1,17 @@
 import postgres from "postgres";
 import {drizzle, PostgresJsDatabase} from "drizzle-orm/postgres-js";
-import {CommentDto, TravellerInsertDBO, UserIDLessTravellerBo} from '@/interfaces/dbo'
-import {CommentInsertBO, CommentUpdateBO} from '@/interfaces/vo'
+import {AnonymousInsertDBO, CommentDBO, CommentInsertDBO, CommentUpdateDBO} from '@/interfaces/dbo'
 import {IDBProvider} from "./db";
-import {user, comment, documents} from './schema'
-import * as table from './schema'
-import {and, desc, eq, isNull, sql} from "drizzle-orm";
+import { user, comment } from '@/interfaces/schema'
+import * as table from '@/interfaces/schema'
+import { desc, eq, sql} from "drizzle-orm";
 import type {DrizzleConfig} from "drizzle-orm/utils";
-import {nanoid} from "nanoid";
+import {uniqueId} from "@/lib/utils";
 
- function uniqueId() {
-  return nanoid(10)
-}
+
 export default class DrizzlePGDB<TSchema extends Record<string, unknown>> implements IDBProvider {
   private readonly client: postgres.Sql
-  db: PostgresJsDatabase<typeof import('./schema')>
+  db: PostgresJsDatabase<typeof import('@/interfaces/schema')>
   private userTable = user
   private commentTable = comment
 
@@ -25,18 +22,18 @@ export default class DrizzlePGDB<TSchema extends Record<string, unknown>> implem
     })
   }
 
-  async queryCommentByDocId(documentId:string,page:number = 1, pageSize:number = 100):Promise<CommentDto[]>{
+  async queryCommentByDocId(documentId:string,page:number = 1, pageSize:number = 100):Promise<CommentDBO[]>{
     const res = await
       this.db.query.comment.findMany({
         where:eq(this.commentTable.documentId, documentId),
         orderBy: desc(this.commentTable.createdAt),
       })
-    return (res as any as CommentDto[])
+    return res
   }
 
-  async insertComment(comment:CommentInsertBO):Promise<any> {
+  async insertComment(comment:CommentInsertDBO):Promise<CommentDBO> {
     const id = uniqueId()
-    const res = await this.db.insert(this.commentTable).values({
+    const [res] = await this.db.insert(this.commentTable).values({
       id:id,
       body: comment.body,
       version: 1,
@@ -45,27 +42,28 @@ export default class DrizzlePGDB<TSchema extends Record<string, unknown>> implem
       authorId: comment.authorId,
       parentId: comment.parentId
     }).returning()
-    return res[0]
+    return res
   }
 
-  async modifyCommentByCommentId(comment:CommentUpdateBO):Promise<void>{
+  async modifyCommentByCommentId(comment:CommentUpdateDBO):Promise<CommentDBO>{
     const [{latestVersion}] = await this.db.select({
       latestVersion: sql<number>`max(${this.commentTable.version})`
     }).from(this.commentTable)
       .where(eq(this.commentTable.id, comment.id))
-    const res = await this.db.insert(this.commentTable)
+    const [res] = await this.db.insert(this.commentTable)
       .values({
         id:comment.id,
         body: comment.body,
-        version: latestVersion+1,
+        version: latestVersion + 1,
         userInfo: comment.userInfo,
         documentId: comment.documentId,
         authorId: comment.authorId,
         parentId: comment.parentId
       }).returning()
+    return res
   }
 
-  async createUserIfNeed(user: TravellerInsertDBO): Promise<string> {
+  async createUserIfNeed(user: AnonymousInsertDBO): Promise<string> {
     const dbUser =  (await this.db
       .select({
         id: this.userTable.id,
@@ -93,12 +91,12 @@ export default class DrizzlePGDB<TSchema extends Record<string, unknown>> implem
     return dbUser.id!
   }
 
-  async queryHistoryByCommentId(commentId:string): Promise<CommentDto[]> {
+  async queryHistoryByCommentId(commentId:string): Promise<CommentDBO[]> {
     const history = await this.db
       .query.comment.findMany({
         where: eq(this.commentTable.id, commentId),
         orderBy: desc(this.commentTable.version)
       })
-    return history as any as CommentDto[]
+    return history
   }
 }

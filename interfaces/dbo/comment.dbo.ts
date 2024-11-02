@@ -1,41 +1,49 @@
 import {z} from "zod";
 
-export const CommentDtoSchema = z.object({
-  id: z.string(),
-  version: z.number(),
-  documentId: z.string(),
-  authorId: z.string(),
-  body: z.object({
-    paragraphId: z.optional(z.string()),
-    inlineParagraphId: z.optional(z.string()),
-    text: z.string()
-  }),
-  userInfo: z.object({
-    imageUrl: z.string(),
-    name: z.string().nullish(),
-    email: z.string()
-  }),
-  parentId: z.string().nullish(),
-  createdAt: z.union([z.string().date(), z.date().nullish()])
-})
+export const commentStateEnumArr = ['NORMAL', 'BLOCKED', 'DELETED'] as const;
 
-export const CommentWithContentInfoDtoSchema = CommentDtoSchema.merge(z.object({
-  documentInfo: z.any()
-}))
-
-export type CommentWithDocumentDto = z.infer<typeof CommentWithContentInfoDtoSchema>
-export type CommentDto = z.infer<typeof CommentDtoSchema>
-const userInfoSchema = z.object({
+export const commentUserInfoSchema = z.object({
+  userid: z.string().nullish(),
   name: z.string(),
   email: z.string(),
-  address: z.string()
+  imageUrl: z.string(),
 })
-const bodySchema = z.object({
+export const commentBodySchema = z.object({
+  text: z.string(),
   paragraphId: z.optional(z.string()),
   inlineParagraphId: z.optional(z.string()),
-  text: z.string()
 })
-export type CommentUserInfoDto = z.infer<typeof userInfoSchema>
-export type CommentBodyDto = z.infer<typeof bodySchema>
 
-export type CommentInsertDto = Omit<CommentDto, 'version' | 'userInfo' | 'createdAt'>
+export type CommentUserInfo = z.infer<typeof commentUserInfoSchema>
+export type CommentBody = z.infer<typeof commentBodySchema>
+
+export const CommentDBOSchema = z.object({
+  id: z.string(),
+  version: z.number(),
+  state: z.string(),
+  documentId: z.string(),
+  authorId: z.string(),
+  body: commentBodySchema,
+  userInfo: commentUserInfoSchema,
+  parentId: z.string().nullish(),
+  createdAt: z.date()
+})
+
+
+export type CommentDBO = z.infer<typeof CommentDBOSchema>
+
+export const CommentInsertDBOSchema = CommentDBOSchema.omit({
+  id: true,
+  version: true,
+  state: true,
+  createdAt: true,
+})
+
+export const CommentUpdateDBOSchema = CommentDBOSchema.omit({
+  version: true,
+  state: true,
+  createdAt: true,
+})
+
+export type CommentInsertDBO = z.infer<typeof CommentInsertDBOSchema>
+export type CommentUpdateDBO = z.infer<typeof CommentUpdateDBOSchema>

@@ -6,7 +6,6 @@ import {FileText, MessageCircleMore, PencilLine, ReplyIcon} from "lucide-react";
 import RecentComments from "@/app/admin/recent-comments";
 import {getRecentComments, getRecentDocuments} from "@/lib/db/comment";
 import Link from "@/components/link";
-import {CommentWithDocumentDto} from "@/interfaces/dbo";
 import RecentDocuments from "@/app/admin/recent-documents";
 
 

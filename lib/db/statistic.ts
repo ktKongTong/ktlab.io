@@ -1,7 +1,7 @@
 import {and, count, eq, like, sql, sum} from "drizzle-orm";
-import {comment, documents} from "@/lib/db/schema";
 import {db} from "@/lib/db/index";
 import {pathPrefix} from "@/config";
+import {comment, documents} from "@/interfaces/schema";
 
 
 export const getCommentStatistic = async ()=> {
@@ -89,7 +89,7 @@ export const getDocumentStats = async () => {
     .from(documents)
     .where(
       and(
-        eq(documents.type, 'file'),
+        eq(documents.type, 'file' as const),
         like(documents.relativePath, `${pathPrefix["knowledge-base"]}%`),
       )
     );

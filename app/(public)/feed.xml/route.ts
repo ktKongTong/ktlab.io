@@ -3,8 +3,15 @@ import RSS from 'rss'
 import { seo } from '@/config/seo'
 import {getBlogPostMetas} from "@/queries/blog";
 import {Constants} from "@/lib/constants";
+import {unstable_cache} from "next/cache";
+
+const getBlogs = unstable_cache(getBlogPostMetas, ['blogs'], {
+  revalidate: 3600,
+  tags: ['blogs']
+})
 
 export const revalidate = 60 * 60
+
 
 export async function GET() {
   let href = Constants().BASE_URL
@@ -21,7 +28,7 @@ export async function GET() {
     generator: 'RSS',
   })
 
-  const data = await getBlogPostMetas()
+  const data = await getBlogs()
   if (!data) {
     return new Response('Not found', { status: 404 })
   }

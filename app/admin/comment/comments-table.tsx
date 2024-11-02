@@ -1,5 +1,5 @@
 'use client'
-import {CommentWithDocumentDto} from "@/interfaces/dbo";
+import {CommentWithDocumentVO} from "@/interfaces/vo";
 import {useRecentComments} from "@/app/admin/_hooks/use-recent-comments";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
@@ -8,7 +8,7 @@ import Link from "@/components/link";
 import {formatTime, truncate} from "@/lib/utils";
 
 interface CommentTableProps {
-  initialComments: CommentWithDocumentDto[];
+  initialComments: CommentWithDocumentVO[];
 }
 export default function CommentsTable({
   initialComments

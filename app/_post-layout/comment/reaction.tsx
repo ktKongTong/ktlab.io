@@ -1,5 +1,4 @@
 'use client'
-import {useComments} from "@/hooks/query/use-comments";
 import CommentDialog from "./comment-dialog";
 import {MessageCircleMore, ThumbsDown, ThumbsUp} from "lucide-react";
 import {useCurrentPostId} from "@/app/_post-layout/use-post";

@@ -16,15 +16,12 @@ export default function Comments({
   return (
     <div className={className} {...rest}>
       {
-        isLoadingMore && <Skeleton className={'w-full max-h-80'}/>
-      }
-      {
         !isLoadingMore && <motion.ul transition={{
           staggerChildren: 0.1,
         }} className={'space-y-2'}>
         <LayoutGroup>
           {
-            comments?.map((comment, idx) => (
+            comments?.map((comment) => (
               <motion.li
                 layout={'position'}
                 initial={{x:20, opacity: 0}}

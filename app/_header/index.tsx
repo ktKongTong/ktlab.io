@@ -40,7 +40,7 @@ export default function Header({
       setShowToc(false)
       setShowCatalog(false)
     }
-  };
+  }
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -56,7 +56,7 @@ export default function Header({
         className={" border-b lg:border absolute top-0 overflow-hidden mt-6 rounded-[24px] grow lg:grow-0 transition-all border"}>
         <div
           ref={ref} className={'flex items-center justify-center'}>
-          <Avatar className={'w-10 h-10 rounded-full'} onClick={()=>!isLg && setShowCatalog(true)}>
+          <Avatar className={'w-10 h-10 rounded-full'} onClick={()=>!isLg && setShowCatalog(s=>!s)}>
             <AvatarImage src={img}/>
             <AvatarFallback>{fallback}</AvatarFallback>
           </Avatar>
@@ -79,7 +79,7 @@ export default function Header({
                     animate={{ opacity: 1, x: 0,  width:40, }}
                     exit={{ opacity: 0, x: 20,  width:0, }}
                     className={'h-10 rounded-full flex items-center justify-center'}
-                     onClick={() => !isLg && setShowToc(true)}>
+                    onClick={() => !isLg && setShowToc(s => !s)}>
                     <Menu className={'w-6 h-6'}/>
                 </motion.div>
             }

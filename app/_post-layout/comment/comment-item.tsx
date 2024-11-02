@@ -2,23 +2,10 @@ import {HTMLProps} from "react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {cn, relativeTime} from "@/lib/utils";
 import {RawMarkdownRender} from "@/components/markdown/xlog/render";
+import {CommentVO} from "@/interfaces/vo";
 
-export interface CommentProps {
-  id: string,
-  version: number,
-  body: {
-    text: string,
-  },
-  documentId: string,
-  state?: string,
-  authorId: string,
-  userInfo: {
-    imageUrl?: string,
-    email: string,
-    name?: string
-  },
-  createdAt: string,
-  parentId?: string,
+export type CommentProps = CommentVO & {
+  sending?: boolean;
 }
 
 export function CommentItem (

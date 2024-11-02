@@ -1,9 +1,9 @@
 import {useQuery} from "@tanstack/react-query";
-import {CommentWithContentInfoDtoSchema, CommentWithDocumentDto} from "@/interfaces/dbo";
+import {CommentWithDocumentVO} from "@/interfaces/vo";
 
-export const useRecentComments = (initialComments:CommentWithDocumentDto[]) => {
-  const  { status, data, error } = useQuery<CommentWithDocumentDto[]>({
-    queryKey: ['content', 'admin'],
+export const useRecentComments = (initialComments:CommentWithDocumentVO[]) => {
+  const  { status, data, error } = useQuery<CommentWithDocumentVO[]>({
+    queryKey: ['command', 'admin'],
     queryFn: async () => {
       // const res = await fetch(`/api/comments/recent`);
       return []

@@ -1,6 +1,6 @@
 import {z} from 'zod'
 
-export const TravellerBoSchema = z.object({
+export const AnonymousDBOSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string().email(),
@@ -8,17 +8,6 @@ export const TravellerBoSchema = z.object({
   type: z.string()
 })
 
-export type UserTravellerBo = z.infer<typeof TravellerBoSchema>
-export type UserIDLessTravellerBo = Omit<UserTravellerBo, 'id'>
-export type TravellerInsertDBO = Omit<UserIDLessTravellerBo, 'type'>
-
-
-export const UserBoSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  email: z.string(),
-  receiveEmailOn:z.boolean(),
-  type: z.string(),
-  role: z.string(),
-  source: z.string(),
-})
+export type AnonymousUserDBO = z.infer<typeof AnonymousDBOSchema>
+export type IDLessAnonymousUserDBO = Omit<AnonymousUserDBO, 'id'>
+export type AnonymousInsertDBO = Omit<IDLessAnonymousUserDBO, 'type'>
