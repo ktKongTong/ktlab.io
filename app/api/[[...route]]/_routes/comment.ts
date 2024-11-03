@@ -26,7 +26,7 @@ app.get('/api/document/:id/comment', async (c) => {
   const {id} = c.req.param()
   const {  page, size } = c.req.query()
   let pageParam = parseIntOrDefault(page,1)
-  let sizeParam = parseIntOrDefault(page,100)
+  let sizeParam = parseIntOrDefault(size,100)
   return R.success(c,await getDB(c).queryCommentByDocId(id, pageParam, sizeParam))
 })
 
