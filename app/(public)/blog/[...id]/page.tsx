@@ -47,7 +47,6 @@ export default async function BlogPage({
   if (!blog) {
     return <NotFound />
   }
-  // await addPostView(id)
   return (
     <PostLayout {...blog} withCommentArea={true}/>
   )

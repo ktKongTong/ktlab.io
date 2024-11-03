@@ -5,16 +5,9 @@ import {cn} from "@/lib/utils";
 import {ChevronRight} from "lucide-react";
 import {AnimatePresence, motion} from "framer-motion";
 import {cva} from "class-variance-authority";
-import {buttonVariants} from "@/components/ui/button";
+import {CatalogItem as CatalogItemProps} from "@/interfaces/catalog-item";
 
-export interface CatalogItemProps{
-  id: string,
-  href?: string,
-  title: string,
-  createdAt: string,
-  lastModifiedAt: string,
-  children: CatalogItemProps[]
-}
+export type { CatalogItemProps }
 
 const catalogVariants = cva(
   "block py-1 text-md font-medium break-all hover:text-primary/80 w-full  overflow-ellipsis line-clamp-2",

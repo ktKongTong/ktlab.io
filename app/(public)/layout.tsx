@@ -10,7 +10,7 @@ export default async function PublicLayout(
 }) {
   return (
     <div>
-      <main className={'min-h-screen '}>
+      <main className={'min-h-screen flex flex-col'}>
         <Header img={"/avatar.jpg"} navItems={navItems} fallback={"KT"} className="w-full fixed top-0 bg-background z-10" />
         {children}
         <Footer />

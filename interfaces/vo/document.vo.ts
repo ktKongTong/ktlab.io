@@ -1,5 +1,6 @@
-import {documentDBOSchema} from "@/interfaces/base";
+
 import {z} from "zod";
+import {documentDBOSchema} from "@/interfaces/dbo";
 
 export const documentVOSchema = documentDBOSchema
 

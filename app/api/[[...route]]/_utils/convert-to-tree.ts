@@ -1,19 +1,23 @@
 import {DocumentVO} from "@/interfaces/vo";
+import {CatalogItem} from "@/interfaces/catalog-item";
 
-export default function convertToTree(docs: DocumentVO[],rootId:string|null) {
-  let root:any = docs.find(doc=> doc.id === rootId);
-  root = {
-    id: root.id,
-    title: root.title,
-    createdAt: root.createdAt,
-    lastModifiedAt: root.lastModifiedAt,
-    tags: root.tags,
-    children: [] as any[]
+export default function convertToTree(docs: DocumentVO[],rootId:string|null):CatalogItem[] {
+  let rootDoc = docs.find(doc=> doc.id === rootId);
+  if (!rootDoc) {
+    return [];
   }
-  // let tmp = docs
-  const queue = [root] as any[]
+  let root = {
+    id: rootDoc.id,
+    title: rootDoc.title,
+    createdAt: rootDoc.createdAt,
+    lastModifiedAt: rootDoc.lastModifiedAt,
+    tags: rootDoc.tags,
+    children: []
+  }
+
+  const queue:CatalogItem[] = [root]
   while (queue.length > 0) {
-    let cur = queue.shift()
+    let cur = queue.shift()!
     const curIndex = docs
       .find((item) => item.parentId === cur.id
         && item.type === 'file'
@@ -28,7 +32,6 @@ export default function convertToTree(docs: DocumentVO[],rootId:string|null) {
         createdAt: it.createdAt,
         href: `/knowledge/${it.relativePath}`,
         lastModifiedAt: it.lastModifiedAt,
-        wordcount: it.mdMetadata?.wordcount ?? 0,
         tags: it.tags,
         children: []
       }))
@@ -50,12 +53,11 @@ export default function convertToTree(docs: DocumentVO[],rootId:string|null) {
       cur.lastModifiedAt = curIndex.lastModifiedAt
       cur.tags = curIndex.tags
       cur.href =  `/knowledge/${curIndex.relativePath}`
-      cur.wordcount = curIndex.mdMetadata?.wordcount ?? 0
     }else {
       cur.href = undefined
     }
     queue.push(...curChFolders)
-    cur.children = curChDocs.concat(curChFolders as any)
+    cur.children = curChDocs.concat(curChFolders)
   }
   return root.children
 }

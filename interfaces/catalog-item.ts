@@ -2,7 +2,8 @@ export interface CatalogItem {
   id: string,
   href?: string,
   title: string,
-  createdAt: string,
-  lastModifiedAt: string,
+  tags?: string[],
+  createdAt: string | Date,
+  lastModifiedAt: string | Date,
   children: CatalogItem[]
 }

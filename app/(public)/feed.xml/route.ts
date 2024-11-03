@@ -1,11 +1,11 @@
 import RSS from 'rss'
 
 import { seo } from '@/config/seo'
-import {getBlogPostMetas} from "@/queries/blog";
+import {getBlogPosts} from "@/queries/blog";
 import {Constants} from "@/lib/constants";
 import {unstable_cache} from "next/cache";
 
-const getBlogs = unstable_cache(getBlogPostMetas, ['blogs'], {
+const getBlogs = unstable_cache(getBlogPosts, ['blogs'], {
   revalidate: 3600,
   tags: ['blogs']
 })

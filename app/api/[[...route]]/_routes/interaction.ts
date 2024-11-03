@@ -23,7 +23,7 @@ async (c)=> {
   const geo = getGEO(c)
   kv.incr(kvKey.postView(id))
   kv.set(kvKey.postLastVisitor(id), geo.city)
-  return R.success(c,{})
+  return R.success(c)
 })
 
 export { app as interactionRoute}
