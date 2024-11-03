@@ -37,8 +37,7 @@ export const useComments = (contentId: string) => {
     queryFn: async () => {
       const res = await fetch(`/api/document/${contentId}/comment`);
       return (await res.json()).data;
-    },
-    initialData: []
+    }
   })
   const { isSignedIn, user, isLoaded } = useUser();
   const {mutate:addComment, mutateAsync: addCommentAsync} = useMutation({

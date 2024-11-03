@@ -32,7 +32,7 @@ export function CommentItem (
         {parentId && <div></div>}
         <div className={'space-x-2 flex items-center justify-start mb-1  text-xs'}>
           <span>{userInfo.name}</span>
-          <span>{relativeTime(createdAt)}</span>
+          <time dateTime={createdAt.toString()}>{relativeTime(createdAt)}</time>
         </div>
 
         <div className={cn('relative px-2 py-0.5 rounded-lg bg-secondary text-secondary-foreground w-fit', className)} {...rest}>

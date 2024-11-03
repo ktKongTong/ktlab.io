@@ -1,10 +1,10 @@
-import MainPage from "@/app/_landing/main";
-import RecentlyPage from "@/app/_landing/recent-activity";
+import MainPage from "@/app/(public)/_landing/main";
+import {ContactDock} from "@/app/(public)/_landing/contact-dock";
+import RecentlyPage from "@/app/(public)/_landing/recent-activity";
 import {ChevronsDown, Github, MailIcon, RssIcon} from "lucide-react";
 import {codeToHtml} from "shiki";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import {ContactDock} from "@/app/_landing/contact-dock";
 
 const code =
 `fun AreYouOK():Boolean {

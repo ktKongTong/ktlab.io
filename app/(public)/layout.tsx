@@ -1,6 +1,6 @@
-import Header from "@/app/_header";
-import {navItems} from "@/config";
+import Header from "@/app/(public)/_header";
 import Footer from "@/app/(public)/footer";
+import {navItems} from "@/config";
 
 export default async function PublicLayout(
   {

@@ -2,7 +2,6 @@
 import CommentEditor from "./comment/comment-editor";
 import Comments from "./comment/comments";
 import {HTMLProps, useState} from "react";
-import {Button} from "@/components/ui/button";
 import {cn} from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import Reactions from "@/app/_post-layout/reactions";

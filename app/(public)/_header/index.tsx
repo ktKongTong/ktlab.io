@@ -2,8 +2,8 @@
 import React, {useEffect, useRef, useState} from "react";
 import {cn} from "@/lib/utils";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
-import ThemeSwitch from "@/app/_header/theme-switch";
-import NavItem, {NavItemProps} from "@/app/_header/nav-item";
+import ThemeSwitch from "./theme-switch";
+import NavItem, {NavItemProps} from "./nav-item";
 import Toc from "@/app/_post-layout/toc";
 import useToc from "@/hooks/use-toc";
 import {CatalogItem} from "@/app/(public)/knowledge/catalog-item";

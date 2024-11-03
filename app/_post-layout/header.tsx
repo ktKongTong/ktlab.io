@@ -35,17 +35,18 @@ tags
       <TriangleAlert className={'w-3 h-3'}/><span>本文最后修改于{diffDay}天前，请注意时效性</span>
     </span> :
     <span className={'inline-flex gap-1 items-center'}>
-      <Clock className={'w-3 h-3'}/><span>最后修改于{relativeTime(lastModifiedAt!)}</span>
+      <Clock className={'w-3 h-3'}/><span>最后修改于<time dateTime={lastModifiedAt}>{relativeTime(lastModifiedAt!)}</time></span>
     </span>
 
   return (
     <>
     <div>
       <h1 className={'text-4xl font-bold'}>{title}</h1>
-      <div className={'flex pt-4  text-sm font-medium justify-between md:flex-row flex-col'}>
-        <div className={'py-2 flex items-center gap-2  font-medium text-sm flex-wrap'}>
+      <div className={'flex pt-4  text-sm font-medium justify-between sm:flex-row flex-col'}>
+        <div className={'py-2 flex items-center justify-center gap-2 font-medium text-sm flex-wrap'}>
           {
-            createdAt && <div className={'flex items-center justify-between space-x-1'}><Calendar className={'h-3 w-3'}/><span>{formatTime(createdAt)}</span></div>
+            createdAt &&
+              <div className={'flex items-center justify-between space-x-1'}><Calendar className={'h-3 w-3'}/><time dateTime={createdAt.toString()}>{formatTime(createdAt)}</time></div>
           }
           <div className={'flex space-x-1 items-center'}>
             <PencilLine className={'h-3 w-3'}/>
@@ -65,7 +66,7 @@ tags
               </div>
           }
         </div>
-        <div className={'relative flex items-center'}>
+        <div className={'relative flex items-center justify-center'}>
           { showLastModifiedAt && <>{warningText}</> }
         </div>
       </div>

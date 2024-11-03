@@ -17,7 +17,7 @@ export const comment = pgTable('comment', {
   authorId: varchar("author_id").notNull(),
   userInfo: json('userInfo').$type<CommentUserInfo>().notNull(),
   parentId: varchar("parent_id"),
-  createdAt: timestamp('create_at', { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp('create_at').notNull().defaultNow(),
 }, (comment) => {
   return {
     pk: primaryKey({columns:[comment.id, comment.version]}),

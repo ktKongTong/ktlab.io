@@ -21,7 +21,7 @@ export default function NavItem(
     childrenNav.length > 0 ? (
         <HoverCard openDelay={100} closeDelay={70} open={isOpen} onOpenChange={setOpen}>
           <HoverCardTrigger asChild>
-            <Button variant="link" className={'text-secondary-foreground hover:text-primary'}>
+            <Button variant="link" className={'text-secondary-foreground hover:text-primary px-2'}>
               {
                 link ? <Link href={link}>{name}</Link> : name
               }
@@ -51,7 +51,7 @@ export default function NavItem(
           </AnimatePresence>
         </HoverCard>
       ) :
-      <Button variant="link" className={'text-secondary-foreground hover:text-primary'}>
+      <Button variant="link" className={'text-secondary-foreground hover:text-primary  px-2'}>
         {
           link ? <Link href={link}>{name}</Link> : name
         }

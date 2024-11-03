@@ -1,9 +1,9 @@
-import BlogActivity, {BlogActivityProps} from "@/app/_landing/_components/recentItem/blog";
-import GithubActivity, {GithubActivityProps} from "@/app/_landing/_components/recentItem/github";
-import {VideoProps} from "@/app/_landing/_components/recentItem/video";
-import MusicItem, { MusicProps} from "@/app/_landing/_components/recentItem/music";
+import BlogActivity, {BlogActivityProps} from "./blog";
+import GithubActivity, {GithubActivityProps} from "./github";
+import {VideoProps} from "./video";
+import MusicItem, { MusicProps} from "./music";
 import {Video} from "lucide-react";
-import GameItem, {GameProps} from "@/app/_landing/_components/recentItem/steam";
+import GameItem, {GameProps} from "./steam";
 import React from "react";
 
 
