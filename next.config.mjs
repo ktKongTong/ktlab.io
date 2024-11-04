@@ -15,6 +15,10 @@ const nextConfig = {
                 hostname: 'cdn.nlark.com',
                 protocol: 'https',
             },
+            {
+                hostname: 'obsidian.ktlab.io',
+                protocol: 'https',
+            },
         ],
     },
     // webpack: (config, { webpack }) => {
