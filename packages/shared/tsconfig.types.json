@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "moduleResolution": "Bundler",
+    "emitDeclarationOnly": true,
+    "sourceMap": true,
+    "rootDir": "./src",
+    "strict": true,
+    "skipLibCheck": true,
+    "lib": [
+      "ESNext"
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist","src/**/*.test.ts"],
+  "tsc-alias": {
+    "resolveFullPaths": true
+  }
+}
