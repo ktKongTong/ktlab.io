@@ -1,6 +1,6 @@
 
 const nextConfig = {
-    transpilePackages: ['lucide-react'],
+    transpilePackages: ['lucide-react','@repo/shared'],
     images: {
         remotePatterns: [
             {
@@ -21,6 +21,7 @@ const nextConfig = {
             },
         ],
     },
+
     // webpack: (config, { webpack }) => {
     //     config.plugins.push(new webpack.IgnorePlugin({
     //         resourceRegExp: /^pg-native$|^cloudflare:sockets$/,
