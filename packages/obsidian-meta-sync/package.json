@@ -20,12 +20,14 @@
 		"obsidian": "latest",
 		"eslint": "^9",
 		"typescript-eslint": "^8.13.0",
-		"@repo/eslint-config": "workspace:*"
+		"@repo/eslint-config": "workspace:*",
+		"@types/js-yaml": "4.0.9"
 	},
 	"dependencies": {
 		"@supabase/postgrest-js": "^1.15.5",
 		"drizzle-orm": "^0.31.2",
 		"@repo/shared": "workspace:*",
+		"js-yaml": "^4.1.0",
 		"nanoid": "^5.0.7",
 		"postgres": "3.4.5"
 	}

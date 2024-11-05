@@ -112,20 +112,25 @@ export const db = (connectionString: string) => {
 			return allDocuments;
 		},
 		async syncDocs(data: LocalData[]) {
-
 			const allDocuments = await db.select().from(documents);
 			const {needUpdate, needDelete, needCreate} = diff(data, allDocuments);
-			await db.insert(documents).values(needUpdate.concat(needCreate))
-				.onConflictDoUpdate({target: documents.id, set:  conflictUpdateSet(documents, [
-						"title",
-						"relativePath",
-						"parentId",
-						"tags",
-						"type",
-						"title",
-						"mdMetadata"
-					])})
-			await db.delete(documents).where(inArray(documents.id, needDelete.map(it=>it.id)))
+			const newData = needUpdate.concat(needCreate)
+			if(newData.length > 0) {
+				await db.insert(documents).values(needUpdate.concat(needCreate))
+					.onConflictDoUpdate({target: documents.id, set:  conflictUpdateSet(documents, [
+							"title",
+							"relativePath",
+							"parentId",
+							"tags",
+							"type",
+							"title",
+							"mdMetadata"
+						])})
+			}
+			if(needDelete.length > 0) {
+				await db.delete(documents).where(inArray(documents.id, needDelete.map(it=>it.id)))
+			}
+
 		}
 	}
 

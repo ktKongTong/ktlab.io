@@ -4,6 +4,8 @@ import {db, LocalData, LocalMDData} from './db';
 import {getWordCount} from "./utils";
 // Remember to rename these classes and interfaces!
 
+import yaml from 'js-yaml';
+
 interface DocMetaDBSyncerPluginSettings {
 	mySetting: string;
 	autoAddUUID: boolean;
@@ -37,6 +39,14 @@ export default class DocMetaDBSyncerPlugin extends Plugin {
 
 		const statusBarItemEl = this.addStatusBarItem();
 
+		const refreshRibbonIconEl = this.addRibbonIcon('dice', 'refresh-id', async (evt: MouseEvent) => {
+			// Called when the user clicks the icon.
+			new Notice('start refresh content!');
+			statusBarItemEl.setText('metadata refresh');
+			await this.refreshExistingFiles()
+				.then(()=>new Notice('refresh success!'))
+			statusBarItemEl.setText('metadata sync');
+		});
 		const syncRibbonIconEl = this.addRibbonIcon('dice', 'sync', async (evt: MouseEvent) => {
 			// Called when the user clicks the icon.
 			new Notice('start sync to db!');
@@ -45,6 +55,7 @@ export default class DocMetaDBSyncerPlugin extends Plugin {
 				.then(()=>new Notice('sync success!'))
 			statusBarItemEl.setText('metadata sync');
 		});
+		refreshRibbonIconEl.addClass('my-plugin-ribbon-class')
 		syncRibbonIconEl.addClass('my-plugin-ribbon-class');
 		// Perform additional things with the ribbon
 		ribbonIconEl.addClass('my-plugin-ribbon-class');
@@ -72,6 +83,7 @@ export default class DocMetaDBSyncerPlugin extends Plugin {
 		}
 	}
 	async getDataNeedSync():Promise<LocalData[]> {
+		console.log('getDataNeedSync');
 		const mds = this.app.vault.getMarkdownFiles()
 			.filter(it=>!it.path.endsWith('.excalidraw.md'))
 		const metas:(LocalMDData & {file:TFile})[] = (await Promise.all(mds.map(md => this.extractMDData(md))))
@@ -111,6 +123,7 @@ export default class DocMetaDBSyncerPlugin extends Plugin {
 			wordcount: it.wordcount
 		}))
 		return toBeSynced.concat(folderArr);
+
 	}
 	async extractMDData(file:TFile):Promise<(LocalMDData & {file:TFile}) | null> {
 		if (file.extension !== 'md') return null;
@@ -136,21 +149,14 @@ export default class DocMetaDBSyncerPlugin extends Plugin {
 
 	async addNanoIdToFile(file: TFile) {
 		if (this.settings.autoAddUUID && file.extension === 'md') {
-			const content = await this.app.vault.read(file);
-			if (!content.startsWith('---')) {
-				const newContent = `---
-id: ${nanoid()}
----
-${content}`;
-				await this.app.vault.modify(file, newContent);
-			} else {
-				const lines = content.split('\n');
-				const idx = lines.findIndex(line => line === '---');
-				lines.splice(idx + 1, 0, `id: ${nanoid()}`);
-				const newContent = lines.join('\n');
-				await this.app.vault.modify(file, newContent);
-			}
+				const metadata = this.app.metadataCache.getFileCache(file);
+				const frontmatter = metadata?.frontmatter ? { ...metadata.frontmatter } : {};
+				if(frontmatter['id']) {
+					return
+				}
+				await this.addToFrontmatter(file, {id: nanoid()})
 		}
+
 	}
 	async addNanoIdToExistingFiles() {
 		const files = this.app.vault.getMarkdownFiles();
@@ -159,11 +165,41 @@ ${content}`;
 		}
 	}
 
+	async refreshExistingFiles() {
+		const files = this.app.vault.getMarkdownFiles();
+		for (const file of files) {
+			await this.refreshFrontmatter(file)
+		}
+	}
 	async loadSettings() {
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
 	}
 	async saveSettings() {
 		await this.saveData(this.settings);
+	}
+
+	async refreshFrontmatter(file: TFile) {
+		// 读取文件内容
+		const content = await this.app.vault.cachedRead(file);
+		// 提取现有的 frontmatter
+		const metadata = this.app.metadataCache.getFileCache(file);
+		const frontmatter = metadata?.frontmatter ? { ...metadata.frontmatter } : {};
+		const frontmatterString = yaml.dump(frontmatter);
+		const newContent = `---\n${frontmatterString}---\n${content.replace(/^-{3}[\s\S]+?-{3}\n/, '')}`;
+		await this.app.vault.modify(file, newContent);
+	}
+
+	async addToFrontmatter(file: TFile, newData: Record<string, any>) {
+		// 读取文件内容
+		const content = await this.app.vault.cachedRead(file);
+		// 提取现有的 frontmatter
+		const metadata = this.app.metadataCache.getFileCache(file);
+		let frontmatter = metadata?.frontmatter ? { ...metadata.frontmatter } : {};
+		if(frontmatter)
+			frontmatter = { ...frontmatter, ...newData };
+		const frontmatterString = yaml.dump(frontmatter);
+		const newContent = `---\n${frontmatterString}---\n${content.replace(/^-{3}[\s\S]+?-{3}\n/, '')}`;
+		await this.app.vault.modify(file, newContent);
 	}
 }
 
