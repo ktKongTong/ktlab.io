@@ -36,7 +36,6 @@ import { VFile } from "vfile"
 // @ts-expect-error
 import remarkCalloutDirectives from "@microflash/remark-callout-directives"
 
-import { createMarkdownHeaderComponent } from "./markdown-render"
 
 import { transformers } from "./embed-transformers"
 import { rehypeEmbed } from "./rehype-embed"
@@ -50,11 +49,12 @@ import { remarkPangu } from "./remark-pangu"
 import { remarkYoutube } from "./remark-youtube"
 import sanitizeScheme from "./sanitize-schema"
 import {isServerSide} from "@/lib/utils";
+import {createPreComponent} from "@/components/markdown/xlog/utils/create-pre-component";
+import {createMarkdownHeaderComponent} from "@/components/markdown/xlog/utils/create-markdown-component";
 
 const Mermaid = dynamic(() => import("./components/Mermaid"))
 const Icon = dynamic(() => import("./components/Icon"))
 const GithubRepo = dynamic(() => import("@/components/GithubRepo"))
-const ShikiRemark = dynamic(() => import("./components/shiki"))
 const AdvancedImage = dynamic(() => import("./components/AdvancedImage"))
 
 const HeadRenderMap = {
@@ -63,27 +63,6 @@ const HeadRenderMap = {
   h3: createMarkdownHeaderComponent("h3"),
   h4: createMarkdownHeaderComponent("h4"),
   h5: createMarkdownHeaderComponent("h5"),
-}
-
-const memoedPreComponentMap = {} as Record<string, any>
-const hashCodeThemeKey = (codeTheme?: Record<string, any>): string => {
-  if (!codeTheme) return "default"
-  return Object.values(codeTheme).join(",")
-}
-
-const createPreComponent = (codeTheme: Record<string, any> | undefined) => {
-  let Pre: FC<
-    ClassAttributes<HTMLPreElement> &
-    HTMLAttributes<HTMLPreElement> &
-    ExtraProps
-  > = memoedPreComponentMap[hashCodeThemeKey(codeTheme)]
-  if (!Pre) {
-    Pre = function Pre(props: any) {
-      return createElement(ShikiRemark, { ...props, codeTheme }, props.children)
-    }
-    memoedPreComponentMap[hashCodeThemeKey(codeTheme)] = Pre
-  }
-  return Pre
 }
 
 export const renderPageContent = ({
@@ -100,7 +79,6 @@ export const renderPageContent = ({
 }) => {
   let hastTree: HashRoot | undefined = undefined
   let mdastTree: MdashRoot | undefined = undefined
-
   const file = new VFile(content)
 
   try {
@@ -116,9 +94,7 @@ export const renderPageContent = ({
       .use(remarkDirectiveRehype)
       .use(remarkCalloutDirectives)
       .use(remarkYoutube)
-      .use(remarkMath, {
-        singleDollarTextMath: false,
-      })
+      .use(remarkMath, {singleDollarTextMath: true})
       .use(remarkPangu)
       .use(emoji)
       .use(remarkRehype, { allowDangerousHtml: true })
@@ -153,9 +129,9 @@ export const renderPageContent = ({
   return {
     tree: hastTree,
     toToc: () => mdastTree && toc(mdastTree, {
-        tight: true,
-        ordered: true,
-      }),
+      tight: true,
+      ordered: true,
+    }),
     toHTML: () => hastTree && toHtml(hastTree),
     toElement: () =>
       hastTree &&

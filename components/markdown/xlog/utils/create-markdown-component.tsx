@@ -5,13 +5,13 @@ import React, {
   type HTMLAttributes,
 } from "react"
 
-export const createMarkdownHeaderComponent = (tag: string) => {
+export const createMarkdownHeaderComponent = (tag: React.ElementType) => {
   const MarkdownHeader: FC<
     ClassAttributes<HTMLHeadingElement> &
     HTMLAttributes<HTMLHeadingElement> &
     ExtraProps
   > = ({ children, ...rest }) => {
-    const Tag = tag as any
+    const Tag = tag
 
     return (
       <Tag {...rest}>

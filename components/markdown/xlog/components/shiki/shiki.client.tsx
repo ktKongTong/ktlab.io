@@ -158,8 +158,7 @@ const ShikiRenderInternal: FC<ShikiCodeProps> = ({
     }
   }, [shiki, code, language, codeTheme])
 
-  if (!rendered)
-    return (
+  if (!rendered) return (
       <pre className={"whitespace-pre-wrap"}>
         <code>{code}</code>
       </pre>

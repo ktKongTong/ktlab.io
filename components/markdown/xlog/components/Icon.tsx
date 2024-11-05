@@ -9,7 +9,7 @@ const Icon = (props: {
   const {node} = props;
   const name = node.properties['name'] as keyof typeof dynamicIconImports
   const LucideIcon = dynamic(dynamicIconImports[name])
-  return <LucideIcon />;
+  return <LucideIcon className={'md-icon'}/>;
 };
 
 export default Icon;

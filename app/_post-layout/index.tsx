@@ -52,9 +52,7 @@ export default function PostLayout(
                   tags={tags.map(tag => ({name: tag, href: `/blog/categories/${tag}`}))}
               />
           }
-          <article>
-             <RawMarkdownRender content={content}/>
-          </article>
+          <RawMarkdownRender content={content} as={'article'}/>
           <LzyFooter documentId={id} className={'pb-10 pt-5 mt-5 border-t  border-dashed'} />
         </main>
         <aside className={'sticky top-32 hidden lg:flex flex-col max-h-[calc(100vh-96px)] w-[180px] p-2'}>

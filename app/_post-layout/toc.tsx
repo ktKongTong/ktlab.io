@@ -201,7 +201,7 @@ function Items(props: ItemsProps) {
   }, [])
 
   return (
-    <ol className={prefix ? "pl-5" : ""}>
+    <ol className={prefix ? "pl-3" : ""}>
       <li ref={anchorRef} />
       {maxWidth > 0 &&
         items?.children?.map((item, index) => (
@@ -212,7 +212,7 @@ function Items(props: ItemsProps) {
             }}
           >
             {item.children.map((child: any, i) => {
-              const content = `${prefix}${index + 1}. ${child.content}`
+              const content = `${child.content}`
 
               return (
                 <span key={index + "-" + i}>

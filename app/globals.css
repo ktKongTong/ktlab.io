@@ -1,4 +1,5 @@
 @import "globals.variable.css";
+@import "markdown.css";
 
 @tailwind base;
 @tailwind components;
@@ -22,9 +23,9 @@
   * {
     @apply border-border;
   }
-    body {
-      @apply bg-background text-foreground;
-    }
+  /*body {*/
+  /*  @apply bg-background text-foreground;*/
+  /*}*/
   :root {
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -65,77 +66,25 @@
 
 
 
-/*markdown css*/
-.markdown-alert {
-  padding: 0.5rem 1rem;
-  margin-bottom: 16px;
-  @apply rounded-lg shadow-md;
-  color: inherit;
-  border-left: .25em solid #888;
+:root {
+  --shiki-dark:#e6edf3;
+  --shiki-dark-bg:#0d1117;
 }
 
-.markdown-alert>:first-child {
-  margin-top: 0
+@media (prefers-color-scheme: dark) {
+  .shiki, .shiki span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
 }
 
-.markdown-alert>:last-child {
-  margin-bottom: 0
+html.dark .shiki,
+html.dark .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
 }
 
-.markdown-alert .markdown-alert-title {
-  display: flex;
-  font-weight: 500;
-  align-items: center;
-  line-height: 1
-}
 
-.markdown-alert .markdown-alert-title .octicon {
-  margin-right: 0.5rem;
-  display: inline-block;
-  overflow: visible !important;
-  vertical-align: text-bottom;
-  fill: currentColor;
-}
-
-.markdown-alert.markdown-alert-note {
-  border-left-color: var(--color-note);
-}
-
-.markdown-alert.markdown-alert-note .markdown-alert-title {
-  color: var(--color-note);
-}
-
-.markdown-alert.markdown-alert-important {
-  border-left-color: var(--color-important);
-}
-
-.markdown-alert.markdown-alert-important .markdown-alert-title {
-  color: var(--color-important);
-}
-
-.markdown-alert.markdown-alert-warning {
-  border-left-color: var(--color-warning);
-}
-
-.markdown-alert.markdown-alert-warning .markdown-alert-title {
-  color: var(--color-warning);
-}
-
-.markdown-alert.markdown-alert-tip {
-  border-left-color: var(--color-tip);
-}
-
-.markdown-alert.markdown-alert-tip .markdown-alert-title {
-  color: var(--color-tip);
-}
-
-.markdown-alert.markdown-alert-caution {
-  border-left-color: var(--color-caution);
-}
-
-.markdown-alert.markdown-alert-caution .markdown-alert-title {
-  color: var(--color-caution);
-}
 
 
 
@@ -176,249 +125,4 @@
 
 .previous-peer {
   @apply blur-sm;
-}
-
-.prose :not(pre) > code {
-  @apply bg-secondary rounded-md p-1;
-}
-
-.prose .md-code-wrapper {
-  @apply relative text-base;
-  @apply rounded-md  m-4;
-}
-
-.prose .md-code-wrapper .md-copy-button {
-  @apply absolute top-3 right-3;
-  @apply text-sm space-x-1;
-  @apply text-zinc-100 bg-zinc-600/50;
-  @apply rounded-lg h-7 px-3 items-center;
-  @apply active:mt-[2px];
-  @apply hidden;
-}
-
-.prose .md-code-wrapper:hover .md-copy-button {
-  @apply inline-flex;
-}
-
-.prose {
-  @apply leading-loose;
-  word-break: break-word;
-}
-
-.prose > p {
-  @apply mb-5;
-}
-
-.prose img {
-  @apply inline-block;
-}
-
-.prose > *:first-child {
-  @apply mt-0;
-}
-
-.prose > *:last-child {
-  @apply mb-0;
-}
-
-.prose .md-anchor {
-  @apply ml-1 opacity-0 transition-opacity hover:no-underline;
-  @apply scroll-mt-24;
-}
-
-.prose h2:hover .md-anchor,
-.prose h3:hover .md-anchor,
-.prose h4:hover .md-anchor,
-.prose h5:hover .md-anchor,
-.prose h6:hover .md-anchor {
-  @apply opacity-100;
-}
-
-.prose h2 {
-  @apply text-3xl font-semibold;
-  @apply my-7;
-  /*@apply text-zinc-900;*/
-}
-
-.prose h3 {
-  @apply text-2xl font-semibold;
-  @apply my-7;
-  /*@apply text-zinc-900;*/
-}
-
-.prose h4 {
-  @apply text-xl font-semibold;
-  @apply my-7;
-  /*@apply text-zinc-900;*/
-}
-
-.prose h5 {
-  @apply text-lg font-semibold;
-  @apply my-7;
-  /*@apply text-zinc-900;*/
-}
-
-.prose h6 {
-  @apply text-base font-semibold;
-  @apply my-7;
-  /*@apply text-zinc-900;*/
-}
-
-.prose p {
-  @apply my-3;
-}
-
-.prose blockquote {
-  @apply border-l-4 border-zinc-300;
-  @apply pl-5;
-  @apply my-3;
-  /*@apply text-zinc-500;*/
-}
-
-.prose ul {
-  @apply list-disc;
-  @apply pl-5;
-}
-
-.prose ol {
-  @apply list-decimal;
-  @apply pl-6;
-}
-
-.prose > ul,
-.prose > ol {
-  @apply my-7;
-}
-
-.prose a {
-  @apply transition-all duration-300;
-  @apply hover:underline-offset-4 underline underline-offset-1;
-
-}
-
-.prose pre {
-  @apply overflow-auto;
-}
-
-.prose .md-table-wrapper {
-  @apply min-w-full rounded-xl text-sm my-7 whitespace-normal overflow-auto;
-  @apply border border-border;
-}
-
-.prose table {
-  @apply min-w-full;
-}
-
-.prose table thead {
-  @apply text-left;
-}
-
-.prose table th,
-.prose table td {
-  @apply px-3;
-  @apply py-4;
-}
-
-.prose table tbody {
-  /*@apply text-zinc-500;*/
-}
-
-/*.prose table tbody tr:nth-child(2n-1) {*/
-/*  !*@apply bg-zinc-100 text-red-100 ;*!*/
-/*  @apply bg-red-200;*/
-/*  @apply dark:bg-zinc-700;*/
-/*  &.dark {*/
-/*    @apply dark:bg-zinc-700;*/
-/*  }*/
-/*}*/
-
-.prose iframe {
-  max-width: 100%;
-}
-
-.prose .task-list-item {
-  @apply list-none;
-}
-
-.prose > ul > .task-list-item {
-  @apply -ml-5;
-}
-
-.prose .callout {
-  --calloutBackgroundColor: var(--callout-bg-color, var(--callout-bg-info));
-  background-color: var(--calloutBackgroundColor);
-  border-radius: 8px;
-  padding: 16px;
-}
-
-.prose .callout-indicator {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-.prose .callout-indicator > svg:first-of-type {
-  margin-right: 0.5rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.5px;
-  width: 18px;
-  height: 18px;
-  min-width: 18px;
-  min-height: 18px;
-}
-
-.prose .callout-content:first-child,
-.prose .callout-content:only-child {
-  margin-block-start: 0;
-}
-
-.prose .callout-content:last-child,
-.prose .callout-content:only-child {
-  margin-block-end: 0;
-}
-
-.prose .callout-commend {
-  --callout-bg-color: var(--callout-bg-tip);
-}
-.prose .callout-warn {
-  --callout-bg-color: var(--callout-bg-warning);
-}
-.prose .callout-deter {
-  --callout-bg-color: var(--callout-bg-danger);
-}
-.prose .callout-assert {
-  --callout-bg-color: var(--callout-bg-important);
-}
-
-
-.xlog-comment .prose {
-  @apply leading-normal text-[15px];
-}
-
-.xlog-comment .prose blockquote {
-  @apply my-1;
-}
-
-.xlog-comment .prose p {
-  @apply my-1;
-}
-:root {
-  --shiki-dark:#e6edf3;
-  --shiki-dark-bg:#0d1117;
-}
-
-@media (prefers-color-scheme: dark) {
-  .shiki, .shiki span {
-    color: var(--shiki-dark) !important;
-    background-color: var(--shiki-dark-bg) !important;
-  }
-}
-
-html.dark .shiki,
-html.dark .shiki span {
-  color: var(--shiki-dark) !important;
-  background-color: var(--shiki-dark-bg) !important;
 }
