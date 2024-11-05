@@ -108,6 +108,9 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
+      '@types/js-yaml':
+        specifier: 4.0.9
+        version: 4.0.9
       builtin-modules:
         specifier: 3.3.0
         version: 3.3.0
