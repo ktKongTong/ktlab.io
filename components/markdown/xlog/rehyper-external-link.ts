@@ -18,10 +18,10 @@ export const rehypeExternalLink: Plugin<Array<void>, Root> = () => {
       if (!url || typeof url !== "string") {
         return
       }
-
-      if(url.startsWith(`/${pathPrefix['knowledge-base']}`)) {
+      const decodedUrl = decodeURIComponent(url)
+      if(decodedUrl.startsWith(`/${pathPrefix['knowledge-base']}`)) {
         node.properties.href = `/knowledge${url}`
-      }else if (url.startsWith(`/${pathPrefix['blog']}`)) {
+      }else if (decodedUrl.startsWith(`/${pathPrefix['blog']}`)) {
         node.properties.href = url
       }else {
         node.properties.href = 'javascript:void(0)'
