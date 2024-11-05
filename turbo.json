@@ -4,8 +4,22 @@
     "test": {
       "cache": false
     },
+
     "build": {
       "dependsOn": ["^build"],
+      "env": [
+        "BASE_URL",
+        "RESOURCE_URL",
+        "NEXT_PUBLIC_RESOURCE_URL",
+        "NEXT_PUBLIC_BASE_URL",
+        "DATABASE_URL",
+        "UPSTASH_REDIS_REST_URL",
+        "UPSTASH_REDIS_REST_TOKEN",
+        "CLERK_SECRET_KEY",
+        "CLERK_PUBLISHABLE_KEY",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+        "STATUS_HUB_TOKEN"
+      ],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "test:watch": {
