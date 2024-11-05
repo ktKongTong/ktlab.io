@@ -193,6 +193,9 @@
     @apply my-4;
 }
 
+.animate-underline {
+    @apply transition-all duration-300 underline underline-offset-4 hover:underline-offset-8 decoration-secondary-foreground/10 hover:decoration-accent-foreground/100;
+}
 .prose a {
     @apply animate-underline;
 }
