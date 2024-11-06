@@ -2,32 +2,38 @@
 	"name": "obsidian-meta-sync",
 	"version": "0.1.0",
 	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
-	"main": "dist/main.js",
+	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
 		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
 		"version": "node version-bump.mjs && git add manifest.json versions.json",
 		"lint": "eslint 'src/**/*.{ts,tsx}'"
 	},
-	"type":"module",
+	"files": [
+		"main.js",
+		"versions.json",
+		"manifest.json"
+	],
+	"type": "module",
 	"keywords": [],
 	"author": "",
 	"license": "MIT",
 	"devDependencies": {
-		"tslib": "2.4.0",
+		"@repo/eslint-config": "workspace:*",
+		"@types/js-yaml": "4.0.9",
 		"builtin-modules": "3.3.0",
 		"esbuild": "0.17.3",
-		"obsidian": "latest",
 		"eslint": "^9",
-		"typescript-eslint": "^8.13.0",
-		"@repo/eslint-config": "workspace:*",
-		"@types/js-yaml": "4.0.9"
+		"obsidian": "latest",
+		"tslib": "2.4.0",
+		"typescript-eslint": "^8.13.0"
 	},
 	"dependencies": {
+		"@repo/shared": "workspace:*",
 		"@supabase/postgrest-js": "^1.15.5",
 		"drizzle-orm": "^0.31.2",
-		"@repo/shared": "workspace:*",
 		"js-yaml": "^4.1.0",
+		"minimatch": "^10.0.1",
 		"nanoid": "^5.0.7",
 		"postgres": "3.4.5"
 	}

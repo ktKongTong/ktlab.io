@@ -1,3 +1,8 @@
+import {App, TFile} from "obsidian";
+import {minimatch} from "minimatch";
+import {Settings} from "./setting";
+import {nanoid} from "nanoid";
+import {addDataToFrontmatter} from "./frontmatter";
 
 export function getWordCount(text: string): number {
 	const spaceDelimitedChars =
@@ -19,4 +24,30 @@ export function getWordCount(text: string): number {
 		"g"
 	);
 	return (text.match(pattern) || []).length;
+}
+
+
+export function millSecToDate(ms: number):Date {
+	return new Date(ms);
+}
+
+
+export function getAvailableMarkdownFiles(config: Settings, app:App) {
+	const ignorePattern = config.ignorePatterns
+	const includePattern = config.includePatterns
+	const mds = app.vault.getMarkdownFiles()
+	const res = mds.filter(it=>
+		!ignorePattern.some(p => minimatch(it.path,p)) &&
+		includePattern.some(p => minimatch(it.path,p))
+	)
+	return res
+}
+
+export async function tryAddNanoIdToMDFileIfNeed(file: TFile, app:App) {
+	if (file.extension === 'md') {
+		const metadata = app.metadataCache.getFileCache(file);
+		const frontmatter = metadata?.frontmatter ? { ...metadata.frontmatter } : {};
+		if(frontmatter['id']) {return}
+		await addDataToFrontmatter(file, app, {id: nanoid()})
+	}
 }
