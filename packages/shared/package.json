@@ -16,6 +16,11 @@
     "@repo/eslint-config": "workspace:*"
   },
   "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
     "./schema": {
       "import": "./dist/esm/schema/index.js",
       "require": "./dist/cjs/schema/index.js",
@@ -32,7 +37,11 @@
       "require": "./dist/cjs/dbo/index.js",
       "types": "./dist/types/dbo/index.d.ts"
     },
-
+    "./dto": {
+      "import": "./dist/esm/dto/index.js",
+      "require": "./dist/cjs/dto/index.js",
+      "types": "./dist/types/dto/index.d.ts"
+    },
     "./vo": {
       "import": "./dist/esm/vo/index.js",
       "require": "./dist/cjs/vo/index.js",

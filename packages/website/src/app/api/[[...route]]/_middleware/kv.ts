@@ -1,5 +1,4 @@
 import type {Context, MiddlewareHandler} from "hono";
-import type {ClerkOptions} from "@clerk/backend";
 import {env} from "hono/adapter";
 import { Redis } from "@upstash/redis"
 
@@ -22,8 +21,9 @@ export const getKV = (c:Context)=> {
   return c.get('kv')
 }
 
-export const KVMiddleware = (options?: ClerkOptions): MiddlewareHandler => {
+export const KVMiddleware = (options?: KVOptions): MiddlewareHandler => {
   return async (c, next) => {
+    // const {Redis} = await import('@upstash/redis')
     const kvEnv = env<KVEnv>(c)
     const redis = new Redis({
       url: kvEnv.UPSTASH_REDIS_REST_URL,
