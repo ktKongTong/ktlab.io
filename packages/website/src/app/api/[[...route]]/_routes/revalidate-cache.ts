@@ -8,7 +8,7 @@ import { bearerAuth } from 'hono/bearer-auth'
 const app = new Hono();
 
 // regenerate
-const token = process.env.ADMIN_TOKEN ?? 're_121314';
+const token = process.env.SITE_ADMIN_TOKEN ?? 're_121314';
 app.use('*', bearerAuth({ token }))
 
 app.put('/api/isr/revalidate',

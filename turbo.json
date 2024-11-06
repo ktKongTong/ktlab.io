@@ -18,7 +18,8 @@
         "CLERK_SECRET_KEY",
         "CLERK_PUBLISHABLE_KEY",
         "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
-        "STATUS_HUB_TOKEN"
+        "STATUS_HUB_TOKEN",
+        "SITE_ADMIN_TOKEN"
       ],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
