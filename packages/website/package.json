@@ -38,7 +38,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.11",
     "deepmerge": "^4.3.1",
-    "drizzle-orm": "^0.31.2",
+    "drizzle-orm": "^0.36.0",
     "framer-motion": "^11.2.10",
     "gray-matter": "^4.0.3",
     "hast": "^1.0.0",
