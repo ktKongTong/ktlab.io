@@ -1,5 +1,5 @@
 import PostLayout from "@/app/_post-layout";
-import { getBlogPostById } from "@/queries/blog";
+import {getBlogPostBySlugOrId} from "@/queries/blog";
 import {Metadata} from "next";
 import {getAllDocumentWithoutFolder} from "@/lib/db";
 import {unstable_cache} from "next/cache";
@@ -12,7 +12,7 @@ const metadata: Metadata = {
 
 export const revalidate = false;
 
-const getPosts = unstable_cache(getBlogPostById,['blogs'], { revalidate: false})
+const getPosts = unstable_cache(getBlogPostBySlugOrId,['blogs'], { revalidate: false})
 
 export async function generateStaticParams() {
   const blogs = await getAllDocumentWithoutFolder()
@@ -27,7 +27,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
 
   let path = params.id ?? []
-  const blog =  await getBlogPostById(path.join('/'));
+  const blog =  await getBlogPostBySlugOrId(path.join('/'));
   if(blog?.title) {
     return {
       title: "ktlab | " + blog.title,

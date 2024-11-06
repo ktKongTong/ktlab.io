@@ -1,6 +1,6 @@
 import {Constants} from "@/lib/constants";
 import {SSRArticle, SSRArticleWithContent} from "@/interfaces/article";
-import {getAllDocumentWithoutFolder, getDocumentById, getDocumentsByTags} from "@/lib/db";
+import {getAllDocumentWithoutFolder, getDocumentById, getDocumentByIdOrSlug, getDocumentsByTags} from "@/lib/db";
 import {DocumentDBO} from "@/interfaces";
 
 
@@ -18,8 +18,8 @@ const documentDBOToSSRArticle = (it: DocumentDBO):SSRArticle=> {
   }
 }
 
-export async function getBlogPostById(id: string): Promise<SSRArticleWithContent | null> {
-  const res = await getDocumentById(id)
+export async function getBlogPostBySlugOrId(id: string): Promise<SSRArticleWithContent | null> {
+  const res = await getDocumentByIdOrSlug(id)
   if(!res) return null;
   const resp = await fetch(`${Constants().RESOURCE_URL}/${res.relativePath}`)
   if(resp.status >= 300) { return null }

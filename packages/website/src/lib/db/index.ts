@@ -54,6 +54,8 @@ export const getAllDocumentWithoutFolder = () => {
   return  db.select().from(documents).where(and(eq(documents.type, 'file'), like(documents.parentId, `${pathPrefix.blog}%`), notLike(documents.relativePath, `%\.excalidraw\.md`)))
 }
 
+// config ignore path pattern
+
 export const getAllDocumentWithoutFolderByStartPath = (startPath:string) => {
   return db.select().from(documents).where(and(eq(documents.type, 'file'), like(documents.parentId, `${startPath}%`), notLike(documents.relativePath, `%\.excalidraw\.md`)))
 }
