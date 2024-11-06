@@ -28,7 +28,7 @@ export const getDocumentByIdOrSlug = async (id: string):Promise<DocumentVO|null>
   const [res] = await db.select().from(documents)
     .where(and(
       eq(documents.type, 'file'),
-      or(eq(documents.id, id), sql`${documents.mdMetadata}->>'slug' = '${id}'`)
+      or(eq(documents.id, id), sql`${documents.mdMetadata}->>'slug' = ${id}`)
     ))
   return res || null
 }
