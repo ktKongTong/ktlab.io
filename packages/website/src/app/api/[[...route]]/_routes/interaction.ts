@@ -1,7 +1,7 @@
 import {Hono} from "hono";
 import kv, {kvKey} from "@/lib/kv";
 import { R} from "@/app/api/[[...route]]/_utils";
-import {getGEO} from "@/app/api/[[...route]]/_middleware";
+import {getGeo} from "hono-geo-middleware";
 
 
 const app = new Hono();
@@ -20,7 +20,7 @@ async (c)=> {
 app.get('/api/document/:id/interaction/report',
 async (c)=> {
   const {id}= c.req.param()
-  const geo = getGEO(c)
+  const geo = getGeo(c)
   kv.incr(kvKey.postView(id))
   kv.set(kvKey.postLastVisitor(id), geo.city)
   return R.success(c)

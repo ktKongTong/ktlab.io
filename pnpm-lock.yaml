@@ -277,6 +277,9 @@ importers:
       hono:
         specifier: 4.6.5
         version: 4.6.5
+      hono-geo-middleware:
+        specifier: ^0.0.2
+        version: 0.0.2(hono@4.6.5)
       isomorphic-dompurify:
         specifier: ^2.12.0
         version: 2.12.0
@@ -3655,6 +3658,11 @@ packages:
   highlight.js@11.9.0:
     resolution: {integrity: sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw==}
     engines: {node: '>=12.0.0'}
+
+  hono-geo-middleware@0.0.2:
+    resolution: {integrity: sha512-fHhn16ak8iTGc9u9uOhnYXZodYKYp2hNlDriMTqZ8nDKo5MeeOy/Onq9/43cHlX2G4HwWvAM9lEL+lCvgOW0IQ==}
+    peerDependencies:
+      hono: '*'
 
   hono@4.6.5:
     resolution: {integrity: sha512-qsmN3V5fgtwdKARGLgwwHvcdLKursMd+YOt69eGpl1dUCJb8mCd7hZfyZnBYjxCegBG7qkJRQRUy2oO25yHcyQ==}
@@ -8993,6 +9001,10 @@ snapshots:
   highlight.js@10.7.3: {}
 
   highlight.js@11.9.0: {}
+
+  hono-geo-middleware@0.0.2(hono@4.6.5):
+    dependencies:
+      hono: 4.6.5
 
   hono@4.6.5: {}
 

@@ -44,8 +44,6 @@ export const getDocumentsByTags = async (tags: string[]):Promise<DocumentDBO[]> 
   )
 }
 
-
-
 export const getAllDocumentWithFolders = () => {
   return  db.select().from(documents).where(notLike(documents.relativePath, `%\.excalidraw\.md`)).execute()
 }
