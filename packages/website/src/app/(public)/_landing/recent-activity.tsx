@@ -16,7 +16,7 @@ export default function RecentlyPage({
   const [ref, { height }] = useMeasure();
 
   const [containerRef, { height: containerHeight }] = useMeasure();
-
+  // todo useMeasure cause infinity rerender, need fix later
   const tabContentHeight = ((containerHeight??0) - ((height??0) + 16))
   return (
     <section {...rest}>

@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 
 import "./globals.css";
 import Providers from "@/components/providers";
-import {cn} from "@/lib/utils";
+import {cn, isProd} from "@/lib/utils";
 import Utils from "@/components/utils";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   description: "kt's site",
 };
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -21,6 +22,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+    {
+      !isProd() && <head>
+      <script src="https://unpkg.com/react-scan/dist/auto.global.js" async />
+    </head>
+    }
       <body className={cn(inter.className)}>
       <Utils/>
       <Providers>
