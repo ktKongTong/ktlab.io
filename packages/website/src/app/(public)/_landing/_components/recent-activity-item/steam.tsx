@@ -1,7 +1,9 @@
 import Link from "@/components/link";
 import Image from "next/image";
+import {HTMLProps} from "react";
+import {cn} from "@/lib/utils";
 
-export interface GameProps {
+export type GameProps = {
   platform: 'steam',
   coverImage: string,
   name: string,
@@ -10,11 +12,11 @@ export interface GameProps {
   link?: string,
   // timestamp
   time: number
-}
+} & HTMLProps<HTMLDivElement>
 
 export default function GameItem(props: GameProps) {
   return (
-    <div className={'flex flex-col gap-2'}>
+    <div className={cn('flex flex-col gap-2', props.className)}>
       <div className={'flex flex-row space-x-1 items-center'}>
 
         <span className={'text-xs'}>打开了</span>

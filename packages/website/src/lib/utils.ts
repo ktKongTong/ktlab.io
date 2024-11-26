@@ -32,7 +32,18 @@ export const formatTime = (t: string| Date, format: string = 'YYYY-MM-DD') => {
     .format(format)
 }
 export const formatRelativeTime = (time: string | Date | number) => {
-  return dayjs.utc().to(dayjs.utc(time))
+  let  t = time
+  if(typeof time === 'number') {
+    if (time.toString().length === 10) {
+      t = time * 1000
+    }
+  }
+  if(typeof time === 'string') {
+    if (time.length === 10) {
+      t = time + '000'
+    }
+  }
+  return dayjs.utc().to(dayjs.utc(t))
 }
 
 export const truncate = (str: string, length: number = 20) => {

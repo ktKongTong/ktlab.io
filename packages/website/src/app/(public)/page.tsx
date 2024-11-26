@@ -66,11 +66,7 @@ export default async function Home() {
           </div>
         </div>
       </MainPage>
-      <RecentPage className={'min-h-screen flex flex-col px-10 md:px-40 pt-[64px] items-center my-auto'}/>
-      {/*<Suspense fallback={<Skeleton className={'w-full min-h-screen'}/>}>*/}
-      {/*  <RecentlyPage className={'min-h-screen flex flex-col px-10 md:px-40 pt-[64px] items-center my-auto'}/>*/}
-      {/*</Suspense>*/}
-
+      <RecentPage className={'h-[calc(100vh-65px)] lg:h-[calc(100vh-97px)] flex flex-col px-10 md:px-40 pt-[64px] items-center my-auto'}/>
     </>
   );
 }

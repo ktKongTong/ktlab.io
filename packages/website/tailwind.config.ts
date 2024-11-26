@@ -1,5 +1,5 @@
-import type { Config } from "tailwindcss"
-
+import  { Config } from "tailwindcss"
+import plugin from 'tailwindcss/plugin'
 const config = {
   darkMode: ['selector', '[data-theme="dark"]'],
   content: [
@@ -73,7 +73,22 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"),
+      plugin(
+      function ({ addVariant }) {
+        addVariant("glow", ".glow-capture .glow-overlay &")
+      },
+      {
+        theme: {
+          extend: {
+            colors: {
+              glow: "color-mix(in srgb, var(--glow-color) calc(<alpha-value> * 100%), transparent)",
+            },
+          },
+        },
+      }
+    ),
+  ],
 } satisfies Config
 
 export default config

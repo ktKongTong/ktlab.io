@@ -1,7 +1,8 @@
 import Link from "@/components/link";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {HTMLProps} from "react";
 
-export interface GithubActivityProps {
+export type GithubActivityProps = {
   ghType: 'issue' | 'pr' | 'star' | 'push',
   relateRepo: string
   relateRepoLink: string
@@ -10,13 +11,13 @@ export interface GithubActivityProps {
   avatar: string
   payload: any
   time: number
-}
+} & HTMLProps<HTMLDivElement>
 
 export default function GithubActivity(props: GithubActivityProps) {
     // console.log("github",props)
   const renderActivityDescription = () => {
     const actorWithAvatar = (
-      <div className="flex items-center space-x-1 text-xs">
+      <div className="flex items-center space-x-1 text-xs  glow:invisible">
         <Avatar className="h-6 w-6">
           <AvatarImage src={props.avatar}/>
           <AvatarFallback>{props.actor.slice(0, 2)}</AvatarFallback>
@@ -33,14 +34,14 @@ export default function GithubActivity(props: GithubActivityProps) {
     switch (props.ghType) {
       case 'push':
         return (
-          <div className="text-sm text-primary opacity-70 flex flex-col items-start">
+          <div className="text-sm text-primary opacity-70 flex flex-col items-start glow:invisible">
             {actorWithAvatar}
             <div>向 <Link href={props.relateRepoLink} className="animate-underline">{getDisplayRepoName(props.relateRepo, props.actor)}</Link> 推送了 {props.payload.size} 个提交</div>
           </div>
         );
       case 'star':
         return (
-          <div className="text-sm text-primary opacity-70 flex flex-col items-start">
+          <div className="text-sm text-primary opacity-70 flex flex-col items-start  glow:invisible">
             {actorWithAvatar}
             <span>为 <Link href={props.relateRepoLink} className="animate-underline">{getDisplayRepoName(props.relateRepo, props.actor)}</Link> 点了星标</span>
           </div>
@@ -48,7 +49,7 @@ export default function GithubActivity(props: GithubActivityProps) {
       case 'pr':
         const action = props.payload.action === 'opened' ? '打开了' : '关闭了';
         return (
-          <div className="text-sm text-primary opacity-70 flex flex-col items-start">
+          <div className="text-sm text-primary opacity-70 flex flex-col items-start  glow:invisible">
             {actorWithAvatar}
             <span>在 <Link href={props.relateRepoLink} className="animate-underline">{getDisplayRepoName(props.relateRepo, props.actor)}</Link> 中{action}拉取请求 <Link href={props.payload.pull_request.html_url} className="animate-underline">{props.payload.pull_request.title}</Link></span>
           </div>
@@ -56,7 +57,7 @@ export default function GithubActivity(props: GithubActivityProps) {
       case 'issue':
         const issueAction = props.payload.action === 'opened' ? '创建了' : '关闭了';
         return (
-          <div className="text-sm text-primary opacity-70 flex flex-col items-start">
+          <div className="text-sm text-primary opacity-70 flex flex-col items-start  glow:invisible">
             {actorWithAvatar}
             <span>在 <Link href={props.relateRepoLink} className="animate-underline">{getDisplayRepoName(props.relateRepo, props.actor)}</Link> 中{issueAction}问题 <Link href={props.payload.issue.html_url} className="animate-underline">{props.payload.issue.title}</Link></span>
           </div>

@@ -1,6 +1,7 @@
 import Link from "@/components/link";
+import {HTMLProps} from "react";
 
-export interface BlogActivityProps {
+export type BlogActivityProps = {
   eventType: 'like' | 'comment' | 'publish' | 'update' | 'dislike'
   articleName: string,
   articleId: string,
@@ -10,7 +11,7 @@ export interface BlogActivityProps {
   commentContent?: string,
   author?: string,
   authorAvatar?: string,
-}
+} & HTMLProps<HTMLDivElement>
 export default function BlogActivity(props: BlogActivityProps) {
   switch (props.eventType) {
     case 'like':

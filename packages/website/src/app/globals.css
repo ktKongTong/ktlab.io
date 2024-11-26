@@ -24,6 +24,23 @@
 }
 
 
+  .glow-overlay {
+    --glow-width: 6rem;
+    --glow-height: 6rem;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    user-select: none;
+    opacity: var(--glow-opacity, 0);
+    mask: radial-gradient(
+      var(--glow-width) var(--glow-height) at var(--glow-x) var(--glow-y),
+      var(--glow-color) 1%,
+      /*transparent*/
+      transparent 100%
+    );
+    transition: 400ms mask ease;
+    will-change: mask;
+  }
 
 /* shiki */
 :root {

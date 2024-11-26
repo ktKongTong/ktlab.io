@@ -1,27 +1,28 @@
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import Link from "next/link";
 import {Spotify} from "react-spotify-embed";
-import React from "react";
+import React, {HTMLProps} from "react";
+import {cn} from "@/lib/utils";
 
-export interface MusicProps {
+export type MusicProps = {
   platform: 'netease' | 'qq' | 'spotify' | 'other',
   coverImage: string,
   name: string,
   author?: string,
   link?: string,
   time: number
-}
+} & HTMLProps<HTMLDivElement>
 
  function MusicItem(props: MusicProps) {
   if(props.platform === 'spotify') {
     return (
-      <div className={'flex flex-col items-start space-x-2 p-1'}>
+      <div className={cn('flex flex-col items-start space-x-2 p-1', props.className)}>
         <Spotify link={props.link!!} wide />
       </div>
     )
   }
   return (
-    <div className={'flex items-center space-x-2 p-1'}>
+    <div className={cn('flex items-center space-x-2 p-1', props.className)}>
       <Avatar className={'h-6 w-6 rounded-full'}>
         <AvatarImage src={props.coverImage}/>
         <AvatarFallback>x</AvatarFallback>
@@ -31,4 +32,5 @@ export interface MusicProps {
   )
 }
 
-export default React.memo(MusicItem);
+export default MusicItem
+// React.memo();

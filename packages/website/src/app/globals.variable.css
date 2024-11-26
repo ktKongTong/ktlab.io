@@ -13,6 +13,7 @@
         background-color: var(--shiki-dark-bg) !important;
     }
     :root {
+
         --background: 0 0% 100%;
         --foreground: 240 10% 3.9%;
         --card: 0 0% 100%;
@@ -81,6 +82,7 @@
 
 
 :root {
+    --glow-color: #8250df;
     --color-note: #0969da;
     --color-tip: #1a7f37;
     --color-warning: #9a6700;
@@ -89,6 +91,7 @@
     --color-important: #8250df;
 }
 :root.dark {
+    --glow-color: #8250df;
     --color-note: #2f81f7;
     --color-tip: #3fb950;
     --color-warning: #d29922;
