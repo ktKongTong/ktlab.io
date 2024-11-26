@@ -1,10 +1,18 @@
 import MainPage from "@/app/(public)/_landing/main";
 import {ContactDock} from "@/app/(public)/_landing/contact-dock";
-import RecentlyPage from "@/app/(public)/_landing/recent-activity";
+// import RecentlyPage from "@/app/(public)/_landing/recent-activity";
+
 import {ChevronsDown, Github, MailIcon, RssIcon} from "lucide-react";
 import {codeToHtml} from "shiki";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import dynamic from "next/dynamic";
+
+const RecentPage = dynamic(() => import("@/app/(public)/_landing/recent-activity"), {
+  ssr: false,
+  loading: (loadingProps)=> <Skeleton className={'w-full min-h-screen'}/>,
+
+})
 
 const code =
 `fun AreYouOK():Boolean {
@@ -58,9 +66,10 @@ export default async function Home() {
           </div>
         </div>
       </MainPage>
-      <Suspense fallback={<Skeleton className={'w-full min-h-screen'}/>}>
-        <RecentlyPage className={'min-h-screen flex flex-col px-10 md:px-40 pt-[64px] items-center my-auto'}/>
-      </Suspense>
+      <RecentPage className={'min-h-screen flex flex-col px-10 md:px-40 pt-[64px] items-center my-auto'}/>
+      {/*<Suspense fallback={<Skeleton className={'w-full min-h-screen'}/>}>*/}
+      {/*  <RecentlyPage className={'min-h-screen flex flex-col px-10 md:px-40 pt-[64px] items-center my-auto'}/>*/}
+      {/*</Suspense>*/}
 
     </>
   );

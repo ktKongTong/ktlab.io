@@ -10,7 +10,7 @@ import {CatalogItem as CatalogItemProps} from "@/interfaces/catalog-item";
 export type { CatalogItemProps }
 
 const catalogVariants = cva(
-  "block py-1 text-md font-medium break-all hover:text-primary/80 w-full  overflow-ellipsis line-clamp-2",
+  "block py-1 text-sm font-medium break-all hover:text-primary/80 w-full  overflow-ellipsis line-clamp-2",
   {
     variants: {
       variant: {
