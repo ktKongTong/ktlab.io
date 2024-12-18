@@ -17,10 +17,12 @@ export async function generateStaticParams() {
   ]
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+type Params = Promise<{ id: string  }>
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const id = (await params).id
   return {
-    title: "ktlab | " + params.id,
-    description: "Blog Category | " + params.id,
+    title: "ktlab | " + id,
+    description: "Blog Category | " + id,
   }
 }
 
@@ -33,14 +35,13 @@ export default async function Page(
 {
     params
 }:{
-  params: {
-    id: string
-  }
+  params: Params
 }) {
-  const posts = getCategoryBlogs(params.id)
+  const id = (await params).id
+  const posts = getCategoryBlogs(id)
   return (
     <div className={'max-w-2xl w-full mx-10'}>
-      <div className={'text-3xl font-bold '}>{params.id}</div>
+      <div className={'text-3xl font-bold '}>{id}</div>
       <ArticleList postsPromise={posts}/>
     </div>
   )

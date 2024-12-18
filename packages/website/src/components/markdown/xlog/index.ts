@@ -1,16 +1,10 @@
 import type { Root as HashRoot } from "hast"
 import { toHtml } from "hast-util-to-html"
-import { toJsxRuntime, type ExtraProps } from "hast-util-to-jsx-runtime"
-import jsYaml from "js-yaml"
+import { toJsxRuntime } from "hast-util-to-jsx-runtime"
+import { load } from "js-yaml"
 import type { Root as MdashRoot } from "mdast"
 import { toc } from "mdast-util-toc"
 import dynamic from "next/dynamic"
-import {
-  createElement,
-  type ClassAttributes,
-  type FC,
-  type HTMLAttributes,
-} from "react"
 import { toast } from "react-hot-toast"
 import { Fragment, jsx, jsxs } from "react/jsx-runtime"
 import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
@@ -182,7 +176,7 @@ export const renderPageContent = ({
       if (mdastTree) {
         visit(mdastTree, (node, index, parent) => {
           if (node.type === "yaml") {
-            metadata.frontMatter = jsYaml.load(node.value) as Record<
+            metadata.frontMatter = load(node.value) as Record<
               string,
               any
             >

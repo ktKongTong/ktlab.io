@@ -8,17 +8,17 @@ import {pathPrefix} from "@/config";
 
 
 const metadata: Metadata = {
-  title: 'ktlab | knowledge base',
-  description: 'knowledge-base page',
+  title: 'ktlab | knowledgebase',
+  description: 'knowledgebase page',
 };
 
 export async function generateMetadata(
   { params }: {
-    params: { path?: string[]  }
+    params: Params
   },
 ): Promise<Metadata> {
 
-  let path = params.path ?? []
+  let path = (await params).path ?? []
   const content = await getContentByPath(path.join('/'))
   if(content?.title) {
     return {
@@ -41,14 +41,17 @@ const getContentByPath = unstable_cache(getKnowledgeBaseByPath, ['knowledge-base
   tags: ['knowledge-base-item']
 })
 
+type Params = Promise<{ path?: string[]  }>
 
 export default async function KnowledgeBasePage({
   params
 }: {
-  params: { path?: string[]  }
+  params: Params
 }) {
-  let path = params.path ?? []
+  let path = (await params).path ?? []
   const article = await getContentByPath(path.join('/'))
+  console.log(path)
+  console.log(article)
   if (!article) {
     return <NotFound />
   }

@@ -10,7 +10,7 @@ const getBlogs = unstable_cache(getBlogPosts, ['blogs'], {
   tags: ['blogs']
 })
 
-export const revalidate = 60 * 60
+export const revalidate = 3600
 
 
 export async function GET() {

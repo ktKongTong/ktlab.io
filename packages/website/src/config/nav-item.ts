@@ -3,7 +3,8 @@ export const navItems = [
     name: '首页',
     link:'/',
     childrenNav: []
-  }, {
+  },
+  {
     name: '文稿',
     link:'/blog',
     childrenNav: [
@@ -21,8 +22,10 @@ export const navItems = [
         link:'/blog/categories/tech',
         childrenNav: []
       }]
-  }, {
+  },
+  {
     name: '知识库',
     link:'/knowledge/知识库/index.md',
     childrenNav: []
-  }]
+  }
+]

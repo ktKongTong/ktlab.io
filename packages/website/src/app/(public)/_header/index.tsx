@@ -53,7 +53,7 @@ export default function Header({
       {...rest}
       className={cn('flex items-center justify-center min-h-16', rest.className)}>
       <motion.div
-        className={" border-b lg:border absolute top-0 overflow-hidden mt-6 rounded-[24px] grow lg:grow-0 transition-all border"}>
+        className={" border-b lg:border absolute top-0 overflow-hidden mt-6 rounded-[24px] grow lg:grow-0 transition-all border bg-background"}>
         <div
           ref={ref} className={'flex items-center justify-center'}>
           <Avatar className={'w-10 h-10 rounded-full'} onClick={()=>!isLg && setShowCatalog(s=>!s)}>

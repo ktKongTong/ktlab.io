@@ -19,14 +19,14 @@ export async function generateStaticParams() {
   const ids = blogs.map(it => ({id:it.id.split('\/')}))
   return ids
 }
-
+type Params = Promise<{ id: string[]  }>
 export async function generateMetadata(
   { params }: {
-    params: { id: string[]  }
+    params: Params
   },
 ): Promise<Metadata> {
 
-  let path = params.id ?? []
+  let path = (await params).id ?? []
   const blog =  await getBlogPostBySlugOrId(path.join('/'));
   if(blog?.title) {
     return {
@@ -40,9 +40,9 @@ export async function generateMetadata(
 export default async function BlogPage({
   params
 }: {
-  params: { id: string[] }
+  params: Params
 }) {
-  const blog =  await getPosts(params.id.join('/'));
+  const blog =  await getPosts((await params).id.join('/'));
   if (!blog) {
     return <NotFound />
   }

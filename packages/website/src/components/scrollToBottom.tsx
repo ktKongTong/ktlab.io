@@ -7,15 +7,18 @@ export default function ScrollToBottom(
   {
     children,
     className,
+    fraction,
     ...rest
-  }:HTMLProps<HTMLDivElement>
+  }:HTMLProps<HTMLDivElement> & {
+    fraction?: number
+  }
 ) {
-  const [{ x, y }, scrollTo] = useWindowScroll()
+  const [, scrollTo] = useWindowScroll()
   const {height} = useWindowSize()
   return (
     <div
       {...rest}
-      onClick={()=>scrollTo({ left: 0, top: height, behavior: "smooth" })}
+      onClick={()=>scrollTo({ left: 0, top: (height ?? 0) * (fraction ?? 1), behavior: "smooth" })}
       className={cn('cursor-pointer transition-all duration-300',className)}
     >
       {children}

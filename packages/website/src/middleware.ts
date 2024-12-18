@@ -1,4 +1,4 @@
-import {clerkMiddleware, createRouteMatcher} from '@clerk/nextjs/server'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import {stackMiddlewares} from "@/middlewares";
 import {withVisitor} from "@/middlewares/visitor";
 
@@ -6,9 +6,9 @@ import {withVisitor} from "@/middlewares/visitor";
 const middleware = stackMiddlewares([withVisitor])
 
 const isProtectedRoute = createRouteMatcher(['/admin/(.*)']);
-export default clerkMiddleware((auth, req, _next) => {
-  if (isProtectedRoute(req)) auth().protect();
-  return middleware(req, _next);
+export default clerkMiddleware(async (auth, req, _next) => {
+  if (isProtectedRoute(req)) await auth.protect();
+
 });
 
 export const config = {

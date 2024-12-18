@@ -30,7 +30,7 @@ export default function RootLayout({
       <body className={cn(inter.className)}>
       <Utils/>
       <Providers>
-        <main className={'min-h-screen'}>
+        <main className={'min-h-screen bg-background'}>
           {children}
         </main>
       </Providers>

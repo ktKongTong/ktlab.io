@@ -30,7 +30,6 @@
 	},
 	"dependencies": {
 		"@repo/shared": "workspace:*",
-		"@supabase/postgrest-js": "^1.15.5",
 		"drizzle-orm": "^0.36.0",
 		"js-yaml": "^4.1.0",
 		"minimatch": "^10.0.1",

@@ -47,8 +47,7 @@ export async function LastVisitorInfo() {
     <span className="flex items-center justify-center gap-1 text-xs text-zinc-500 dark:text-zinc-400 md:justify-start">
       <MousePointerClick className="h-4 w-4" />
       <span>
-        最近访客来自&nbsp;
-        {[lastVisitor.city, lastVisitor.country].filter(Boolean).join(', ')}
+        最近访客来自{" "}{[lastVisitor.city, lastVisitor.country].filter(Boolean).join(', ')}
       </span>
       {/*<span className="font-medium">{lastVisitor.ip}</span>*/}
     </span>
