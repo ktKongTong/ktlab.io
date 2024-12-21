@@ -1,10 +1,11 @@
 import {Env, Hono} from "hono";
 
-import {parseIntOrDefault,R} from "../_utils";
-import { zValidator } from '@hono/zod-validator'
+import {parseIntOrDefault} from "../_utils";
 import {getDB} from "@/app/api/[[...route]]/_middleware/db";
-import {commentInsertVOSchema} from "@/interfaces";
+import {commentInsertVOSchema, commentVOSchema, zodCommentDBOToVO} from "@/interfaces";
 import {z} from "zod";
+import {UnauthorizedError} from "@/app/api/[[...route]]/_error";
+import {zValidator} from "../_utils/validator-wrapper";
 
 const clerkUserInfoSchema = z.object({
   imageUrl: z.string().url(),
@@ -22,12 +23,21 @@ declare module 'hono' {
 const app = new Hono()
 
 
+
 app.get('/api/document/:id/comment', async (c) => {
   const {id} = c.req.param()
-  const {  page, size } = c.req.query()
+  const { page, size } = c.req.query()
   let pageParam = parseIntOrDefault(page,1)
   let sizeParam = parseIntOrDefault(size,100)
-  return R.success(c,await getDB(c).queryCommentByDocId(id, pageParam, sizeParam))
+
+  const pagedComments = await getDB(c).queryCommentByDocId(id, pageParam, sizeParam)
+
+  return c.json({
+    total: pagedComments.total,
+    page: pagedComments.page,
+    pageSize: pagedComments.pageSize,
+    data: zodCommentDBOToVO.parse(pagedComments.data)
+  })
 })
 
 app.put('/api/document/:id/comment',
@@ -37,21 +47,21 @@ app.put('/api/document/:id/comment',
     let userId = c.get('userId')
     let userInfo = c.get('userInfo')
     if(!userId || !userInfo) {
-      return R.unauthorizedError(c,"cannot get userId or userInfo")
+      throw new UnauthorizedError("cannot get userId or userInfo")
     }
     const res = await getDB(c).insertComment({
       ...insertVO,
       userInfo: userInfo,
       authorId: userId
     })
-    return R.success(c,res)
+    return c.json(res)
   })
 
 // history version
 app.get('/api/comment/:id/history', async (c) => {
   const {id} = c.req.param()
   const res = await getDB(c).queryHistoryByCommentId(id)
-  return R.success(c, res)
+  return c.json(res)
 })
 
 export { app as commentRoute }

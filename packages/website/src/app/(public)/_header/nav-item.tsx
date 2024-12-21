@@ -2,7 +2,7 @@
 import { useState } from "react";
 import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card";
 import {Button} from "@/components/ui/button";
-import {AnimatePresence, motion} from "framer-motion";
+import {motion, AnimatePresence} from "motion/react";
 import Link from "@/components/link";
 export interface NavItemProps {
   name: string,
@@ -21,16 +21,16 @@ export default function NavItem(
     childrenNav.length > 0 ? (
         <HoverCard openDelay={100} closeDelay={70} open={isOpen} onOpenChange={setOpen}>
           <HoverCardTrigger asChild>
-            <Button variant="link" className={'text-secondary-foreground hover:text-primary px-2'}>
+            <Button variant="link" className={'text-secondary-foreground hover:text-primary  px-2'}>
               {
-                link ? <Link href={link}>{name}</Link> : name
+                link ? <Link href={link} withFavicon={false}>{name}</Link> : name
               }
             </Button>
           </HoverCardTrigger>
           <AnimatePresence>
             {
               isOpen && (
-                <HoverCardContent asChild forceMount className={'data-[state=open]:animate-none data-[state=closed]:animate-none min-w-16 w-fit shadow-none rounded-lg p-1'}>
+                <HoverCardContent asChild className={'data-[state=open]:animate-none data-[state=closed]:animate-none min-w-16 w-fit shadow-none rounded-lg p-1'}>
                   <motion.ul
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -53,7 +53,7 @@ export default function NavItem(
       ) :
       <Button variant="link" className={'text-secondary-foreground hover:text-primary  px-2'}>
         {
-          link ? <Link href={link}>{name}</Link> : name
+          link ? <Link href={link} withFavicon={false}>{name}</Link> : name
         }
       </Button>
   )

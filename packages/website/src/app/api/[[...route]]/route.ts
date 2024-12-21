@@ -8,6 +8,9 @@ import {reactionRoute,commentRoute, activityRoute, interactionRoute} from "@/app
 import {revalidateRoute} from "@/app/api/[[...route]]/_routes/revalidate-cache";
 import {every, except} from 'hono/combine'
 import { GeoMiddleware } from "hono-geo-middleware";
+import {logger} from "@/lib/logger";
+import {BizError} from "@/app/api/[[...route]]/_error";
+import {ZodError} from "zod";
 const privilegedMethods = ['POST', 'PUT', 'PATCH', 'DELETE']
 
 export const runtime = 'nodejs';
@@ -31,6 +34,17 @@ app
   return middleware(c, next)
 })
 
+
+app.onError((err, c) => {
+  logger.error(err)
+  if(err instanceof BizError) {
+    return c.json({error: err.message}, err.code as any)
+  }
+  if(err instanceof ZodError) {
+    return c.json({error: 'schema validate failed'}, 400)
+  }
+  return c.json({error: "Unknown Error"}, 500)
+})
 
 app.route('/', commentRoute)
 app.route('/', reactionRoute)

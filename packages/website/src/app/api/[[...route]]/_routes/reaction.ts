@@ -1,6 +1,7 @@
 import {Hono} from "hono";
 import kv, {kvKey} from "@/lib/kv";
-import { R } from "../_utils";
+import {BizError} from "@/app/api/[[...route]]/_error";
+import {defaultReaction} from "@/config/reaction";
 
 
 const app = new Hono();
@@ -8,8 +9,8 @@ const app = new Hono();
 app.get('/api/document/:id/reactions',
   async (c)=> {
     const {id}= c.req.param()
-    const  value = await kv.get(kvKey.postReaction(id))
-    return R.success(c,value)
+    const  value = await kv.get(kvKey.postReaction(id)) ?? defaultReaction
+    return c.json(value)
   })
 
 app.patch('/api/document/:id/reactions',
@@ -28,7 +29,10 @@ app.patch('/api/document/:id/reactions',
     }
     res[type] = current[type] + 1
     const  value = await kv.set(kvKey.postReaction(id),res)
-    return R.success(c,res)
-  })
+    if (value == null) {
+      throw new BizError('failed to update', 500)
+    }
+    return c.json(res)
+})
 
 export { app as reactionRoute }

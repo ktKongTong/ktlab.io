@@ -11,7 +11,7 @@ export function ArticleList({postsPromise}:ArticleListProps) {
   return (
     <div>
       <div className={'pt-10 text-lg  font-medium text-opacity-30'}>共 {posts.length} 篇文稿</div>
-      <ul className={' group divide-zinc-200 divide-y'}>
+      <ul className={' group divide-zinc-200 divide-y divide-primary-foreground'}>
         <Suspense fallback={<Skeleton className={'w-full h-full'}/>}>
           {posts.map((article, index) =>
             <li key={article.slug}>

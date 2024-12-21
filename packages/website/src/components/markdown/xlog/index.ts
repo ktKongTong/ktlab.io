@@ -132,22 +132,15 @@ export const renderPageContent = ({
       toJsxRuntime(hastTree, {
         Fragment,
         components: {
-          // @ts-expect-error
           img: AdvancedImage,
           mermaid: Mermaid,
           lucide: Icon,
           "github-repo": GithubRepo,
-          // @ts-expect-error
           h1: HeadRenderMap.h1,
-          // @ts-expect-error
           h2: HeadRenderMap.h2,
-          // @ts-expect-error
           h3: HeadRenderMap.h3,
-          // @ts-expect-error
           h4: HeadRenderMap.h4,
-          // @ts-expect-error
           h5: HeadRenderMap.h5,
-          // @ts-expect-error
           pre: createPreComponent(codeTheme),
         },
         ignoreInvalidStyle: true,

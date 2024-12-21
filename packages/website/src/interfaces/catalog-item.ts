@@ -7,3 +7,11 @@ export interface CatalogItem {
   lastModifiedAt: string | Date,
   children: CatalogItem[]
 }
+
+// knowledgebase name
+export interface Catalog {
+  name: string,
+  description?: string,
+  icon?: string,
+  catalogs: CatalogItem[]
+}

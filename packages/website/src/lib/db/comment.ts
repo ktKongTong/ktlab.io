@@ -1,6 +1,6 @@
 import {db} from "@/lib/db/index";
-import {comment, documents, DocumentVO, CommentWithDocumentVO} from "@/interfaces";
-import {eq} from "drizzle-orm";
+import {comment, documents, DocumentVO, CommentWithDocumentVO, zodCommentDBOToVO} from "@/interfaces";
+import {eq, sql} from "drizzle-orm";
 
 export const getRecentComments = async (limit: number = 10):Promise<CommentWithDocumentVO[]> => {
   const res = await db.select(
@@ -13,7 +13,7 @@ export const getRecentComments = async (limit: number = 10):Promise<CommentWithD
       body: comment.body,
       userInfo: comment.userInfo,
       parentId: comment.parentId,
-      createdAt: comment.createdAt,
+      createdAt: sql<number>`extract(epoch from ${comment.createdAt})`,
       documentInfo: documents,
     }
   ).from(comment)

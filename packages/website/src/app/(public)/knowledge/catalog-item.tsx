@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import Link from "@/components/link";
 import {cn} from "@/lib/utils";
 import {ChevronRight} from "lucide-react";
-import {AnimatePresence, motion} from "framer-motion";
+import {motion, AnimatePresence} from "motion/react";
 import {cva} from "class-variance-authority";
 import {CatalogItem as CatalogItemProps} from "@/interfaces/catalog-item";
 
@@ -14,10 +14,10 @@ const catalogVariants = cva(
   {
     variants: {
       variant: {
-        sub_active: "text-primary",
-        sub_inactive: "text-zinc-500",
-        leaf_active: "text-primary",
-        leaf_inactive: "text-zinc-500",
+        sub_active: "text-primary hover:bg-secondary px-2 rounded-md my-1",
+        sub_inactive: "text-muted-foreground hover:bg-secondary px-2  rounded-md my-1",
+        leaf_active: "text-primary bg-secondary px-2 rounded-md my-1",
+        leaf_inactive: "text-muted-foreground px-2 rounded-md my-1 hover:bg-secondary",
       },
     }
   }
@@ -30,7 +30,10 @@ export function CatalogItem({
 
   const match = useMatchPath(href ?? '')
   const [active, setActive] = useState<boolean>(false)
-  const toggle = ()=>setActive(!active)
+  const toggle = (e: any)=> {
+    e.preventDefault()
+    setActive(!active)
+  }
 
   return (
     <>
@@ -38,11 +41,15 @@ export function CatalogItem({
           <li className={'block text-md font-medium py-1'}>
             <div className={' flex justify-between items-center mt-0 cursor-pointer'}>
               {href ?
-                <Link className={cn(catalogVariants({variant: match ? 'sub_active' :'sub_inactive'}))} href={href}>{title}</Link>
+                <Link className={cn(catalogVariants({variant: match ? 'sub_active' :'sub_inactive'}), 'flex items-center justify-between')} href={href}>{title}
+                  <ChevronRight className={cn(`h-4 w-4`,  active ? 'rotate-90':'')}  onClick={toggle}/>
+                </Link>
                 :
-                <span onClick={toggle} className={cn(catalogVariants({variant: match ? 'sub_active' :'sub_inactive'}))}>{title}</span>
+                <span onClick={toggle} className={cn(catalogVariants({variant: match ? 'sub_active' :'sub_inactive'}), 'flex items-center justify-between')}>{title}
+                  <ChevronRight className={cn(`h-4 w-4`,  active ? 'rotate-90':'')}  onClick={toggle}/>
+                </span>
               }
-              <ChevronRight className={cn(`h-4 w-4`,  active ? 'rotate-90':'')}  onClick={toggle}/>
+
             </div>
             <motion.div>
               <AnimatePresence>

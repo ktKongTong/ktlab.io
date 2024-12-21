@@ -11,3 +11,5 @@ export const ContentInteractionSchema = z.object({
   lastVisitor: z.string(),
   reactions: z.record(z.number())
 })
+
+export type ContentReaction = z.infer<typeof ContentInteractionSchema>

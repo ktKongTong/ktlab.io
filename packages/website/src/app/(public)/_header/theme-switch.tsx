@@ -2,9 +2,9 @@
 
 import {useTheme} from "next-themes";
 import {Moon, Sun} from "lucide-react";
-import {AnimatePresence, motion} from "framer-motion";
+import {motion, AnimatePresence} from "motion/react";
 import {flushSync} from "react-dom";
-import {useRef} from "react";
+import React, {useRef} from "react";
 
 
 export default function ThemeSwitch() {
@@ -62,11 +62,12 @@ export default function ThemeSwitch() {
         onClick={() => setToggle()}
         ref={ref}
       >
+        {/*wired ssr problem*/}
         <AnimatePresence>
           {
             (theme === 'light' || (theme === 'system' && systemTheme === 'dark')) &&
               <motion.div
-                key={'light'}
+                key={'light-theme'}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
               ><Sun/></motion.div>
@@ -74,7 +75,7 @@ export default function ThemeSwitch() {
           {
             (theme === 'dark' || (theme === 'system' && systemTheme === 'light')) &&
               <motion.div
-                  key={'dark'}
+                  key={'dark-theme'}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{opacity: 1, y: 0 }}
             >

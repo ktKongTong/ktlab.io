@@ -43,8 +43,7 @@ export default function ArticleItem(
               <div className={'flex items-center space-x-1'}>
                   <TagIcon className={'h-3 w-3'}/>
                   <div className={'space-x-1'}>
-                    {tags.map((tag, idx) => <Tag key={idx} href={`/blog/categories/${tag}`}
-                                                 className={'px-0'}>{tag}</Tag>)}
+                    {tags.map((tag, idx) => <Tag key={idx} href={`/blog/categories/${tag}`} className={'px-0'}>{tag}</Tag>)}
                   </div>
               </div>
           }

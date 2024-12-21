@@ -15,6 +15,5 @@ export const RawMarkdownRender = <T extends React.ElementType = 'div'>(
 ) => {
     const Component = as || 'div'
   const inParsedContent = renderPageContent({content})
-
   return <Component {...props} className={cn("md-content prose",className)}>{inParsedContent?.toElement()}</Component>;
 };

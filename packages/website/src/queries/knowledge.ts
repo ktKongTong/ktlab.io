@@ -4,7 +4,7 @@ import {getAllDocumentWithFolders, getDocumentByPath} from "@/lib/db";
 import convertToTree from "@/app/api/[[...route]]/_utils/convert-to-tree";
 import {pathPrefix} from "@/config";
 import {DocumentDBO} from "@/interfaces";
-import {CatalogItem} from "@/interfaces/catalog-item";
+import {Catalog, CatalogItem} from "@/interfaces/catalog-item";
 
 const documentDBOToSSRArticle = (it: DocumentDBO):SSRArticle=> {
   return {
@@ -15,7 +15,7 @@ const documentDBOToSSRArticle = (it: DocumentDBO):SSRArticle=> {
     lastModifiedAt: it.lastModifiedAt.toString(),
     tags: it.tags,
     excerpt: it.mdMetadata?.excerpt ?? "",
-    timeliness: it.mdMetadata?.timeliness ? Boolean(it.mdMetadata.timeliness) : false,
+    timeliness: it.mdMetadata?.timeliness ?? false,
     wordcount: it.mdMetadata?.wordcount ?? 0,
   }
 }
@@ -37,4 +37,15 @@ export async function getKnowledgeBaseByPath(path: string): Promise<SSRArticleWi
 export async function getKnowledgeBaseCatalog(): Promise<CatalogItem[]> {
   const res = await getAllDocumentWithFolders()
   return convertToTree(res, pathPrefix['knowledge-base'])
+}
+
+
+export async function geAvailableCatalogs(): Promise<Catalog[]> {
+  const name = pathPrefix['knowledge-base']
+  const prefix = name
+  const res = await getAllDocumentWithFolders()
+  return [{
+    name,
+    catalogs: convertToTree(res, prefix)
+  }]
 }

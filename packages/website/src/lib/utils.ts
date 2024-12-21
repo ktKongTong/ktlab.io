@@ -1,4 +1,4 @@
-import { type ClassValue, clsx } from "clsx"
+import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import dayjs from "dayjs";
 
@@ -17,7 +17,7 @@ dayjs.extend(relative)
 export const isServerSide = () => typeof window === "undefined"
 export const isProd = () => process.env.NODE_ENV === "production"
 
-export const relativeTime = (t: string | Date) => {
+export const relativeTime = (t: string | Date | number) => {
   return dayjs.utc(t)
     .fromNow()
 }

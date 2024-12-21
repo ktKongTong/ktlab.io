@@ -22,9 +22,9 @@ export default function RecentlyPage({
   // const tabContentHeight = ((containerHeight??0) - ((height??0) + 16))
   return (
     <section {...rest}>
-      <div className={'grow flex flex-col max-w-[1200px] w-full mx-auto'}>
-        <div className={"text-4xl lg:pt-14 lg:pb-7 pt-10 pb-4"}>最近</div>
-        <div className={"grid grid-cols-1 lg:grid-cols-2 h-[calc(100vh-168px)] lg:h-[calc(100vh-228px)]"}>
+      <div className={'grow flex flex-col max-w-[1200px] max-h-max w-full mx-auto'}>
+        <div className={"text-4xl lg:pt-14 lg:pb-7 pt-4 pb-4"}>最近</div>
+        <div className={"grid grid-cols-1 lg:grid-cols-2 h-[calc(100vh-180px)] lg:h-[calc(100vh-248px)]"}>
           <Tabs defaultValue="github" className="w-full overflow-y-hidden flex flex-col">
             <TabsList className="flex items-center justify-start w-auto gap-1 bg-transparent p-0 mt-0">
               <TabsTrigger value="github"

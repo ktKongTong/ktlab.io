@@ -39,7 +39,7 @@ export function TimeLineItem(props: TimeLineItemProps & HTMLProps<HTMLLIElement>
         rest.className
       )}>
       <div
-        className={'absolute text-secondary-foreground text-sm p-2 -left-4 -translate-x-full top-1/2 -translate-y-1/2 opacity-10 group-hover:opacity-70 duration-300 transition-opacity ease-in-out'}>
+        className={'absolute cursor-default text-secondary-foreground text-sm p-2 -left-4 -translate-x-full top-1/2 -translate-y-1/2 opacity-10 group-hover:opacity-70 duration-300 transition-opacity ease-in-out'}>
         {formatRelativeTime(props.time)}
       </div>
       {children}

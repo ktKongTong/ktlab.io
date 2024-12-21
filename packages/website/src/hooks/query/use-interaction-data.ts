@@ -1,35 +1,35 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {defaultReaction} from "@/config/reaction";
+import {AvailableReactionType, defaultReaction} from "@/config/reaction";
 import {useEffect} from "react";
+import {api} from "@/lib/api";
+import {ContentReaction} from "@repo/shared/vo";
 
-export const useContentInteractionData = (id: string)=> {
+const initialData = { view: 0, lastVisitor: 'Unknown', reactions: defaultReaction }
+
+export const useContentInteractionData = (_id?: string)=> {
   const queryClient = useQueryClient()
+  const id = _id!
   const  { status, data, error, isLoading } = useQuery({
     queryKey: ['content-meta', id],
-    queryFn: async () => {
-      const res = await fetch(`/api/document/${id}/interaction-data`);
-      return await res.json();
-    }
+    queryFn: () => api.getReaction(id!),
+    enabled: id !== undefined
   })
-  let reactions = defaultReaction.map(it => ({name: it, count: 0}))
-  if(data && data?.data?.reactions) {
-    const storedReactions: Record<string, number> = data?.data?.reactions
-    reactions = Object.keys(storedReactions).map(it => ({name: it, count: storedReactions[it]}))
-    defaultReaction.forEach(it => {
-      if(!(it in storedReactions)) {
-        reactions.push({ name: it, count: 0 });
-      }
-    })
-  }
-
   const {mutate:addReaction, mutateAsync: addReactionAsync} = useMutation({
-    mutationFn: async (type:string)=> {
-      return fetch(`/api/document/${id}/reactions?type=${type}`, {
-        method: 'PATCH'
-      }).then(res=>res.json())
-    },
+    mutationFn: async (type:AvailableReactionType)=> api.patchReaction(id, type),
     onMutate: async (type)=> {
       await queryClient.cancelQueries({ queryKey: ['content-meta', id] })
+      const previousReactions = queryClient.getQueryData<ContentReaction>(['content-meta', id])
+      queryClient.setQueryData(['content-meta', id], (data: ContentReaction)=>({
+        ...data,
+        reactions: {
+          ...data.reactions,
+          [type]: (data.reactions[type] ?? 0) + 1
+        }
+      }))
+      return { previousReactions }
+    },
+    onError: (err, newReactions, context) => {
+      queryClient.setQueryData(['content-meta', id], context?.previousReactions)
     },
     onSettled: async () => {
       await queryClient.invalidateQueries({ queryKey: ['content-meta', id] })
@@ -38,10 +38,10 @@ export const useContentInteractionData = (id: string)=> {
 
   return {
     isLoading,
-    view: data?.data?.view ?? 0,
-    click: data?.data?.view ?? 0,
-    lastVisitor: data?.data?.lastVisitor ?? 'Unknown',
-    reactions: reactions,
+    view: data?.view ?? 0,
+    click: data?.view ?? 0,
+    lastVisitor: data?.lastVisitor ?? 'Unknown',
+    reactions: data?.reactions ?? defaultReaction,
     addReactionAsync,
     addReaction,
   }
@@ -49,8 +49,6 @@ export const useContentInteractionData = (id: string)=> {
 
 
 export const useReportViewEvent = (id: string)=> {
-  useEffect(() => {
-    fetch(`/api/document/${id}/interaction/report`)
-  }, [id]);
+  useEffect(() => { fetch(`/api/document/${id}/interaction/report`) }, [id]);
 
 }

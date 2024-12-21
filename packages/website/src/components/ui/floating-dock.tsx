@@ -6,13 +6,13 @@
 
 import { cn } from "@/lib/utils";
 import {
-  AnimatePresence,
   MotionValue,
+  AnimatePresence,
   motion,
   useMotionValue,
   useSpring,
   useTransform,
-} from "framer-motion";
+} from "motion/react";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import {ListCollapse} from "lucide-react";

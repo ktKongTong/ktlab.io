@@ -13,8 +13,9 @@ export const reactionDict:Record<AvailableReactionType, React.ReactNode>= {
   'respect':'🫡'
 }
 
-export const defaultReaction = [
+const _defaultReaction = [
   'like','shit', 'wow','celebration'
 ]
 
+export const defaultReaction:Record<AvailableReactionType, number> = _defaultReaction.reduce((acc, cur)=> ({...acc, [cur]: 0}),{})
 export const allReactions = Object.keys(reactionDict).map(it => ({name: it, node: reactionDict[it]}))

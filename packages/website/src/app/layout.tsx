@@ -22,15 +22,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-    {
-      !isProd() && <head>
-      <script src="https://unpkg.com/react-scan/dist/auto.global.js" async />
-    </head>
-    }
+    {/*{*/}
+    {/*  !isProd() && <head><script src="https://unpkg.com/react-scan/dist/auto.global.js" async /></head>*/}
+    {/*}*/}
       <body className={cn(inter.className)}>
       <Utils/>
       <Providers>
-        <main className={'min-h-screen bg-background'}>
+        <main className={'min-h-screen  dark:bg-zinc-900/70'}>
           {children}
         </main>
       </Providers>

@@ -44,7 +44,7 @@ export const projects = [
   },
   {
     title: 'yuque-exporter-cli',
-    github: 'https://github.com/ktkongtong/kown',
+    github: 'https://github.com/ktkongtong/yuque-cli',
     description: 'a cli that use yuque-api to export yuque content as markdown',
   },
 ]

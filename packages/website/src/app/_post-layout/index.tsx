@@ -10,8 +10,10 @@ import {renderPageContent} from "@/components/markdown/xlog";
 import TocLoader from "@/app/_post-layout/toc-loader";
 import dynamic from "next/dynamic";
 import {Skeleton} from "@/components/ui/skeleton";
+import {ContentSelectionMenuClient as ContentSelectionMenu} from "@/app/_post-layout/content-selection-menu.client";
+import {ClientCommentIDProvider} from "./comment/hooks/use-client-comment-id";
 
-const LzyFooter = dynamic(() => import('./footer'), {
+const LazyFooter = dynamic(() => import('./footer'), {
   loading: ()=> <Skeleton className={'w-full h-full'}/>
 })
 
@@ -40,33 +42,37 @@ export default function PostLayout(
   const toc = inParsedContent.toToc()
   return (
     <PostContextProvider contentId={id}>
-      <div className={'flex justify-between space-x-2 slide-in-from-bottom-2 grow mx-auto'}>
-        <main className={'flex flex-col px-4 max-w-4xl grow mx-auto'}>
-          {withHeader &&
-              <Header
-                  title={title}
-                  createdAt={createdAt}
-                  wordcount={wordcount}
-                  lastModifiedAt={lastModifiedAt}
-                  timeliness={timeliness}
-                  tags={tags.map(tag => ({name: tag, href: `/blog/categories/${tag}`}))}
-              />
-          }
-          <RawMarkdownRender content={content} as={'article'}/>
-          <LzyFooter documentId={id} className={'pb-10 pt-5 mt-5 border-t  border-dashed'} />
-        </main>
-        <aside className={'sticky top-32 hidden lg:flex flex-col max-h-[calc(100vh-96px)] w-[180px] p-2'}>
-          {withToc && toc && <TocLoader toc={toc}/>}
-          {withToc && toc && <Toc className={'min-w-[180px]'} toc={toc}/>}
-          <ClientNavLink href={''} className={'font-medium text-sm mt-4 underline hover:underline-offset-4 underline-offset-2 transition-all hover:text-primary'}>
-            CD ../
-          </ClientNavLink>
-          <ScrollToTop className={'text-sm font-medium mt-4 flex items-center space-x-1'}>
-            <span>scroll to top</span>
-            <CircleArrowUp className={'h-4 w-4'}/>
-          </ScrollToTop>
-        </aside>
-      </div>
+      <ClientCommentIDProvider>
+        <div className={'flex justify-between space-x-2 slide-in-from-bottom-2 grow mx-auto'}>
+          <main className={'flex flex-col px-4 max-w-4xl grow mx-auto'}>
+            {
+              withHeader &&
+                <Header
+                    title={title}
+                    createdAt={createdAt}
+                    wordcount={wordcount}
+                    lastModifiedAt={lastModifiedAt}
+                    timeliness={timeliness}
+                    tags={tags.map(tag => ({name: tag, href: `/blog/categories/${tag}`}))}
+                />
+            }
+            <ContentSelectionMenu/>
+            <RawMarkdownRender content={content} as={'article'} className={'selection:text-primary-foreground selection:bg-primary select-text'}/>
+            <LazyFooter documentId={id} className={'pb-10 pt-5 mt-5 border-t border-border border-dashed'} />
+          </main>
+          <aside className={'sticky top-32 hidden lg:flex flex-col max-h-[calc(100vh-96px)] w-[180px] p-2 select-none'}>
+            {withToc && toc && <TocLoader toc={toc}/>}
+            {withToc && toc && <Toc className={'min-w-[180px]'} toc={toc}/>}
+            <ClientNavLink href={''} className={'font-medium text-sm mt-4 animate-underline'}>
+              CD ../
+            </ClientNavLink>
+            <ScrollToTop className={'text-sm font-medium mt-4 flex items-center space-x-1'}>
+              <span>scroll to top</span>
+              <CircleArrowUp className={'h-4 w-4'}/>
+            </ScrollToTop>
+          </aside>
+        </div>
+      </ClientCommentIDProvider>
     </PostContextProvider>
   )
 }

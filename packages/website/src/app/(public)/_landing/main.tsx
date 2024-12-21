@@ -18,8 +18,8 @@ export default function MainPage({
 ) {
   return (
     <section {...rest}>
-      <div className={'grow flex flex-col md:flex-row items-center md:justify-between max-w-[1024px] w-full mx-auto pt-[160px] md:pt-[0px] md:pb-[200px] space-y-10'}>
-        <Avatar className={'w-40 h-40 rounded-full mx-2 drop-shadow-md'}>
+      <div className={'grow flex flex-col md:flex-row items-center md:justify-between max-w-[1024px] w-full mx-auto pt-[120px] md:pt-[0px] md:pb-[200px] space-y-10'}>
+        <Avatar className={'w-40 h-40 rounded-full mx-2 drop-shadow-md select-none '}>
           <AvatarImage src={img}/>
           <AvatarFallback>{fallback}</AvatarFallback>
         </Avatar>

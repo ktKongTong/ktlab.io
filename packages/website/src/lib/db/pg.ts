@@ -22,13 +22,26 @@ export default class DrizzlePGDB<TSchema extends Record<string, unknown>> implem
     })
   }
 
-  async queryCommentByDocId(documentId:string,page:number = 1, pageSize:number = 100):Promise<CommentDBO[]>{
-    const res = await
+  async queryCommentByDocId(documentId: string, page: number = 1, pageSize: number = 100) {
+    const [comments, [{count}]] = await Promise.all([
       this.db.query.comment.findMany({
         where:eq(this.commentTable.documentId, documentId),
         orderBy: desc(this.commentTable.createdAt),
-      })
-    return res
+        limit: pageSize,
+        offset: (page - 1) * pageSize
+      }),
+      this.db.select({
+        count: sql<number>`COUNT(*)`
+      }).from(this.commentTable)
+      .where(eq(this.commentTable.documentId, documentId))
+    ]);
+
+    return {
+      data: comments,
+      total: count,
+      page,
+      pageSize
+    };
   }
 
   async insertComment(comment:CommentInsertDBO):Promise<CommentDBO> {

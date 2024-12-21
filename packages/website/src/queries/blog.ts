@@ -12,7 +12,7 @@ const documentDBOToSSRArticle = (it: DocumentDBO):SSRArticle=> {
     excerpt: it.mdMetadata?.excerpt ?? "",
     createdAt: it.createdAt.toString(),
     lastModifiedAt: it.lastModifiedAt.toString(),
-    timeliness: it.mdMetadata?.timeliness ? Boolean(it.mdMetadata.timeliness) : false,
+    timeliness: it.mdMetadata?.timeliness ?? false,
     tags: it.tags,
     wordcount: it.mdMetadata?.wordcount ?? 0,
   }

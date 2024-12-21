@@ -1,6 +1,5 @@
 'use client'
-import {useComments} from "@/hooks/query/use-comments";
-import {useCallback, useState} from "react";
+import {useComment, useCommentEditor,} from "./hooks/use-comments";
 import {Button} from "@/components/ui/button";
 import {Textarea} from "@/components/ui/textarea";
 import {RawMarkdownRender} from "@/components/markdown/xlog/render";
@@ -15,15 +14,19 @@ export default function CommentEditor(
   parentId?:string
 }
 ) {
-  const { addComment } = useComments(documentId)
-  const [input, setInput] = useState("");
-  const [disabled, setDisabled] = useState<boolean>(false);
-  const handleDataSubmit = useCallback(async (data: string)=> {
-    setDisabled(true)
-    addComment({comment: data, parentId})
-    setInput("")
-    setDisabled(false)
-  },[parentId, addComment])
+  const { editingComment, setEditingComment, } = useCommentEditor(documentId)
+  const {sendComment, isLoading} = useComment(documentId)
+  const disabled = isLoading
+  const setComment = (v: string) => {
+    setEditingComment(v)
+  }
+
+  const handleDataSubmit = () => {
+    sendComment({
+      commentContent: editingComment,
+      parentId: parentId
+    })
+  }
   return (
     <>
       <div className={'flex flex-col space-y-2'}>
@@ -34,23 +37,23 @@ export default function CommentEditor(
           </TabsList>
           <TabsContent value={'edit'}>
             <Textarea
-              className={`w-full h-full rounded-lg max-h-60 min-h-16 resize-none border-dashed`}
-              onChange={(e) => setInput(e.target.value)}
+              className={`w-full h-full rounded-lg max-h-60 min-h-16 resize-none border-dashed border-border`}
+              onChange={(e) => setComment(e.target.value)}
               placeholder="Write your comment here."
-              value={input}
+              value={editingComment}
               disabled={disabled}
             />
 
           </TabsContent>
           <TabsContent value={'preview'}>
-            <div className={'p-2 border border-dashed rounded-lg grow overflow-y-scroll max-h-60 min-h-16'}>
-              <RawMarkdownRender content={input}/>
+            <div className={'p-2 border border-dashed border-border rounded-lg grow overflow-y-scroll max-h-60 min-h-16'}>
+              <RawMarkdownRender content={editingComment}/>
             </div>
           </TabsContent>
         </Tabs>
         <div className={'justify-self-end self-end items-end space-x-2'}>
-          <Button variant={'ghost'} onClick={() => setInput("")}>clear</Button>
-          <Button variant={'ghost'} onClick={() => handleDataSubmit(input)}>Submit</Button>
+          <Button variant={'ghost'} onClick={() => setEditingComment("")}>clear</Button>
+          <Button variant={'ghost'} onClick={() => handleDataSubmit()}>Submit</Button>
         </div>
 
       </div>

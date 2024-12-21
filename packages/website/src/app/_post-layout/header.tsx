@@ -39,7 +39,6 @@ tags
     </span>
 
   return (
-    <>
     <div>
       <h1 className={'text-4xl font-bold'}>{title}</h1>
       <div className={'flex pt-4  text-sm font-medium justify-between sm:flex-row flex-col'}>
@@ -71,6 +70,5 @@ tags
         </div>
       </div>
     </div>
-    </>
   )
 }

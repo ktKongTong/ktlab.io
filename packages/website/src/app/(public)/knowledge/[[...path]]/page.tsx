@@ -5,6 +5,7 @@ import {getAllDocumentWithoutFolderByStartPath} from "@/lib/db";
 import NotFound from "@/app/not-found";
 import {unstable_cache} from "next/cache";
 import {pathPrefix} from "@/config";
+import {use} from "react";
 
 
 const metadata: Metadata = {
@@ -50,8 +51,6 @@ export default async function KnowledgeBasePage({
 }) {
   let path = (await params).path ?? []
   const article = await getContentByPath(path.join('/'))
-  console.log(path)
-  console.log(article)
   if (!article) {
     return <NotFound />
   }

@@ -12,7 +12,6 @@ export default function CommentsTable({
                                         initialContents
                                       }:ContentTableProps) {
   const contents = useContent(initialContents)
-  console.log("contents", contents)
   return  <Table>
     <TableHeader>
       <TableRow>

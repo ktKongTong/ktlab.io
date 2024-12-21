@@ -1,8 +1,7 @@
 'use client'
-import {useComments} from "@/hooks/query/use-comments";
+import {useComment} from "./hooks/use-comments";
 import {HTMLProps} from "react";
-import {LayoutGroup, motion} from "framer-motion";
-import {Skeleton} from "@/components/ui/skeleton";
+import {LayoutGroup, motion} from "motion/react";
 import {CommentItem} from "@/app/_post-layout/comment/comment-item";
 
 export default function Comments({
@@ -12,7 +11,8 @@ export default function Comments({
 }:{
   contentId:string,
 }& HTMLProps<HTMLDivElement>) {
-  const { isLoadingMore, comments } = useComments(contentId)
+  const { isLoading:isLoadingMore, comments, getClientIdByServerId } = useComment(contentId)
+
   return (
     <div className={className} {...rest}>
       {
@@ -27,7 +27,7 @@ export default function Comments({
                 initial={{x:20, opacity: 0}}
                 animate={{x: 0, opacity: 1}}
                 exit={{x:20, opacity: 0}}
-                key={comment.id}
+                key={getClientIdByServerId(comment.id)}
               >
                 <CommentItem {...comment} />
               </motion.li>

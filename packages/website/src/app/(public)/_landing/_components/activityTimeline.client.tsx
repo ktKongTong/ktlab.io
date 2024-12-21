@@ -6,7 +6,7 @@ import { TimeLineItem } from "./timeline";
 import React, {HTMLProps, useEffect} from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { motion, AnimatePresence } from 'framer-motion';
+import {motion, AnimatePresence} from "motion/react";
 import { cn } from "@/lib/utils";
 interface ClientTimeLineProps {
     activityType: string;

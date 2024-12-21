@@ -1,47 +1,50 @@
 import {HTMLProps} from "react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
-import {cn, relativeTime} from "@/lib/utils";
+import {cn, formatRelativeTime, relativeTime} from "@/lib/utils";
 import {RawMarkdownRender} from "@/components/markdown/xlog/render";
-import {CommentVO} from "@/interfaces";
+import {Comment} from "./hooks/use-comments";
+import { LoaderCircle } from "lucide-react";
 
-export type CommentProps = CommentVO & {
-  sending?: boolean;
-}
+export type CommentProps = Comment
 
 export function CommentItem (
-  {
-    id,
-    version,
-    body,
-    documentId,
-    state,
-    authorId,
-    userInfo,
-    className,
-    createdAt,
-    parentId,
-    ...rest
-  }:CommentProps & HTMLProps<HTMLDivElement>) {
-  return (
-    <div className={'flex'}>
-      <Avatar className={'w-8 h-8 rounded-full mx-2 drop-shadow-md translate-y-2'}>
-        <AvatarImage src={userInfo.imageUrl}/>
-        <AvatarFallback >{userInfo.name}</AvatarFallback>
-      </Avatar>
-      <div className={'text-sm font-medium'}>
-        {parentId && <div></div>}
-        <div className={'space-x-2 flex items-center justify-start mb-1  text-xs'}>
-          <span>{userInfo.name}</span>
-          <time dateTime={createdAt.toString()}>{relativeTime(createdAt)}</time>
-        </div>
+{
+  id,
+  comment,
+  status,
+  className,
+  ...rest
+}:CommentProps
 
-        <div className={cn('relative px-2 py-0.5 rounded-lg bg-secondary text-secondary-foreground w-fit', className)} {...rest}>
+    & HTMLProps<HTMLDivElement>) {
+  return (
+    <div className={'flex select-none'}>
+
+      <div className={'text-sm font-medium'}>
+        {comment.parentId && <div></div>}
+        <div className={'flex items-center gap-1'}>
+          <Avatar className={'w-8 h-8 rounded-full mx-1 drop-shadow-md translate-y-0'}>
+            <AvatarImage src={comment.userInfo?.imageUrl}/>
+            <AvatarFallback>{comment.userInfo?.name?.slice(0, 1)}</AvatarFallback>
+          </Avatar>
+          <div className={'gap-- text-center flex flex-col items-start justify-center mb-1  '}>
+            <span>{comment.userInfo?.name}</span>
+            <time dateTime={comment.createdAt.toString()}
+                  className={'text-xs mt-auto text-muted-foreground'}>{formatRelativeTime(comment.createdAt)}</time>
+          </div>
+        </div>
+        <div
+          className={cn('relative px-4 py-2 rounded-lg  bg-secondary text-secondary-foreground w-fit', className)} {...rest}>
           {
-            version > 1 && <div className={'absolute'}>
+            // @ts-ignore
+            (comment?.version ?? 1) > 1 && <div className={'absolute'}>
                   已编辑
               </div>
           }
-          <RawMarkdownRender content={body.text}/>
+          <RawMarkdownRender content={comment.body.text}/>
+          <div className={'inline-flex absolute -right-4 bottom-0'}>
+            {status === 'sending' && <LoaderCircle className={'w-3 h-3 animate-spin'} />}
+          </div>
         </div>
       </div>
 

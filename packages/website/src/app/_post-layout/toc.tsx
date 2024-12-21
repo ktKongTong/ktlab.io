@@ -1,6 +1,4 @@
 'use client'
-import {useWindowScroll} from '@uidotdev/usehooks'
-import Link from "@/components/link";
 import React, {createElement, HTMLProps, useEffect, useRef, useState} from "react";
 
 interface TOCProps {

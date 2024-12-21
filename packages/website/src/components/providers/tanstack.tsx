@@ -1,6 +1,7 @@
 'use client'
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {QueryCache, QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {PropsWithChildren} from "react";
+import {toast} from "@/hooks/use-toast";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -11,8 +12,18 @@ export const queryClient = new QueryClient({
       refetchIntervalInBackground: false,
     },
   },
+  queryCache: new QueryCache({
+    onError: (error, query) => {
+      toast({
+        title: 'Something went error',
+        description: error.message,
+        variant: 'destructive'
+      })
+    },
+  }),
 })
 export const ReactQueryProvider = ({ children }: PropsWithChildren) => {
+
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )

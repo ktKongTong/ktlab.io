@@ -1,5 +1,5 @@
 'use client'
-import {HTMLProps, useEffect, useMemo, useState} from "react";
+import {HTMLProps, useMemo} from "react";
 import {useWindowScroll, useThrottle} from "@uidotdev/usehooks";
 import {cn} from "@/lib/utils";
 

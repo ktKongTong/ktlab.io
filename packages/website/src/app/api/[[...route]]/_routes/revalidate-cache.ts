@@ -1,7 +1,6 @@
 import {Hono} from "hono";
-import {R} from "@/app/api/[[...route]]/_utils";
 import {revalidatePath, revalidateTag} from "next/cache";
-import {zValidator} from "@hono/zod-validator";
+import {zValidator} from "../_utils/validator-wrapper";
 import {revalidateCacheDTO} from "@repo/shared";
 import { bearerAuth } from 'hono/bearer-auth'
 
@@ -17,7 +16,7 @@ app.put('/api/isr/revalidate',
   const {paths, tags} = c.req.valid('json')
   paths.map(it=>revalidatePath(it))
   tags.map(it => revalidateTag(it))
-  return R.success(c)
+  return c.json({})
 })
 
 export { app as revalidateRoute }

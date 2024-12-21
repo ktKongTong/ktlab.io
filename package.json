@@ -6,6 +6,7 @@
     "build": "pnpm run -r build"
   },
   "devDependencies": {
+    "tsup": "^8.3.5",
     "@faker-js/faker": "^8.4.1",
     "@shikijs/rehype": "^1.6.2",
     "@types/dom-view-transitions": "^1.0.4",
@@ -15,8 +16,8 @@
     "@types/mdast": "^4.0.4",
     "@types/node": "^20",
     "@types/pangu": "^4.0.2",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@types/rss": "^0.0.32",
     "@typescript-eslint/eslint-plugin": "8.13.0",

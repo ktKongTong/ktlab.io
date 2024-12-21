@@ -9,7 +9,7 @@ export default function Providers({
   return <>
 
     <ReactQueryProvider>
-    <ThemeProvider>
+    <ThemeProvider attribute={'data-mode'}>
       <ClerkProvider>
         {children}
       </ClerkProvider>
