@@ -16,12 +16,9 @@ export default function Footer({
   return (
     <>
       {
-        <div {...rest} className={cn('flex flex-col items-center justify-center', rest.className)}>
-          <div className={'flex w-full items-center justify-between flex-col gap-2 md:gap-0 md:flex-row'}>
-            <Label className={'text-lg items-start self-start'}>Comments</Label>
-            <Reactions contentId={documentId} className={''}/>
-          </div>
-
+        <div {...rest} className={cn('flex flex-col items-center justify-center select-none', rest.className)}>
+          <Reactions contentId={documentId} className={'flex w-full items-center justify-center gap-2 md:gap-1 select-none'}/>
+          <Label className={'text-lg items-start self-start'}>Comments</Label>
           <div className={'w-full grow flex flex-col items-end'}>
             <div className={cn(' w-full grow')}>
               <CommentEditor documentId={documentId}/>

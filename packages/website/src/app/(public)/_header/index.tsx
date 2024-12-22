@@ -64,13 +64,14 @@ export default function Header({
           className={cn(
             'flex items-center justify-center ',
             'group',
-            'shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5',
-            'rounded-full bg-gradient-to-b from-zinc-50/70 to-white/90',
-            'dark:from-zinc-900/70 dark:to-zinc-800/90 dark:ring-zinc-100/10 relative',
+            'shadow-lg',
+            //  shadow-zinc-800/5 ring-1 ring-zinc-900/5 bg-gradient-to-b from-zinc-50/70 to-white/90 dark:from-zinc-900/70 dark:to-zinc-800/90 dark:ring-zinc-100/10
+            'rounded-full',
+            'relative',
             )}
 
         >
-            <MouseTrackGlow/>
+            {/*<MouseTrackGlow/>*/}
             <Avatar className={'w-10 h-10 rounded-full'} onClick={() => !isLg && setShowCatalog(s => !s)}>
               <AvatarImage src={img}/>
               <AvatarFallback>{fallback}</AvatarFallback>

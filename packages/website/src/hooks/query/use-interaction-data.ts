@@ -14,6 +14,8 @@ export const useContentInteractionData = (_id?: string)=> {
     queryFn: () => api.getReaction(id!),
     enabled: id !== undefined
   })
+  // reaction
+
   const {mutate:addReaction, mutateAsync: addReactionAsync} = useMutation({
     mutationFn: async (type:AvailableReactionType)=> api.patchReaction(id, type),
     onMutate: async (type)=> {
@@ -35,13 +37,21 @@ export const useContentInteractionData = (_id?: string)=> {
       await queryClient.invalidateQueries({ queryKey: ['content-meta', id] })
     },
   })
+  let reactions = data?.reactions ?? {}
+  Object.entries(defaultReaction).forEach(([key, value]) => {
+    if(!reactions[key]) {
+      reactions[key] = value
+    }
+  })
 
+  const reactionEntries = Object.entries(reactions)
+    .toSorted((a, b) => a[0].localeCompare(b[0]))
   return {
     isLoading,
     view: data?.view ?? 0,
     click: data?.view ?? 0,
     lastVisitor: data?.lastVisitor ?? 'Unknown',
-    reactions: data?.reactions ?? defaultReaction,
+    reactions: reactionEntries,
     addReactionAsync,
     addReaction,
   }
