@@ -1,4 +1,4 @@
-
+'use client'
 import type { Result as TocResult } from "mdast-util-toc"
 import { create } from 'zustand'
 import {List, ListItem} from "mdast";
@@ -6,6 +6,7 @@ import katex from "katex";
 import {toHtml} from "hast-util-to-html";
 import {toHast} from "mdast-util-to-hast";
 import DOMPurify from "isomorphic-dompurify";
+import {useEffect} from "react";
 
 type TOC = {
   toc?: ItemProps[],
@@ -95,12 +96,27 @@ const useToc = () => {
 export const useCatalog = () => {
   const catalogs = useTocStore(state => state.catalogs)
   const updateCatalogs = useTocStore(state => state.updateCatalogs)
+  const resetCatalog = () => {
+    updateCatalogs()
+  }
+  // resetId,
+
+  const isKnowledgebasePage = catalogs != undefined
   return {
     catalogs,
-    updateCatalogs
+    updateCatalogs,
+    resetCatalog,
+    isKnowledgebasePage
   }
 }
 
+export const NotKnowledgebasePage = () => {
+  const {resetCatalog, catalogs} = useCatalog()
+  useEffect(() => {
+    resetCatalog()
+  }, [])
+  return null
+}
 
 const inlineElements = ["delete", "strong", "emphasis", "inlineCode"]
 

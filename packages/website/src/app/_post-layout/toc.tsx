@@ -43,10 +43,10 @@ export default function TocView({
 } & HTMLProps<HTMLDivElement>){
   const { toc, tocIds } = useToc()
   return (
-    <div className="xlog-post-toc  left-full  lg:block hidden" {...rest}>
-      <span>on this page</span>
+    <div className="xlog-post-toc  left-full select-none lg:block hidden" {...rest}>
+      <span className={'font-semibold text-md w-full whitespace-nowrap'}>on this page</span>
       <div
-        className="sticky top-14 text-sm leading-loose whitespace-nowrap truncate"
+        className="text-sm leading-loose whitespace-nowrap truncate"
         style={{
           overflowY: "auto",
         }}

@@ -2,6 +2,9 @@ import {getBlogPosts} from "@/queries/blog";
 import {ArticleList} from "@/components/article-list";
 import {unstable_cache} from "next/cache";
 import {Metadata} from "next";
+import {NotPostPage} from "@/app/_post-layout/use-post";
+import {NotKnowledgebasePage} from "@/hooks/use-toc";
+import React from "react";
 
 
 const getBlogs = unstable_cache(getBlogPosts, ['blogs'], {
@@ -22,6 +25,8 @@ export default async function Page() {
     <div className={'max-w-2xl w-full mx-10'}>
       <div className={'text-3xl font-bold '}>{"文稿"}</div>
       <ArticleList postsPromise={posts}/>
+      <NotPostPage/>
+      <NotKnowledgebasePage/>
     </div>
   )
 }

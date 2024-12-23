@@ -6,6 +6,8 @@ import {codeToHtml} from "shiki";
 import React, { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import dynamic from "next/dynamic";
+import {NotPostPage} from "@/app/_post-layout/use-post";
+import {NotKnowledgebasePage} from "@/hooks/use-toc";
 
 const RecentPage = dynamic(() => import("@/app/(public)/_landing/recent-activity"), {
   loading: (loadingProps)=> <Skeleton className={'w-full min-h-screen'}/>,
@@ -40,7 +42,7 @@ export default async function Home() {
   }]
   const html = await (codeToHtml(code, {
     lang: "kotlin",
-    theme: "nord",
+    theme: "github-dark",
   }))
   return (
     <>
@@ -68,6 +70,8 @@ export default async function Home() {
       </MainPage>
       <RecentPage className={'flex min-h-screen h-[calc(100vh-200px)] lg:h-[calc(100vh-228px)] select-none flex-col px-10 w-full md:px-40 pt-[64px] items-center my-auto'}/>
       <ProjectPage className={'h-[calc(100vh-98px)] select-none lg:h-[calc(100vh-97px)] w-full flex flex-col px-10 md:px-40 pt-[64px] my-auto'}/>
+      <NotPostPage/>
+      <NotKnowledgebasePage/>
     </>
   );
 }

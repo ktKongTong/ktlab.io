@@ -1,8 +1,9 @@
 'use client'
 import CommentDialog from "./comment-dialog";
 import {MessageCircleMore, ThumbsDown, ThumbsUp} from "lucide-react";
-import {useCurrentPostId} from "@/app/_post-layout/use-post";
+import {useCurrentPostId, usePostId} from "@/app/_post-layout/use-post";
 import {useContentInteractionData} from "@/hooks/query/use-interaction-data";
+import {useEffect} from "react";
 
 export default function Reaction({id}: {id: string}) {
   const { contentId } = useCurrentPostId()

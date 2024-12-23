@@ -1,7 +1,7 @@
 'use client'
 import CommentEditor from "./comment-editor";
 import Comments from "./comments";
-import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog";
+import {Dialog, DialogContent, DialogTitle, DialogTrigger} from "@/components/ui/dialog";
 import {Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerTrigger} from "@/components/ui/drawer";
 import {Button} from "@/components/ui/button";
 import {useState} from "react";
@@ -36,6 +36,7 @@ function DesktopCommentDialog(
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>{children}</DialogTrigger>
       <DialogContent className={'w-full overflow-y-hidden'}>
+        <DialogTitle>Comments</DialogTitle>
         <div className={''}>
           <CommentEditor documentId={contentId}/>
           <Comments contentId={contentId} className={'w-full overflow-y-scroll max-h-[500px]'}/>
@@ -61,12 +62,9 @@ function MobileCommentDrawer(
         {children}
       </DrawerTrigger>
       <DrawerContent  className={'w-full overflow-y-hidden'}>
-        <Comments contentId={contentId} className={'w-full overflow-y-scroll max-h-[500px]'}/>
+        <Comments contentId={contentId} className={'w-full overflow-y-scroll max-h-[calc(100vh-350px)] px-3'}/>
         <DrawerFooter className="pt-2">
           <CommentEditor documentId={contentId}/>
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

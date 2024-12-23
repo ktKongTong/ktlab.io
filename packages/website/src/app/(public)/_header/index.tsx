@@ -11,6 +11,7 @@ import {motion, AnimatePresence} from "motion/react";
 import LockBodyScroll from "@/components/LockBodyScroll";
 import {SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
 import {useBreakpoint} from "@/hooks/use-breakpoint";
+import {usePostId} from "@/app/_post-layout/use-post";
 
 
 interface HeaderProps {
@@ -25,8 +26,9 @@ export default function Header({
   navItems,
   ...rest
 }: HeaderProps & React.HTMLProps<HTMLDivElement>) {
-  const { catalogs } = useCatalog()
+  const { catalogs, isKnowledgebasePage } = useCatalog()
   const [showCatalog, setShowCatalog] = useState<boolean>(false)
+  const {} = usePostId()
   const popoverRef = useRef<HTMLDivElement>(null);
   const [ref, {width, height}] = useMeasure();
   const handleClickOutside = (event: any) => {
@@ -82,7 +84,7 @@ export default function Header({
           {/*<ThemeSwitch/>*/}
             <AnimatePresence>
               {
-                !isLg &&
+                !isLg && isKnowledgebasePage &&
                   <motion.div
                       layout
                       initial={{opacity: 0, x: 20, width: 0,}}

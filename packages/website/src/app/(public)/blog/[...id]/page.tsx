@@ -4,6 +4,8 @@ import {Metadata} from "next";
 import {getAllDocumentWithoutFolder} from "@/lib/db";
 import {unstable_cache} from "next/cache";
 import NotFound from "@/app/not-found";
+import {NotKnowledgebasePage} from "@/hooks/use-toc";
+import React from "react";
 
 const metadata: Metadata = {
   title: 'ktlab | Blog',
@@ -47,6 +49,9 @@ export default async function BlogPage({
     return <NotFound />
   }
   return (
-    <PostLayout {...blog} withCommentArea={true}/>
+    <>
+      <PostLayout {...blog} withCommentArea={true}/>
+      <NotKnowledgebasePage/>
+    </>
   )
 }
