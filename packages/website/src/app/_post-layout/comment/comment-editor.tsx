@@ -2,7 +2,7 @@
 import {useComment, useCommentEditor,} from "./hooks/use-comments";
 import {Button} from "@/components/ui/button";
 import {Textarea} from "@/components/ui/textarea";
-import {RawMarkdownRender} from "@/components/markdown/xlog/render";
+import {Markdown} from "@/components/markdown";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 
 export default function CommentEditor(
@@ -47,7 +47,7 @@ export default function CommentEditor(
           </TabsContent>
           <TabsContent value={'preview'}>
             <div className={'p-2 border border-dashed border-border rounded-lg grow overflow-y-scroll max-h-60 min-h-16'}>
-              <RawMarkdownRender content={editingComment}/>
+              <Markdown content={editingComment}/>
             </div>
           </TabsContent>
         </Tabs>

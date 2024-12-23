@@ -1,4 +1,4 @@
-import {renderPageContent} from "@/components/markdown/xlog/index";
+import {renderPageContent} from "../xlog/index";
 import {cn} from "@/lib/utils";
 export type PolymorphicComponentProps<T extends React.ElementType> = {
   as?: T;

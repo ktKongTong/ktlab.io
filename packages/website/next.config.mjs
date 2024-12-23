@@ -19,6 +19,14 @@ const nextConfig = {
                 hostname: 'obsidian.ktlab.io',
                 protocol: 'https',
             },
+            {
+                hostname: 'p1-jj.byteimg.com',
+                protocol: 'https',
+            },
+            {
+                hostname: 'www.snowpack.dev',
+                protocol: 'https',
+            }
         ],
     },
 

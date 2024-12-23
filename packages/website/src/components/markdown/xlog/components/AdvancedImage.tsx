@@ -23,7 +23,10 @@ export default function AdvancedImage(props: TImageProps) {
   if(isExcalidrawLink(props.src)) {
     return <ExcalidrawSource {...props} className={"rounded-lg"} />
   }
-  return <Image src={props.src} className={'md-image'} loading="lazy" alt={props.alt} width={'800'} height={'400'} />
+  return    <Image
+    overrideSrc="/not_found.png"
+    src={props.src} className={'md-image'} loading="lazy" alt={props.alt} width={'800'} height={'400'}  style={{ width: "100%"}}
+    />
 }
 
 

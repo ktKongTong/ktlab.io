@@ -1,170 +1,109 @@
 "use client"
 
-import { Suspense, use, useMemo, useRef, type FC } from "react"
-import {
-  bundledLanguages,
-  bundledThemes,
-  getHighlighter,
-  type BundledLanguage,
-  type BundledTheme,
-  type DynamicImportLanguageRegistration,
-  type DynamicImportThemeRegistration,
-  type Highlighter,
-  type HighlighterCore,
-} from "shiki"
-
-import { shikiTransformers } from "./shikiShared"
+import {Suspense, use, type FC, useState, useRef} from "react"
 import type { ShikiCodeProps } from "./types"
+import { useCodeTheme } from "./theme-ctx";
+import {
+  checkIfLangLoaded,
+  checkIfThemeLoaded,
+  createCodeHighlightCorePromise, highlighterCoreLoaded,
+  registerLangAndTheme
+} from "@/components/markdown/xlog/components/shiki/loader";
+import {Select, SelectContent, SelectItem, SelectTrigger} from "@/components/ui/select";
+import {cn} from "@/lib/utils";
 
-let highlighter: Highlighter | undefined
-export const createHighlighter = async () => {
-  if (!highlighter) {
-    highlighter = await getHighlighter({
-      themes: Object.keys(bundledThemes),
-      langs: Object.keys(bundledLanguages),
-    })
-  }
-  return highlighter
+export const ShikiRenderInternal: FC<ShikiCodeProps> = ({
+   code,
+   language,
+   codeTheme,
+}) => {
+  let lang = language
+  use(createCodeHighlightCorePromise)
+  const { loading, currentTheme, availableTheme, updateCurrentTheme, renderedHtml, tryLoadAndSetTheme,currentThemeInfo } = useCodeTheme(lang, code, codeTheme)
+  return <div
+    className={cn(
+      'rounded-lg border border-border ',
+    )}
+    style={{
+      background: currentThemeInfo?.bg,
+      color: currentThemeInfo?.fg,
+    }}
+
+  >
+    <div
+      className={'items-center border-b py-2 gap-2 *:px-4 flex'}
+      style={{
+        borderColor: currentThemeInfo?.fg + '4F',
+      }}
+    >
+      <div>{lang}</div>
+      <Select value={currentTheme.name} defaultValue={currentTheme.name} onValueChange={(v) => {
+        tryLoadAndSetTheme(v)
+      }}>
+        <SelectTrigger
+          className={'bg-transparent border-none max-w-40 h-6'}
+        >{currentTheme.name}</SelectTrigger>
+        <SelectContent>
+          {
+            availableTheme.map((it) => <SelectItem key={it.name} value={it.name}>{it.name}</SelectItem>)
+          }
+        </SelectContent>
+      </Select>
+    </div>
+    {
+      !renderedHtml ? (<pre className={"whitespace-pre-wrap"}>
+        <code>{code}</code>
+      </pre>) :
+        (<div
+          className={' *:px-2 *:whitespace overflow-x-auto max-w-none w-full relative'}
+          dangerouslySetInnerHTML={{__html: renderedHtml}}/>)
+    }
+  </div>
 }
 
-let highlighterCore: HighlighterCore | null = null
-const codeHighlighterPromise = (async () => {
-  if (highlighterCore) return highlighterCore
-  const [{ getHighlighterCore }, getWasm] = await Promise.all([
-    import("shiki/core"),
-    import("shiki/wasm").then((m) => m.default),
-  ])
+let loadedLang = []
 
-  const core = await getHighlighterCore({
-    themes: [
-      import("shiki/themes/github-light.mjs"),
-      import("shiki/themes/github-dark.mjs"),
-    ],
-    langs: [],
-    loadWasm: getWasm,
-  })
+const promiseMap:Record<string, any> = {
 
-  highlighterCore = core
-  return core
-})()
+}
 
-export const ShikiRender: FC<ShikiCodeProps> = (props) => {
+const createLangAndThemeLoader = (
+
+  lang: string,
+theme: any
+) => {
+  return  registerLangAndTheme(lang as any, theme)
+}
+
+const ShikiLoader = (
+  {
+    lang,
+    theme
+  }: {
+    lang: string
+    theme: any
+  }
+) => {
+  const promise = createLangAndThemeLoader(lang, theme)
   return (
-    <Suspense
-      fallback={
-        <pre className={'whitespace-pre-wrap'}>
-          <code>{props.code}</code>
-        </pre>
-      }
-    >
-      <ShikiRenderInternal {...props} />
+    <Suspense fallback={<></>}>
+      <ShikiLangLoader promise={promise}/>
     </Suspense>
   )
 }
 
-let langModule: Record<
-  BundledLanguage,
-  DynamicImportLanguageRegistration
-> | null = null
-let themeModule: Record<BundledTheme, DynamicImportThemeRegistration> | null =
-  null
-
-const ShikiRenderInternal: FC<ShikiCodeProps> = ({
-   code,
-   codeTheme = {
-     light: "github-light-default",
-     dark: "github-dark-default",
-   },
-   language,
-}) => {
-  const shiki = use(codeHighlighterPromise)
-  const loadThemesRef = useRef([] as string[])
-  const loadLanguagesRef = useRef([] as string[])
-
-  use(
-    useMemo(() => {
-      async function register() {
-        if (!language || !codeTheme) return
-
-        async function loadShikiLanguage(
-          language: string,
-          languageModule: any,
-        ) {
-          if (!shiki) return
-          if (!shiki.getLoadedLanguages().includes(language)) {
-            await shiki.loadLanguage(await languageModule())
-          }
-        }
-        async function loadShikiTheme(theme: string, themeModule: any) {
-          if (!shiki) return
-          if (!shiki.getLoadedThemes().includes(theme)) {
-            await shiki.loadTheme(await themeModule())
-          }
-        }
-        const [{ bundledLanguages }, { bundledThemes }] =
-          langModule && themeModule
-            ? [
-              {
-                bundledLanguages: langModule,
-              },
-              { bundledThemes: themeModule },
-            ]
-            : await Promise.all([import("shiki/langs"), import("shiki/themes")])
-
-        langModule = bundledLanguages
-        themeModule = bundledThemes
-
-        if (
-          language &&
-          loadLanguagesRef.current.includes(language) &&
-          codeTheme &&
-          loadThemesRef.current.includes(codeTheme)
-        )
-          return
-        return Promise.all([
-          (async () => {
-            if (language) {
-              const importFn = (bundledLanguages as any)[language]
-              if (!importFn) return
-              await loadShikiLanguage(language || "", importFn)
-              loadLanguagesRef.current.push(language)
-            }
-          })(),
-          (async () => {
-            if (codeTheme) {
-              const themes = [codeTheme.light, codeTheme.dark]
-              return themes.map(async (theme) => {
-                const importFn = (bundledThemes as any)[theme]
-                if (!importFn) return
-                await loadShikiTheme(theme || "", importFn)
-                loadThemesRef.current.push(theme)
-              })
-            }
-          })(),
-        ])
-      }
-      return register()
-    }, [codeTheme, language, shiki]),
+const voidPromise = (async ()=> {})()
+const ShikiLangLoader = (
+  {
+    promise
+  }: {
+    promise: Promise<any>
+  }
+) => {
+  use(promise)
+  return (
+    <></>
   )
-  const rendered = useMemo(() => {
-    try {
-      return shiki.codeToHtml(code, {
-        lang: language!,
-        themes: codeTheme,
-        transformers: shikiTransformers,
-      })
-    } catch {
-      return null
-    }
-  }, [shiki, code, language, codeTheme])
-
-  if (!rendered) return (
-      <pre className={"whitespace-pre-wrap"}>
-        <code>{code}</code>
-      </pre>
-    )
-  return <div className={'pt-2'}>
-
-    <div className={'*:px-2 *:overflow-x-scroll *:py-4 *:rounded-lg *:border *:border-accent *:whitespace-pre-wrap'} dangerouslySetInnerHTML={{__html: rendered}}/>
-  </div>
 }
+
+//registerLangAndTheme(lang as any, theme)

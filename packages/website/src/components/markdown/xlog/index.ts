@@ -45,6 +45,7 @@ import sanitizeScheme from "./sanitize-schema"
 import {isServerSide} from "@/lib/utils";
 import {createPreComponent} from "@/components/markdown/xlog/utils/create-pre-component";
 import {createMarkdownHeaderComponent} from "@/components/markdown/xlog/utils/create-markdown-component";
+import {rehypeRemoveParagraph} from "@/components/markdown/xlog/rehype-p";
 
 const Mermaid = dynamic(() => import("./components/Mermaid"))
 const Icon = dynamic(() => import("./components/Icon"))
@@ -93,6 +94,7 @@ export const renderPageContent = ({
       .use(emoji)
       .use(remarkRehype, { allowDangerousHtml: true })
       .use(rehypeRaw)
+      .use(rehypeRemoveParagraph)
       .use(rehypeSlug)
       .use(rehypeSanitize, strictMode ? undefined : sanitizeScheme)
       .use(rehypeSrcUrl)
@@ -142,6 +144,7 @@ export const renderPageContent = ({
           h4: HeadRenderMap.h4,
           h5: HeadRenderMap.h5,
           pre: createPreComponent(codeTheme),
+
         },
         ignoreInvalidStyle: true,
         // @ts-expect-error: untyped.
@@ -169,10 +172,7 @@ export const renderPageContent = ({
       if (mdastTree) {
         visit(mdastTree, (node, index, parent) => {
           if (node.type === "yaml") {
-            metadata.frontMatter = load(node.value) as Record<
-              string,
-              any
-            >
+            metadata.frontMatter = load(node.value) as Record<string, any>
           }
         })
       }

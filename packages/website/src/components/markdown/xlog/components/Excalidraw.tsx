@@ -4,17 +4,19 @@ import dynamic from "next/dynamic";
 import {useEffect, useState} from "react";
 import {decompressFromBase64} from "lz-string";
 import {useTheme} from "next-themes";
-import Loading from "@/app/loading";
-const Excalidraw = dynamic(
-  async () => (await import("@excalidraw/excalidraw")).Excalidraw,
-  {
-    ssr: false,
-  },
-);
+// see https://github.com/excalidraw/excalidraw/issues/8923
+// import {Excalidraw} from "@excalidraw/excalidraw"
+// const Excalidraw = dynamic(
+//   async () => import("@excalidraw/excalidraw").then(res => res.Excalidraw),
+//   {
+//     ssr: false,
+//   },
+// );
+
 export function ExcalidrawSource(props: TImageProps) {
   const [load, setLoad] = useState(false);
-  const {src,...rest} = props
-  const [data,setData] = useState<any>(undefined)
+  const {src, ...rest} = props
+  const [data, setData] = useState<any>(undefined)
   const {theme} = useTheme()
   useEffect(() => {
     fetch(src).then(async (response) => {
@@ -39,16 +41,17 @@ export function ExcalidrawSource(props: TImageProps) {
   }, [setLoad, src, setData])
 
   // fetch src convert to Excalidraw
-  return <div className="h-[500px] relative rounded-lg flex flex-col items-center justify-center">
+  return <span className="h-[500px] relative rounded-lg flex flex-col items-center justify-center block">
     {
       load ? (
-        <Excalidraw
-          initialData={data}
-          theme={theme as any ?? 'light'}
-        />
-      ): <div className={"mx-auto text-lg"}><Loading/></div>
+        <span className={"mx-auto text-lg"}>React 19 isn't yet supported by Excalidraw ...</span>
+        // <Excalidraw
+        //   initialData={data}
+        //   theme={theme as any ?? 'light'}
+        // />
+      ) : <span className={"mx-auto text-lg"}>loading...</span>
     }
-  </div>
+  </span>
 }
 
 const DRAWING_REG = /\n##? Drawing\n[^`]*(```json\n)([\s\S]*?)```\n/gm; //https://github.com/zsviczian/obsidian-excalidraw-plugin/issues/182

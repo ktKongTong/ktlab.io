@@ -1,7 +1,7 @@
 import {HTMLProps} from "react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {cn, formatRelativeTime, relativeTime} from "@/lib/utils";
-import {RawMarkdownRender} from "@/components/markdown/xlog/render";
+import {Markdown} from "@/components/markdown";
 import {Comment} from "./hooks/use-comments";
 import { LoaderCircle } from "lucide-react";
 
@@ -41,7 +41,7 @@ export function CommentItem (
                   已编辑
               </div>
           }
-          <RawMarkdownRender content={comment.body.text}/>
+          <Markdown content={comment.body.text}/>
           <div className={'inline-flex absolute -right-4 bottom-0'}>
             {status === 'sending' && <LoaderCircle className={'w-3 h-3 animate-spin'} />}
           </div>

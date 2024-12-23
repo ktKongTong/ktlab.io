@@ -1,21 +1,37 @@
 "use client"
-import { type FC, type ReactNode } from "react"
+import {type FC, type ReactNode, Suspense} from "react"
 import type { BundledTheme } from "shiki/themes"
 
-import { ShikiRender } from "./shiki.client"
+import { ShikiRenderInternal} from "./shiki.client"
+import type {BundleLanguage, ShikiCodeProps} from "@/components/markdown/xlog/components/shiki/types";
 
-const ShikiRemark: FC<{
+type ShikiRemarkProps = {
   codeTheme?: {
     light?: BundledTheme
     dark?: BundledTheme
   }
   children?: ReactNode
-}> = (props) => {
+}
+
+export const ShikiRender: FC<ShikiCodeProps> = (props) => {
+  return (
+    <Suspense
+      fallback={
+        <pre className={'whitespace-pre-wrap'}>
+          <code>{props.code}</code>
+        </pre>
+      }
+    >
+      <ShikiRenderInternal {...props} />
+    </Suspense>
+  )
+}
+const ShikiRemark = (props:ShikiRemarkProps) => {
   const code = pickMdAstCode(props)
-  const language = pickCodeLanguage(props)
+  const language = pickCodeLanguage(props) as BundleLanguage
 
   return (
-    <ShikiRender code={code} language={language} codeTheme={props.codeTheme} />
+      <ShikiRender code={code} language={language} codeTheme={props.codeTheme} />
   // <pre>
   //   {code}
   // </pre>
