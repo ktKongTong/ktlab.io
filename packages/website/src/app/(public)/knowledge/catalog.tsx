@@ -1,7 +1,7 @@
 'use client';
 import React, {HTMLProps, useEffect, useState} from "react";
 import {cn} from "@/lib/utils";
-import useToc from "@/hooks/use-toc";
+import useToc, {useCatalog} from "@/hooks/use-toc";
 import {CatalogItem, CatalogItemProps} from "./catalog-item";
 import {
   Select,
@@ -19,7 +19,7 @@ export default function Catalog({
 }: {
   catalogs: CatalogProps[]
 } & HTMLProps<HTMLDivElement>) {
-  const {updateCatalogs} = useToc()
+  const {updateCatalogs} = useCatalog()
 
   const [currentCatalogIdx, setCurrentCatalogIdx] = useState(0)
   const currentCatalog = catalogs[currentCatalogIdx]

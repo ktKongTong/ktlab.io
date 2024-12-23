@@ -2,10 +2,8 @@
 import React, {useEffect, useRef, useState} from "react";
 import {cn} from "@/lib/utils";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
-import ThemeSwitch from "./theme-switch";
 import NavItem, {NavItemProps} from "./nav-item";
-import Toc from "@/app/_post-layout/toc";
-import useToc from "@/hooks/use-toc";
+import useToc, {useCatalog} from "@/hooks/use-toc";
 import {CatalogItem} from "@/app/(public)/knowledge/catalog-item";
 import {useMeasure} from "@uidotdev/usehooks";
 import {LogIn, Menu, UserRoundPlus} from "lucide-react";
@@ -13,7 +11,6 @@ import {motion, AnimatePresence} from "motion/react";
 import LockBodyScroll from "@/components/LockBodyScroll";
 import {SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
 import {useBreakpoint} from "@/hooks/use-breakpoint";
-import {useBgGlow} from "@/hooks/use-bg-glow";
 
 
 interface HeaderProps {
@@ -28,9 +25,7 @@ export default function Header({
   navItems,
   ...rest
 }: HeaderProps & React.HTMLProps<HTMLDivElement>) {
-  //
-  const {catalogs, toc} = useToc()
-  const [showToc, setShowToc] = useState<boolean>(false)
+  const { catalogs } = useCatalog()
   const [showCatalog, setShowCatalog] = useState<boolean>(false)
   const popoverRef = useRef<HTMLDivElement>(null);
   const [ref, {width, height}] = useMeasure();
@@ -38,7 +33,6 @@ export default function Header({
     if (
       popoverRef.current && !popoverRef.current.contains(event.target)
     ) {
-      setShowToc(false)
       setShowCatalog(false)
     }
   }
@@ -50,8 +44,7 @@ export default function Header({
   }, []);
 
       const {isLg} = useBreakpoint('lg')
-      const isActive = true
-      const {handleMouseMove, MouseTrackGlow} = useBgGlow()
+      // const {handleMouseMove, MouseTrackGlow} = useBgGlow()
       return (
       <header
         {...rest}
@@ -59,7 +52,7 @@ export default function Header({
         <motion.div
           className={" border-b lg:border border-border  absolute top-0 overflow-hidden mt-6 rounded-[24px] grow lg:grow-0 transition-all border bg-background "}>
         <motion.nav
-          onMouseMove={handleMouseMove}
+          // onMouseMove={handleMouseMove}
           ref={ref}
           className={cn(
             'flex items-center justify-center ',
@@ -86,17 +79,17 @@ export default function Header({
               }
             </ul>
 
-          <ThemeSwitch/>
+          {/*<ThemeSwitch/>*/}
             <AnimatePresence>
               {
-                !isLg && toc &&
+                !isLg &&
                   <motion.div
                       layout
                       initial={{opacity: 0, x: 20, width: 0,}}
                       animate={{opacity: 1, x: 0, width: 40,}}
                       exit={{opacity: 0, x: 20, width: 0,}}
                       className={'h-10 rounded-full flex items-center justify-center'}
-                      onClick={() => !isLg && setShowToc(s => !s)}>
+                      onClick={() => !isLg && setShowCatalog(s => !s)}>
                       <Menu className={'w-6 h-6'}/>
                   </motion.div>
               }
@@ -118,40 +111,23 @@ export default function Header({
             ref={popoverRef}
             className={`max-h-[calc(100vh-64px)] overflow-y-scroll lg:hidden bg-background`}
         >
-        {
-          ((showCatalog && catalogs) || (showToc && toc))
-          && <LockBodyScroll/>
-        }
-            <AnimatePresence>
-              {showCatalog && catalogs &&
-                  <motion.div
-                      initial={{height: 0}}
-                      animate={{height: 'auto'}}
-                      exit={{height: 0}}
-                      className={'overflow-y-scroll p-2'} style={{
-                    maxWidth: width ?? 0
-                  }}
-                  >
-                      <ul className={''}>
-                        {
-                          catalogs.map((catalog, idx) => (<CatalogItem key={idx} {...catalog} />))
-                        }
-                      </ul>
-                  </motion.div>
-              }
-            </AnimatePresence>
-            <AnimatePresence>
-              {
-                showToc && toc && <motion.div
-
-                      initial={{height: 0}}
-                      animate={{height: 'auto'}}
-                      exit={{height: 0}}
-                  >
-                      <Toc className={'relative p-2'} toc={toc}/>
-                  </motion.div>
-              }
-            </AnimatePresence>
+          <AnimatePresence>
+            {showCatalog && catalogs &&
+              <motion.div
+                initial={{height: 0}}
+                animate={{height: 'auto'}}
+                exit={{height: 0}}
+                className={'overflow-y-scroll p-2'} style={{ maxWidth: width ?? 0 }}
+              >
+                <ul className={''}>
+                  {
+                    catalogs.map((catalog, idx) => (<CatalogItem key={idx} {...catalog} />))
+                  }
+                </ul>
+                <LockBodyScroll/>
+              </motion.div>
+            }
+          </AnimatePresence>
         </div>
     }
   </motion.div>

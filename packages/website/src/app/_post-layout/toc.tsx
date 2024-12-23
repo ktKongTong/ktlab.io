@@ -1,43 +1,6 @@
 'use client'
-import React, {createElement, HTMLProps, useEffect, useRef, useState} from "react";
-
-interface TOCProps {
-  id: string,
-  title: string,
-  level: number,
-  childrens: TOCProps[]
-}
-
-import katex from "katex"
-import type { Result as TocResult } from "mdast-util-toc"
-import {toHtml} from "hast-util-to-html";
-import {toHast} from "mdast-util-to-hast";
-
-import DOMPurify from "isomorphic-dompurify"
-import {List} from "mdast";
-
-
-
-interface ItemsProps {
-  items: TocResult["map"]
-  activeId?: string | null
-  prefix?: string
-}
-
-function getIds(items: TocResult["map"]) {
-  return (
-    items?.children?.reduce((acc: string[], item) => {
-      item.children.forEach((child) => {
-        if (child.type === "paragraph" && (child.children[0] as any).url) {
-          acc.push((child.children[0] as any).url.slice(1))
-        } else if (child.type === "list") {
-          acc.push(...getIds(child))
-        }
-      })
-      return acc
-    }, []) || []
-  )
-}
+import React, { HTMLProps, useCallback, useEffect, useRef, useState} from "react";
+import useToc from "@/hooks/use-toc";
 
 function getElement(id: string) {
   return document.querySelector(`#user-content-${id}`)
@@ -73,65 +36,22 @@ function useActiveId(itemIds: string[]) {
   }, [itemIds])
   return activeId
 }
-
-const inlineElements = ["delete", "strong", "emphasis", "inlineCode"]
-
-function getLinkNode(node: any): List["children"] {
-  if (node.type === "link") return node.children
-  else return getLinkNode(node.children[0])
-}
-
-function generateContent(items: TocResult["map"]) {
-  items?.children?.forEach((item) => {
-    item.children.forEach((child: any, i) => {
-      const children = getLinkNode(child) || []
-      let content = ""
-
-      children.forEach((child: any) => {
-        if (child.type === "inlineMath") {
-          content += katex.renderToString(child.value, {
-            output: "html",
-            strict: false,
-          })
-        } else if (inlineElements.includes(child.type)) {
-          content += toHtml(toHast(child) || [])
-        } else {
-          content += child.value
-        }
-      })
-      child.content = DOMPurify.sanitize(content)
-      if (child.type === "list") {
-        generateContent(child)
-      }
-    })
-  })
-}
-
-export default function Toc({
-  toc,
+const defaultArr:any[] = []
+export default function TocView({
   ...rest
 }:{
-  toc:TocResult
 } & HTMLProps<HTMLDivElement>){
-  // const {toc} = useTOC()
-  if(!toc) {
-    return (
-      <>
-      </>
-    )
-  }
-  generateContent(toc?.map)
-
+  const { toc, tocIds } = useToc()
   return (
-    <div className="xlog-post-toc absolute left-full pl-14 h-full top-0 lg:block hidden" {...rest}>
+    <div className="xlog-post-toc  left-full  lg:block hidden" {...rest}>
       <span>on this page</span>
       <div
-        className="sticky top-14 text-sm leading-loose whitespace-nowrap max-h-[calc(100vh-theme('spacing.28'))] truncate"
+        className="sticky top-14 text-sm leading-loose whitespace-nowrap truncate"
         style={{
           overflowY: "auto",
         }}
       >
-        <TocItem items={toc?.map}/>
+        <TocItem items={toc ?? defaultArr} tocIds={tocIds}/>
       </div>
     </div>
   )
@@ -139,15 +59,108 @@ export default function Toc({
 
 function TocItem(
   {
+    tocIds,
     items
   }: {
-    items: TocResult["map"]
+    tocIds: string[]
+    items: ItemProps[]
   }
 ) {
-  const idList = getIds(items)
-  const activeId = useActiveId(idList)
+  const activeId = useActiveId(tocIds)
 
   return <Items items={items} activeId={activeId}/>
+}
+
+
+
+interface ItemProps {
+  title: string
+  content: string
+  children: (ItemProps|ItemProps[])[]
+  anchorUrl: string
+}
+
+interface ItemsProps {
+  items: (ItemProps|ItemProps[])[]
+  activeId?: string | null
+  prefix?: string
+}
+
+function Items(props: ItemsProps) {
+  const {items, activeId, prefix = ""} = props
+  const [maxWidth, setMaxWidth] = useState(180)
+  const anchorRef = useRef<HTMLLIElement>(null)
+  useEffect(() => {
+    const handler = () => {
+      if (!anchorRef.current) return
+      const $anchor = anchorRef.current
+      const pos = $anchor.getBoundingClientRect()
+      let maxWidth = window.innerWidth - pos.x - 20
+      if (maxWidth < 0) maxWidth = 180
+      setMaxWidth(maxWidth)
+    }
+    window.addEventListener("resize", handler)
+    return () => {
+      window.removeEventListener("resize", handler)
+    }
+  }, [])
+  const Leaf = useCallback(({item, idx, activeId, maxWidth}:{item: ItemProps, idx: number, activeId?: string | null, maxWidth: number}) => {
+    return <>
+      <li
+        style={{
+          maxWidth: maxWidth + "px",
+        }}
+      >
+        <span>
+              {item.anchorUrl && (
+                <span
+                  data-url={item.anchorUrl}
+                  onClick={() => scrollTo(item.anchorUrl)}
+                  title={item.content}
+                  className={
+                    (`#${activeId}` === item.anchorUrl
+                      ? "text-primary font-bold"
+                      : "text-muted-foreground font-medium") +
+                    " truncate inline-block max-w-full align-bottom hover:text-primary cursor-pointer"
+                  }
+                >
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: item.content,
+                        }}
+                      />
+                    </span>
+              )}
+            </span>
+      </li>
+
+      {item.children.length > 0 && (
+        <Items
+          items={item.children}
+          activeId={activeId}
+          prefix={`${prefix}.${idx + 1}`}
+        />
+      )}
+    </>
+  }, [prefix])
+  return (
+    <ol className={prefix ? `pl-3` : ''}>
+      <li ref={anchorRef}>{/* Placeholder for top-level anchor (optional) */}</li>
+      {maxWidth > 0 && items?.map((item, index) => (<>
+        {
+          item instanceof Array ? (
+              <>
+                  {item.map((child, i) => (
+                    <Leaf item={child} key={index+ "." +i} idx={i} activeId={activeId} maxWidth={maxWidth}/>
+                  ))}
+              </>
+            ) : (<Leaf item={item} key={index} idx={index}  activeId={activeId}  maxWidth={maxWidth}/>)
+        }
+        </>))}
+</ol>
+)
+  ;
+
 }
 
 export const scrollTo = (hash: string, notUserContent?: boolean) => {
@@ -172,78 +185,9 @@ export const scrollTo = (hash: string, notUserContent?: boolean) => {
       : `#user-content-${decodeURIComponent(_hash)}`,
   ) as HTMLElement
   if (!targetElement) return
-
   window.scrollTo({
     top: calculateElementTop(targetElement) - 100,
     behavior: "smooth",
   })
 }
-function Items(props: ItemsProps) {
-  const {items, activeId, prefix = ""} = props
-  const [maxWidth, setMaxWidth] = useState(0)
-  const anchorRef = useRef<HTMLLIElement>(null)
-  useEffect(() => {
-    const handler = () => {
-      if (!anchorRef.current) return
-      const $anchor = anchorRef.current
-      const pos = $anchor.getBoundingClientRect()
-      const maxWidth = window.innerWidth - pos.x - 20
-      setMaxWidth(maxWidth)
-    }
 
-    handler()
-    window.addEventListener("resize", handler)
-    return () => {
-      window.removeEventListener("resize", handler)
-    }
-  }, [])
-
-  return (
-    <ol className={prefix ? "pl-3" : ""}>
-      <li ref={anchorRef} />
-      {maxWidth > 0 &&
-        items?.children?.map((item, index) => (
-          <li
-            key={index}
-            style={{
-              maxWidth: maxWidth + "px",
-            }}
-          >
-            {item.children.map((child: any, i) => {
-              const content = `${child.content}`
-
-              return (
-                <span key={index + "-" + i}>
-                  {child.type === "paragraph" && child.children?.[0]?.url && (
-                    <span
-                      data-url={child.children[0].url}
-                      onClick={() => scrollTo(child.children[0].url)}
-                      title={content}
-                      className={
-                        (`#${activeId}` === child.children[0].url
-                          ? "text-primary font-bold"
-                          : "text-muted-foreground font-medium") +
-                        " truncate inline-block max-w-full align-bottom hover:text-primary cursor-pointer"
-                      }
-                    >
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: content,
-                        }}
-                      />
-                    </span>
-                  )}
-                  {child.type === "list" &&
-                    createElement(Items, {
-                      items: child,
-                      activeId,
-                      prefix: `${prefix}${index + 1}.`,
-                    })}
-                </span>
-              )
-            })}
-          </li>
-        ))}
-    </ol>
-  )
-}

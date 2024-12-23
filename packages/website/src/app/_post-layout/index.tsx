@@ -63,8 +63,7 @@ export default function PostLayout(
           </main>
           <aside
             className={'sticky top-32 hidden lg:flex flex-col max-h-[calc(100vh-96px)] w-[180px] p-2 select-none'}>
-            {withToc && toc && <TocLoader toc={toc}/>}
-            {withToc && toc && <Toc className={'min-w-[180px]'} toc={toc}/>}
+            {withToc && toc && <TocLoader toc={toc} className={'min-w-[180px]'}/>}
             <ClientNavLink href={''} className={'font-medium text-sm mt-4 animate-underline'}>
               CD ../
             </ClientNavLink>

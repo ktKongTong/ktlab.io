@@ -4,10 +4,7 @@ import {Suspense, use, type FC, useState, useRef} from "react"
 import type { ShikiCodeProps } from "./types"
 import { useCodeTheme } from "./theme-ctx";
 import {
-  checkIfLangLoaded,
-  checkIfThemeLoaded,
-  createCodeHighlightCorePromise, highlighterCoreLoaded,
-  registerLangAndTheme
+  createCodeHighlightCorePromise
 } from "@/components/markdown/xlog/components/shiki/loader";
 import {Select, SelectContent, SelectItem, SelectTrigger} from "@/components/ui/select";
 import {cn} from "@/lib/utils";
@@ -37,9 +34,7 @@ export const ShikiRenderInternal: FC<ShikiCodeProps> = ({
       }}
     >
       <div>{lang}</div>
-      <Select value={currentTheme.name} defaultValue={currentTheme.name} onValueChange={(v) => {
-        tryLoadAndSetTheme(v)
-      }}>
+      <Select value={currentTheme.name} defaultValue={currentTheme.name} onValueChange={(v) => {tryLoadAndSetTheme(v)}}>
         <SelectTrigger
           className={'bg-transparent border-none max-w-40 h-6'}
         >{currentTheme.name}</SelectTrigger>
@@ -60,50 +55,3 @@ export const ShikiRenderInternal: FC<ShikiCodeProps> = ({
     }
   </div>
 }
-
-let loadedLang = []
-
-const promiseMap:Record<string, any> = {
-
-}
-
-const createLangAndThemeLoader = (
-
-  lang: string,
-theme: any
-) => {
-  return  registerLangAndTheme(lang as any, theme)
-}
-
-const ShikiLoader = (
-  {
-    lang,
-    theme
-  }: {
-    lang: string
-    theme: any
-  }
-) => {
-  const promise = createLangAndThemeLoader(lang, theme)
-  return (
-    <Suspense fallback={<></>}>
-      <ShikiLangLoader promise={promise}/>
-    </Suspense>
-  )
-}
-
-const voidPromise = (async ()=> {})()
-const ShikiLangLoader = (
-  {
-    promise
-  }: {
-    promise: Promise<any>
-  }
-) => {
-  use(promise)
-  return (
-    <></>
-  )
-}
-
-//registerLangAndTheme(lang as any, theme)

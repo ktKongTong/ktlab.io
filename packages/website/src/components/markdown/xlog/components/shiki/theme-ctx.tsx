@@ -95,7 +95,6 @@ export const useCodeTheme = (lang: string | undefined, code: string, preDefinedT
   }
   const [cnt, setCnt] = useState(0)
   const [loading, setLoading] = useState(false)
-  const coreLoaded = []
   const loadingCount = useRef(0)
   const selectedThemeLoading = true
   const loadThemeByName = async (theme: string) => {
@@ -123,7 +122,7 @@ export const useCodeTheme = (lang: string | undefined, code: string, preDefinedT
     try {
       const theme = _theme ?? defaultTheme
       const loaded = highlighterCore?.getLoadedThemes()
-      console.log("loaded,",loaded)
+      // console.log("loaded,",loaded)
       let res = getCodeToHtmlFn()?.(code, {
         lang: lang!,
         themes: {
@@ -140,10 +139,8 @@ export const useCodeTheme = (lang: string | undefined, code: string, preDefinedT
     }catch (e: any) {
       console.error("error", e)
     }
-  }, [currentTheme, highlighterCore, cnt])
-  const reload = ()=> {
-    setCnt(cnt + 1)
-  }
+  }, [currentTheme, highlighterCore])
+
   const tryLoadAndSetTheme = (theme: string) => {
     loadThemeByName(theme)
   }
@@ -157,7 +154,6 @@ export const useCodeTheme = (lang: string | undefined, code: string, preDefinedT
     availableTheme,
     renderedHtml,
     currentThemeInfo,
-    tryLoadAndSetTheme,
-    reload
+    tryLoadAndSetTheme
   }
 }

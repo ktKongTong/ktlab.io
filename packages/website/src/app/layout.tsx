@@ -1,19 +1,24 @@
 import type { Metadata } from "next";
-
-import { Inter } from "next/font/google";
-
 import "./globals.css";
 import Providers from "@/components/providers";
-import {cn, isProd} from "@/lib/utils";
 import Utils from "@/components/utils";
-
-const inter = Inter({ subsets: ["latin"] });
+import localFont from "next/font/local";
 
 export const metadata: Metadata = {
   title: "ktlab",
   description: "kt's site",
 };
 
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
 
 export default function RootLayout({
   children,
@@ -25,7 +30,8 @@ export default function RootLayout({
     {/*{*/}
     {/*  !isProd() && <head><script src="https://unpkg.com/react-scan/dist/auto.global.js" async /></head>*/}
     {/*}*/}
-      <body className={cn(inter.className)}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <Utils/>
       <Providers>
         <main className={'min-h-screen  dark:bg-zinc-900/70'}>
