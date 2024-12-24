@@ -20,7 +20,7 @@ app.get('/api/content', async (c)=> {
   if(contents.data.length > 0) {
     const values = await kv.mget(reactionKeys)
     const res = zodContentDBOToVO.parse(contents.data)
-      .map((it, idx) => ({...it, reaction: values[idx] ?? defaultReaction}))
+      .map((it, idx) => ({...it, reactions: values[idx] ?? defaultReaction}))
     return c.json({
       ...contents,
       data: res,

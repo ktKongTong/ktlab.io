@@ -26,9 +26,8 @@ export const FragmentList = () => {
             cn(
               'm-4',
               'after:bg-background  after:h-2 after:w-2 after:-left-4 after:top-0 relative after:absolute after:rounded-full after:content-[\'\'] after:-translate-y-1/2',
-              'before:bg-zinc-200 before:w-0.5 before:h-full before:rounded-t before:absolute before:-left-[13px] before:content-[\'\']',
+              ' before:bg-secondary before:w-0.5 before:h-full before:rounded-t before:absolute before:-left-[13px] before:content-[\'\']',
             )
-
           }>
 
             <div className={'font-mono flex items-end gap-1'}>
@@ -44,18 +43,20 @@ export const FragmentList = () => {
                 <span className={'text-muted-foreground text-xs'}>{formatRelativeTime(it.createdAt)}</span>
               </div>
             </div>
-            <FragmentItem
-              id={it.id}
-              reactions={it.reactions}
-              className={'rounded-md'}
-              content={it.content} createdAt={it.createdAt} lastModifiedAt={it.lastModifiedAt}/>
+            {
+              <FragmentItem
+                id={it.id}
+                reactions={it.reactions}
+                className={'rounded-md'}
+                content={it.content} createdAt={it.createdAt} lastModifiedAt={it.lastModifiedAt}/>
+            }
           </li>
         ))
       }
     </ul>
 
     <div ref={ref}>
-      {isFetchingNextPage && 'Loading...'}
+    {isFetchingNextPage && 'Loading...'}
     </div>
   </>
 }

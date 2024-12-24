@@ -35,7 +35,7 @@ function DesktopCommentDialog(
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent className={'w-full overflow-y-hidden'}>
+      <DialogContent className={'w-full overflow-y-hidden border-border'}>
         <DialogTitle>Comments</DialogTitle>
         <div className={''}>
           <CommentEditor documentId={contentId}/>
@@ -61,7 +61,7 @@ function MobileCommentDrawer(
       <DrawerTrigger asChild>
         {children}
       </DrawerTrigger>
-      <DrawerContent  className={'w-full overflow-y-hidden'}>
+      <DrawerContent  className={'w-full overflow-y-hidden border-border'}>
         <Comments contentId={contentId} className={'w-full overflow-y-scroll max-h-[calc(100vh-350px)] px-3'}/>
         <DrawerFooter className="pt-2">
           <CommentEditor documentId={contentId}/>

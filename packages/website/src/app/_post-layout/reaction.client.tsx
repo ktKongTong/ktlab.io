@@ -11,10 +11,12 @@ export function ReactionWithProps(
     className,
     // make sure caller is a client component
     addReaction: _addReaction,
+    afterChildren,
     ...rest
   }:{
     reactions: [string, number][],
     addReaction: (name: string) => void,
+    afterChildren?: React.ReactNode,
   } & Omit<HTMLMotionProps<"ul">, "ref">
 ) {
 
@@ -59,7 +61,7 @@ export function ReactionWithProps(
           className={'my-auto inline-flex'}
         >
           <Popover open={open} onOpenChange={(s) => setOpen(s)}>
-            <PopoverTrigger><SmilePlus className={'w-6 h-6'}/></PopoverTrigger>
+            <PopoverTrigger><SmilePlus className={'w-6 h-6 p-1'}/></PopoverTrigger>
             <PopoverContent className={'max-w-48 overflow-hidden'}>
               <ul className={'grid gap-2 grid-cols-4'}>
                 {
@@ -73,6 +75,19 @@ export function ReactionWithProps(
             </PopoverContent>
           </Popover>
         </motion.li>
+        {
+          afterChildren != undefined && <motion.li
+            layout={'position'}
+            initial={{x: 20, opacity: 0}}
+            animate={{x: 0, opacity: 1}}
+            exit={{x: 20, opacity: 0}}
+            className={'my-auto inline-flex'}
+          >
+            {
+              afterChildren
+            }
+          </motion.li>
+        }
       </LayoutGroup>
     </motion.ul>
   </>
@@ -103,7 +118,7 @@ function Reaction(
   }
 
   return <span
-    className={cn('inline-flex space-x-1 items-center rounded-xl px-2 py-0.5 border-dashed border border-border hover:border-primary cursor-pointer', className)} onClick={onClick} {...rest}>
+    className={cn('inline-flex justify-between items-center rounded-xl px-2 py-0.5 border-dashed border border-border hover:border-primary cursor-pointer', className)} onClick={onClick} {...rest}>
     <span className={' inline-flex'}>{children}</span>
     <span className={'text-sm'}>{count}</span>
   </span>

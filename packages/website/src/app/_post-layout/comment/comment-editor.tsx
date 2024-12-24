@@ -26,6 +26,7 @@ export default function CommentEditor(
       commentContent: editingComment,
       parentId: parentId
     })
+    setEditingComment("")
   }
   return (
     <>
