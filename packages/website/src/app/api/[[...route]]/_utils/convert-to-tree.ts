@@ -1,5 +1,6 @@
 import {DocumentVO} from "@/interfaces";
 import {CatalogItem} from "@/interfaces/catalog-item";
+import {pathPrefix} from "@/config";
 
 export default function convertToTree(docs: DocumentVO[],rootId:string|null):CatalogItem[] {
   const rootDoc = docs.find(doc=> doc.id === rootId);
@@ -30,7 +31,7 @@ export default function convertToTree(docs: DocumentVO[],rootId:string|null):Cat
         id: it.id,
         title: it.title,
         createdAt: it.createdAt,
-        href: `/knowledge/${it.relativePath}`,
+        href: `/knowledge${it.relativePath.replace(pathPrefix.knowledgebases.basePath, '')}`,
         lastModifiedAt: it.lastModifiedAt,
         tags: it.tags,
         children: []
@@ -42,7 +43,7 @@ export default function convertToTree(docs: DocumentVO[],rootId:string|null):Cat
         title: it.title,
         createdAt: it.createdAt,
         lastModifiedAt: it.lastModifiedAt,
-        href: it.relativePath,
+        href: it.relativePath.replace(pathPrefix.knowledgebases.basePath, ''),
         tags: it.tags,
         children: []
       }))
@@ -52,7 +53,7 @@ export default function convertToTree(docs: DocumentVO[],rootId:string|null):Cat
       cur.createdAt = curIndex.createdAt
       cur.lastModifiedAt = curIndex.lastModifiedAt
       cur.tags = curIndex.tags
-      cur.href =  `/knowledge/${curIndex.relativePath}`
+      cur.href =  `/knowledge${curIndex.relativePath.replace(pathPrefix.knowledgebases.basePath, '')}`
     }else {
       cur.href = undefined
     }

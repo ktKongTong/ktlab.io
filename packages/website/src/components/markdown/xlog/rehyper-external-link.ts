@@ -19,8 +19,8 @@ export const rehypeExternalLink: Plugin<Array<void>, Root> = () => {
         return
       }
       const decodedUrl = decodeURIComponent(url)
-      if(decodedUrl.startsWith(`/${pathPrefix['knowledge-base']}`)) {
-        node.properties.href = `/knowledge${url}`
+      if(decodedUrl.startsWith(`/${pathPrefix.knowledgebases.basePath}`)) {
+        node.properties.href = `/knowledge${url.replace(pathPrefix.knowledgebases.basePath, '')}`
       }else if (decodedUrl.startsWith(`/${pathPrefix['blog']}`)) {
         node.properties.href = url
       }else {

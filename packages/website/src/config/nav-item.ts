@@ -25,7 +25,7 @@ export const navItems = [
   },
   {
     name: '知识库',
-    link:'/knowledge/知识库/index.md',
+    link:'/knowledge/CS&SE',
     childrenNav: []
   }
 ]

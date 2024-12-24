@@ -36,16 +36,26 @@ export async function getKnowledgeBaseByPath(path: string): Promise<SSRArticleWi
 
 export async function getKnowledgeBaseCatalog(): Promise<CatalogItem[]> {
   const res = await getAllDocumentWithFolders()
-  return convertToTree(res, pathPrefix['knowledge-base'])
+  return convertToTree(res, pathPrefix.knowledgebases.basePath)
 }
 
 
-export async function geAvailableCatalogs(): Promise<Catalog[]> {
-  const name = pathPrefix['knowledge-base']
-  const prefix = name
+export async function getAvailableCatalogs(): Promise<Catalog[]> {
   const res = await getAllDocumentWithFolders()
-  return [{
-    name,
-    catalogs: convertToTree(res, prefix)
-  }]
+  const catalogs = pathPrefix.knowledgebases.children.map(it => ({
+    name: it.name,
+    href: it.href,
+    description: it.description,
+    catalogs: convertToTree(res, it.path)
+  }))
+  return catalogs
+}
+
+export async function getAvailableCatalogsByPath(path: string): Promise<Catalog> {
+  const p = pathPrefix.knowledgebases.children.find(it => it.href === `/knowledge/${path}`)!
+  const res = await getAllDocumentWithFolders()
+  return {
+    ...p,
+    catalogs: convertToTree(res, p?.path)
+  }
 }

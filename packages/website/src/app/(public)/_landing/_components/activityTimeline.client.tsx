@@ -69,43 +69,43 @@ interface WrappedTimeLineProps<T extends {id: string, time: number}> {
 export function WrappedTimeLine<T extends {id: string, time: number}>(props: HTMLProps<HTMLUListElement> & WrappedTimeLineProps<T>) {
     const { children, className, items, itemRender, ...rest} = props;
     const ref = React.useRef<HTMLDivElement>(null);
-    useEffect(() => {
-        // if(!ref.current ) return
-        // if(cur.classList.contains('glow-capture')) return
-        //
-        if(ref.current) {
-            const cur = ref.current
-            cur.classList.add('glow-capture')
-            // const elem = React.createElement('div', { className: "glow-capture" })
-
-            const capture = cur
-            const clonedChild = capture.children[0].cloneNode(true)
-            const overlay = capture.querySelector(".glow-overlay") as HTMLElement | null
-            if((overlay?.children.length ?? 0) > 0) {
-                return
-            }
-            overlay?.appendChild(clonedChild)
-            const leaveEvent = () => {
-                overlay?.style?.setProperty("--glow-opacity", "0")
-            }
-
-            const moveEvent = (event: any) => {
-
-                const x = 64
-                // todo: scroll bug
-                const y = event?.pageY - capture?.offsetTop + (capture?.parentElement?.scrollTop ?? 0)
-                overlay?.style?.setProperty("--glow-x", `${x}px`)
-                overlay?.style?.setProperty("--glow-y", `${y}px`)
-                overlay?.style?.setProperty("--glow-opacity", "1")
-            }
-            capture.addEventListener("mousemove", moveEvent)
-            capture.addEventListener("mouseleave", leaveEvent)
-            return ()=> {
-                capture.removeEventListener('mousemove', moveEvent)
-                capture.removeEventListener('mouseleave', leaveEvent)
-            }
-        }
-    }, [ref]);
+    // useEffect(() => {
+    //     // if(!ref.current ) return
+    //     // if(cur.classList.contains('glow-capture')) return
+    //     //
+    //     if(ref.current) {
+    //         const cur = ref.current
+    //         cur.classList.add('glow-capture')
+    //         // const elem = React.createElement('div', { className: "glow-capture" })
+    //
+    //         const capture = cur
+    //         const clonedChild = capture.children[0].cloneNode(true)
+    //         const overlay = capture.querySelector(".glow-overlay") as HTMLElement | null
+    //         if((overlay?.children.length ?? 0) > 0) {
+    //             return
+    //         }
+    //         overlay?.appendChild(clonedChild)
+    //         const leaveEvent = () => {
+    //             overlay?.style?.setProperty("--glow-opacity", "0")
+    //         }
+    //
+    //         const moveEvent = (event: any) => {
+    //
+    //             const x = 64
+    //             // todo: scroll bug
+    //             const y = event?.pageY - capture?.offsetTop + (capture?.parentElement?.scrollTop ?? 0)
+    //             overlay?.style?.setProperty("--glow-x", `${x}px`)
+    //             overlay?.style?.setProperty("--glow-y", `${y}px`)
+    //             overlay?.style?.setProperty("--glow-opacity", "1")
+    //         }
+    //         capture.addEventListener("mousemove", moveEvent)
+    //         capture.addEventListener("mouseleave", leaveEvent)
+    //         return ()=> {
+    //             capture.removeEventListener('mousemove', moveEvent)
+    //             capture.removeEventListener('mouseleave', leaveEvent)
+    //         }
+    //     }
+    // }, [ref]);
 
     return (
           <div ref={ref}  className={'relative pl-2'}>

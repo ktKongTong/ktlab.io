@@ -3,7 +3,7 @@ import {ArticleList} from "@/components/article-list";
 import {unstable_cache} from "next/cache";
 import {Metadata} from "next";
 import {NotPostPage} from "@/app/_post-layout/use-post";
-import {NotKnowledgebasePage} from "@/hooks/use-toc";
+import {NotKnowledgebasePage} from "@/hooks/use-catalog";
 import React from "react";
 
 

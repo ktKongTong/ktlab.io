@@ -90,7 +90,7 @@ export const getDocumentStats = async () => {
     .where(
       and(
         eq(documents.type, 'file' as const),
-        like(documents.relativePath, `${pathPrefix["knowledge-base"]}%`),
+        like(documents.relativePath, `${pathPrefix.knowledgebases.basePath}%`),
       )
     );
   const [ docstats ] = await mysql.execute()

@@ -4,7 +4,7 @@ import {Metadata} from "next";
 import {getAllDocumentWithoutFolder} from "@/lib/db";
 import {unstable_cache} from "next/cache";
 import NotFound from "@/app/not-found";
-import {NotKnowledgebasePage} from "@/hooks/use-toc";
+import {NotKnowledgebasePage} from "@/hooks/use-catalog";
 import React from "react";
 
 const metadata: Metadata = {

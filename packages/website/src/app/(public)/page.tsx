@@ -7,7 +7,7 @@ import React, { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import dynamic from "next/dynamic";
 import {NotPostPage} from "@/app/_post-layout/use-post";
-import {NotKnowledgebasePage} from "@/hooks/use-toc";
+import {NotKnowledgebasePage} from "@/hooks/use-catalog";
 
 const RecentPage = dynamic(() => import("@/app/(public)/_landing/recent-activity"), {
   loading: (loadingProps)=> <Skeleton className={'w-full min-h-screen'}/>,

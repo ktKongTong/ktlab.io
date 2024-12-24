@@ -11,7 +11,8 @@ export interface CatalogItem {
 // knowledgebase name
 export interface Catalog {
   name: string,
-  description?: string,
+  description: string,
   icon?: string,
+  href: string,
   catalogs: CatalogItem[]
 }

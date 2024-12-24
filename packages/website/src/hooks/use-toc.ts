@@ -6,24 +6,19 @@ import katex from "katex";
 import {toHtml} from "hast-util-to-html";
 import {toHast} from "mdast-util-to-hast";
 import DOMPurify from "isomorphic-dompurify";
-import {useEffect} from "react";
 
 type TOC = {
   toc?: ItemProps[],
-  // TocResult['map']
-  tocIds: string[],
-  catalogs?: any[]
+  tocIds: string[]
 }
 
 type Action = {
   updateToc: (toc?: TocResult) => void
-  updateCatalogs: (catalogs?: any[]) => void
 }
 
 const useTocStore = create<TOC & Action>((set) => ({
   toc: undefined,
   tocIds: [],
-  catalogs: undefined,
   updateToc: (toc?: TocResult) => {
 
     const tocResult = toc?.map
@@ -31,9 +26,6 @@ const useTocStore = create<TOC & Action>((set) => ({
     const ids = getIds(tocResult)
     const res = tocResult?.children.map((it) => generatePropsFromListItem(it))
     set((state)=> ({...state, toc: res ?? [], tocIds: ids}))
-  },
-  updateCatalogs: (catalogs?: any[]) => {
-    set((state)=> ({...state, catalogs: catalogs}))
   }
 }))
 
@@ -93,31 +85,6 @@ const useToc = () => {
     updateToc
   }
 }
-export const useCatalog = () => {
-  const catalogs = useTocStore(state => state.catalogs)
-  const updateCatalogs = useTocStore(state => state.updateCatalogs)
-  const resetCatalog = () => {
-    updateCatalogs()
-  }
-  // resetId,
-
-  const isKnowledgebasePage = catalogs != undefined
-  return {
-    catalogs,
-    updateCatalogs,
-    resetCatalog,
-    isKnowledgebasePage
-  }
-}
-
-export const NotKnowledgebasePage = () => {
-  const {resetCatalog, catalogs} = useCatalog()
-  useEffect(() => {
-    resetCatalog()
-  }, [])
-  return null
-}
-
 const inlineElements = ["delete", "strong", "emphasis", "inlineCode"]
 
 function getLinkNode(node: any): List["children"] {

@@ -3,8 +3,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {cn} from "@/lib/utils";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import NavItem, {NavItemProps} from "./nav-item";
-import useToc, {useCatalog} from "@/hooks/use-toc";
-import {CatalogItem} from "@/app/(public)/knowledge/catalog-item";
+import {useCatalog} from "@/hooks/use-catalog";
 import {useMeasure} from "@uidotdev/usehooks";
 import {LogIn, Menu, UserRoundPlus} from "lucide-react";
 import {motion, AnimatePresence} from "motion/react";
@@ -12,6 +11,9 @@ import LockBodyScroll from "@/components/LockBodyScroll";
 import {SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
 import {useBreakpoint} from "@/hooks/use-breakpoint";
 import {usePostId} from "@/app/_post-layout/use-post";
+import ThemeSwitch from "@/app/(public)/_header/theme-switch";
+import {CatalogSelector} from "@/app/(public)/knowledge/_catalog/aside/catalog-selector";
+import {CatalogItem} from "@/app/(public)/knowledge/_catalog/aside/catalog-item";
 
 
 interface HeaderProps {
@@ -26,9 +28,8 @@ export default function Header({
   navItems,
   ...rest
 }: HeaderProps & React.HTMLProps<HTMLDivElement>) {
-  const { catalogs, isKnowledgebasePage } = useCatalog()
+  const { catalogs, currentCatalog, isKnowledgebasePage } = useCatalog()
   const [showCatalog, setShowCatalog] = useState<boolean>(false)
-  const {} = usePostId()
   const popoverRef = useRef<HTMLDivElement>(null);
   const [ref, {width, height}] = useMeasure();
   const handleClickOutside = (event: any) => {
@@ -81,7 +82,7 @@ export default function Header({
               }
             </ul>
 
-          {/*<ThemeSwitch/>*/}
+          <ThemeSwitch/>
             <AnimatePresence>
               {
                 !isLg && isKnowledgebasePage &&
@@ -122,8 +123,10 @@ export default function Header({
                 className={'overflow-y-scroll p-2'} style={{ maxWidth: width ?? 0 }}
               >
                 <ul className={''}>
+                  {/*catalog item*/}
+                  <CatalogSelector/>
                   {
-                    catalogs.map((catalog, idx) => (<CatalogItem key={idx} {...catalog} />))
+                    currentCatalog?.catalogs.map((catalog, idx) => (<CatalogItem key={idx} {...catalog} />))
                   }
                 </ul>
                 <LockBodyScroll/>
