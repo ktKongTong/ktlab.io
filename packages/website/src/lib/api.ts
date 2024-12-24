@@ -1,6 +1,6 @@
 import {f} from '@/lib/fetch'
 import {AvailableReactionType} from "@/config/reaction";
-import {CommentVO, ContentReaction} from "@repo/shared/vo";
+import {CommentVO, ContentReaction, ContentVO} from "@repo/shared/vo";
 import {Paging} from "@repo/shared";
 class API {
 
@@ -9,6 +9,15 @@ class API {
 
 
   }
+
+  getFragmentContent(page: number) {
+    return f.get<Paging<ContentVO>>(`/api/content`, {
+      query: {
+        page: page
+      }
+    })
+  }
+
   getRecentActivity(type: string) {
     return f.get(`/api/route/${type}/activity/recent`)
   }

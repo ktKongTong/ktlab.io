@@ -4,7 +4,13 @@ import { cors } from 'hono/cors'
 import {DBMiddleware, customClerkMiddleware} from "@/app/api/[[...route]]/_middleware";
 import { clerkMiddleware } from "@hono/clerk-auth";
 
-import {reactionRoute,commentRoute, activityRoute, interactionRoute} from "@/app/api/[[...route]]/_routes";
+import {
+  reactionRoute,
+  commentRoute,
+  activityRoute,
+  interactionRoute,
+  contentRoute
+} from "@/app/api/[[...route]]/_routes";
 import {revalidateRoute} from "@/app/api/[[...route]]/_routes/revalidate-cache";
 import {every, except} from 'hono/combine'
 import { GeoMiddleware } from "hono-geo-middleware";
@@ -46,6 +52,7 @@ app.onError((err, c) => {
   return c.json({error: "Unknown Error"}, 500)
 })
 
+app.route('/', contentRoute)
 app.route('/', commentRoute)
 app.route('/', reactionRoute)
 app.route('/', activityRoute)

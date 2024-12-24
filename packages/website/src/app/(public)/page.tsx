@@ -46,8 +46,7 @@ export default async function Home() {
   }))
   return (
     <>
-      <MainPage img={"/avatar.jpg"} fallback={"KT"}
-                className={'min-h-screen flex flex-col px-10 md:px-40 pt-[64px] items-center my-auto w-full'}>
+      <MainPage img={"/avatar.jpg"} fallback={"KT"} className={'min-h-screen flex flex-col px-10 md:px-40 pt-[64px] items-center my-auto w-full'}>
         <h2 className={'selection:bg-primary selection:text-primary-foreground  w-full mx-auto text-center md:text-start text-3xl font-bold'}>Hi, this is kt. 👋</h2>
         <div>
           <div className={'selection:bg-primary selection:text-primary-foreground'}>

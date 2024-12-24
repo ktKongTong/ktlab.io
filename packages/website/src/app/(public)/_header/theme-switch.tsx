@@ -63,9 +63,9 @@ export default function ThemeSwitch() {
         ref={ref}
       >
         {/*wired ssr problem*/}
-        <AnimatePresence>
+        {/*<AnimatePresence>*/}
           {
-            (theme === 'light' || (theme === 'system' && systemTheme === 'dark')) &&
+            !(theme === 'dark' || (theme === 'system' && systemTheme === 'light')) &&
               <motion.div
                 key={'light-theme'}
                   initial={{ opacity: 0, y: 50 }}
@@ -82,7 +82,6 @@ export default function ThemeSwitch() {
               <Moon/>
             </motion.div>
         }
-        </AnimatePresence>
       </motion.div>
   )
 }

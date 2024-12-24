@@ -47,9 +47,9 @@ export const useCatalog = () => {
 
 
   const pathname = usePathname()
+  const isKnowledgebasePage = (currentCatalog ?? findMatchedCatalogByPath(catalogs, pathname) ) != undefined
   const catalog = currentCatalog ?? findMatchedCatalogByPath(catalogs, pathname) ?? catalogs?.[0]
 
-  const isKnowledgebasePage = catalogs != undefined
   return {
     currentCatalog: catalog,
     setAvailableCatalog,

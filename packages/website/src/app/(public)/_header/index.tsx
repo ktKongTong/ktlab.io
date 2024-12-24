@@ -68,7 +68,7 @@ export default function Header({
 
         >
             {/*<MouseTrackGlow/>*/}
-            <Avatar className={'w-10 h-10 rounded-full'} onClick={() => !isLg && setShowCatalog(s => !s)}>
+            <Avatar className={'w-10 h-10 rounded-full'}>
               <AvatarImage src={img}/>
               <AvatarFallback>{fallback}</AvatarFallback>
             </Avatar>

@@ -16,3 +16,15 @@ export const documentDBOSchema = z.object({
 
 type _DocumentDBO = z.infer<typeof documentDBOSchema>
 export type DocumentDBO = _DocumentDBO
+
+export const contentDBOSchema = z.object({
+  id: z.string(),
+  content: z.string(),
+  // may follow by some content
+  parentId: z.string().nullish(),
+  createdAt: z.date(),
+  lastModifiedAt: z.date(),
+})
+
+type _ContentDBO = z.infer<typeof contentDBOSchema>
+export type ContentDBO = _ContentDBO

@@ -1,6 +1,6 @@
 import {pgEnum, pgTable, uniqueIndex, varchar} from "drizzle-orm/pg-core";
 import {comment} from "./comment";
-import {documents} from "./document";
+import {contents, documents} from "./document";
 export * from './comment'
 export * from './document'
 
@@ -25,5 +25,6 @@ export const user = pgTable('users', {
 export default {
   comment,
   documents,
-  user
+  user,
+  contents
 }

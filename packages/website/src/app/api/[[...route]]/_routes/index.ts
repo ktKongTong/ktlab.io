@@ -1,4 +1,5 @@
 export * from './comment'
+export * from './content'
 export * from './activity'
 export * from './reaction'
 export * from './interaction'

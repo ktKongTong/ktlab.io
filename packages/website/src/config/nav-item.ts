@@ -5,6 +5,11 @@ export const navItems = [
     childrenNav: []
   },
   {
+    name: '碎片',
+    link:'/fragment',
+    childrenNav: []
+  },
+  {
     name: '文稿',
     link:'/blog',
     childrenNav: [
