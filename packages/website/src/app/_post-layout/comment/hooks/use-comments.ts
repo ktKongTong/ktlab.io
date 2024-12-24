@@ -183,7 +183,8 @@ export const useComment = (id: string) => {
   const sendDraftComment = useCommentStore(state => state.sendDraftComment)
   const _comments = useCommentStore(state => state.comments)
   const sendingComments = useCommentStore(state => state.sendingOrFailedComments)
-  const comments = [...(_comments[id] ?? []), ...(sendingComments[id] ?? [])].toSorted((a,b) => b.comment.createdAt - a.comment.createdAt)
+  const comments = [...(_comments[id] ?? []), ...(sendingComments[id] ?? [])]
+  comments.sort((a,b) => b.comment.createdAt - a.comment.createdAt)
 
   const {draftId, renewDraftId} = useClientCommentID()
 
