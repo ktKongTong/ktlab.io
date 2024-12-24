@@ -18,6 +18,7 @@ const itemRender = (item: any, idx: number) => <RecentItem {...item} className={
 function ClientActivityTimeLine(props: ClientTimeLineProps) {
     const { activityType:type, className, ...rest} = props;
     const { data, status, error } = useActivity(type)
+
     return (
       <AnimatePresence mode="wait">
         {status === 'pending' ? (
@@ -51,8 +52,9 @@ function ClientActivityTimeLine(props: ClientTimeLineProps) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-          <WrappedTimeLine items={data} itemRender={itemRender} className={className} {...rest}/>
-
+            {
+              data instanceof Array && <WrappedTimeLine items={data} itemRender={itemRender} className={className} {...rest}/>
+            }
           </motion.div>
         )}
       </AnimatePresence>
