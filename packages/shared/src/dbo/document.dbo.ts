@@ -28,3 +28,10 @@ export const contentDBOSchema = z.object({
 
 type _ContentDBO = z.infer<typeof contentDBOSchema>
 export type ContentDBO = _ContentDBO
+
+export const ContentInsertDBOSchema = contentDBOSchema.omit({
+  id: true,
+  createdAt: true,
+  lastModifiedAt: true,
+})
+export type ContentInsertDBO = z.infer<typeof ContentInsertDBOSchema>

@@ -1,5 +1,5 @@
 export * from './comment'
-export * from './content'
+export * from './fragment'
 export * from './activity'
 export * from './reaction'
 export * from './interaction'

@@ -1,13 +1,20 @@
 import postgres from "postgres";
 import {drizzle, PostgresJsDatabase} from "drizzle-orm/postgres-js";
-import {AnonymousInsertDBO, CommentDBO, CommentInsertDBO, CommentUpdateDBO, contents} from '@/interfaces'
+import {
+  AnonymousInsertDBO,
+  CommentDBO,
+  CommentInsertDBO,
+  CommentUpdateDBO,
+  ContentDBO,
+  ContentInsertDBO,
+  contents
+} from '@/interfaces'
 import {IDBProvider} from "./db";
 import { user, comment } from '@/interfaces'
 import * as table from '@repo/shared/schema'
 import { desc, eq, sql} from "drizzle-orm";
 import type {DrizzleConfig} from "drizzle-orm/utils";
 import {uniqueId} from "@/lib/utils";
-import {parseIntOrDefault} from "@/app/api/[[...route]]/_utils";
 
 
 export default class DrizzlePGDB<TSchema extends Record<string, unknown>> implements IDBProvider {
@@ -22,12 +29,20 @@ export default class DrizzlePGDB<TSchema extends Record<string, unknown>> implem
       schema: table
     })
   }
-
+  async insertContent(content: ContentInsertDBO): Promise<ContentDBO> {
+    const id = uniqueId()
+    const [res] = await  this.db.insert(contents).values({
+      ...content,
+      id,
+    }).returning()
+    return res
+  }
   async queryContent( page: number = 1, pageSize: number = 100) {
     const [data, [{count}]] = await Promise.all([
       this.db.query.contents.findMany({
         limit: pageSize,
-        offset: (page - 1) * pageSize
+        offset: (page - 1) * pageSize,
+        orderBy: desc(contents.createdAt)
       }),
       this.db.select({count: sql<string>`COUNT(*)`}).from(contents)
     ]);

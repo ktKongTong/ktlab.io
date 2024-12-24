@@ -1,6 +1,4 @@
 import {Hono} from "hono";
-import {env} from "hono/adapter";
-import {HONO_ENV} from "@/app/api/[[...route]]/env";
 import {getDB} from "@/app/api/[[...route]]/_middleware";
 import {parseIntOrDefault} from "@/app/api/[[...route]]/_utils";
 import kv, {kvKey} from "@/lib/kv";
@@ -9,7 +7,7 @@ import {zodContentDBOToVO} from "@repo/shared";
 import {defaultReaction} from "@/config/reaction";
 
 const app = new Hono()
-app.get('/api/content', async (c)=> {
+app.get('/api/fragment', async (c)=> {
   const p = c.req.query('page') ?? ''
   const ps = c.req.query('pagesize') ?? ''
   const page = parseIntOrDefault(p, 1)
@@ -32,14 +30,14 @@ app.get('/api/content', async (c)=> {
 })
 
 const token = process.env.SITE_ADMIN_TOKEN ?? 're_121314';
-app.post('/api/content',
+// add post content from other site
+app.post('/api/fragment',
   bearerAuth({ token }),
   async (c)=> {
   const body =await c.req.json()
-  const content = body.content
-  // add content
-
-  return c.json({})
+  const content = body.content as string
+  const res = await getDB(c).insertContent({ content})
+  return c.json(res)
 })
 
 export { app as contentRoute}

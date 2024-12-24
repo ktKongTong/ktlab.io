@@ -11,7 +11,7 @@ class API {
   }
 
   getFragmentContent(page: number) {
-    return f.get<Paging<ContentVO>>(`/api/content`, {
+    return f.get<Paging<ContentVO>>(`/api/fragment`, {
       query: {
         page: page
       }

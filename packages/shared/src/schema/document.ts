@@ -20,7 +20,7 @@ export const contents = pgTable('contents', {
   content:varchar('content').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   lastModifiedAt: timestamp('last_modified_at').notNull().defaultNow(),
-  tags: varchar('tags').array().notNull().default([]),
+  tags: varchar('tags').array().notNull().$default(() => []),
 })
 
 export type ContentSelect = typeof contents.$inferSelect

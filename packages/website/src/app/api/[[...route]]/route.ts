@@ -28,7 +28,10 @@ app
 .use(DBMiddleware())
 .use(GeoMiddleware())
 .on(privilegedMethods, '/*', async (c, next) => {
-  const middleware = except('/api/isr/*',
+  const middleware = except([
+      '/api/isr/*',
+    '/api/fragment'
+    ],
     every(
       clerkMiddleware({
         publishableKey: process.env.CLERK_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
