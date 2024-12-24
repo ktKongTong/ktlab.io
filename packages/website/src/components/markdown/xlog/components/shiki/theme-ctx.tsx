@@ -10,6 +10,7 @@ import {
 } from "@/components/markdown/xlog/components/shiki/loader";
 import {shikiTransformers} from "@/components/markdown/xlog/components/shiki/shiki-shared";
 import type {ThemeRegistrationResolved} from "shiki";
+import {useTheme} from "next-themes";
 
 const theme = 'github-light'
 
@@ -140,6 +141,23 @@ export const useCodeTheme = (lang: string | undefined, code: string, preDefinedT
       console.error("error", e)
     }
   }, [currentTheme, highlighterCore])
+
+  const {theme:light} = useTheme()
+  useEffect(() => {
+    if(currentTheme?.light === currentTheme?.dark) return
+    if(light === 'light' && currentTheme?.light) {
+      const themeInfo = highlighterCore?.getTheme(currentTheme?.light)
+      if(themeInfo) {
+        setCurrentThemeInfo(themeInfo)
+      }
+    }else if (light === 'dark' && currentTheme?.dark) {
+      const themeInfo = highlighterCore?.getTheme(currentTheme?.dark)
+      if(themeInfo) {
+        setCurrentThemeInfo(themeInfo)
+      }
+    }
+  }, [light, currentTheme]);
+
 
   const tryLoadAndSetTheme = (theme: string) => {
     loadThemeByName(theme)

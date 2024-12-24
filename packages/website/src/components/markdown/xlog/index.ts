@@ -4,8 +4,6 @@ import { toJsxRuntime } from "hast-util-to-jsx-runtime"
 import { load } from "js-yaml"
 import type { Root as MdashRoot } from "mdast"
 import { toc } from "mdast-util-toc"
-import dynamic from "next/dynamic"
-import { toast } from "react-hot-toast"
 import { Fragment, jsx, jsxs } from "react/jsx-runtime"
 import rehypeInferDescriptionMeta from "rehype-infer-description-meta"
 import rehypeKatex from "rehype-katex"
@@ -46,11 +44,13 @@ import {isServerSide} from "@/lib/utils";
 import {createPreComponent} from "@/components/markdown/xlog/utils/create-pre-component";
 import {createMarkdownHeaderComponent} from "@/components/markdown/xlog/utils/create-markdown-component";
 import {rehypeRemoveParagraph} from "@/components/markdown/xlog/rehype-p";
+import {lazy} from "react";
+import {toast} from "@/hooks/use-toast";
 
-const Mermaid = dynamic(() => import("./components/Mermaid"))
-const Icon = dynamic(() => import("./components/Icon"))
-const GithubRepo = dynamic(() => import("@/components/GithubRepo"))
-const AdvancedImage = dynamic(() => import("./components/AdvancedImage"))
+const Mermaid = lazy(() => import("./components/Mermaid"))
+const Icon = lazy(() => import("./components/Icon"))
+const GithubRepo = lazy(() => import("@/components/GithubRepo"))
+const AdvancedImage = lazy(() => import("./components/AdvancedImage"))
 
 const HeadRenderMap = {
   h1: createMarkdownHeaderComponent("h1"),
@@ -119,7 +119,7 @@ export const renderPageContent = ({
     const error = e as Error
     console.error(e)
     if (!isServerSide()) {
-      toast.error(error?.message)
+      toast({ description: error?.message })
     }
   }
   return {
@@ -130,13 +130,14 @@ export const renderPageContent = ({
     }),
     toHTML: () => hastTree && toHtml(hastTree),
     toElement: () =>
-      hastTree &&
+    {
+      return hastTree &&
       toJsxRuntime(hastTree, {
         Fragment,
         components: {
           img: AdvancedImage,
           mermaid: Mermaid,
-          lucide: Icon,
+          // lucide: Icon,
           "github-repo": GithubRepo,
           h1: HeadRenderMap.h1,
           h2: HeadRenderMap.h2,
@@ -144,7 +145,6 @@ export const renderPageContent = ({
           h4: HeadRenderMap.h4,
           h5: HeadRenderMap.h5,
           pre: createPreComponent(codeTheme),
-
         },
         ignoreInvalidStyle: true,
         // @ts-expect-error: untyped.
@@ -152,7 +152,8 @@ export const renderPageContent = ({
         // @ts-expect-error: untyped.
         jsxs,
         passNode: true,
-      }),
+      })
+    },
 
     toMetadata: () => {
       let metadata = {

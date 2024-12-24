@@ -13,25 +13,6 @@ export const rehypeWrapCode: Plugin<Array<void>, Root> = () => {
             className: "md-code-wrapper",
           },
           children: [
-            u("element", {
-              tagName: "button",
-              properties: {
-                type: "button",
-                className: "md-copy-button",
-              },
-              children: [
-                u("element", {
-                  tagName: "lucide",
-                  properties: {name: "copy"},
-                  children: [],
-                }),
-                u("element", {
-                  tagName: "span",
-                  properties: {},
-                  children: [u("text", "Copy")],
-                }),
-              ],
-            }),
             node,
           ],
         })

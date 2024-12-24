@@ -1,2 +1,7 @@
+import {RawMarkdownRender} from "@/components/markdown/render";
+import React from "react";
 
-export {RawMarkdownRender as Markdown} from './render'
+
+export const Markdown = React.memo(RawMarkdownRender, (a,b) => {
+  return a.content == b.content
+})
