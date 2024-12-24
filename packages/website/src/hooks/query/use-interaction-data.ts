@@ -3,6 +3,7 @@ import {AvailableReactionType, defaultReaction} from "@/config/reaction";
 import {useEffect} from "react";
 import {api} from "@/lib/api";
 import {ContentReaction} from "@repo/shared/vo";
+import {getReactionEntries} from "@/app/(public)/fragment/use-reaction";
 
 const initialData = { view: 0, lastVisitor: 'Unknown', reactions: defaultReaction }
 
@@ -37,15 +38,8 @@ export const useContentInteractionData = (_id?: string)=> {
       await queryClient.invalidateQueries({ queryKey: ['content-meta', id] })
     },
   })
-  let reactions = data?.reactions ?? {}
-  Object.entries(defaultReaction).forEach(([key, value]) => {
-    if(!reactions[key]) {
-      reactions[key] = value
-    }
-  })
 
-  const reactionEntries = Object.entries(reactions)
-    .toSorted((a, b) => a[0].localeCompare(b[0]))
+  const reactionEntries = getReactionEntries(data?.reactions)
   return {
     isLoading,
     view: data?.view ?? 0,

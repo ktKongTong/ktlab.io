@@ -39,6 +39,7 @@ export const getReactionEntries = (reactions: Record<string, number> | null|unde
     }
   })
   const reactionEntries = Object.entries(_reactions)
-    .toSorted((a, b) => a[0].localeCompare(b[0]))
+  reactionEntries.sort((a, b) => a[0].localeCompare(b[0]))
+    // .toSorted((a, b) => a[0].localeCompare(b[0]))
   return reactionEntries
 }
