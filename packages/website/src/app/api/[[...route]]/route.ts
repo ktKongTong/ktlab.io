@@ -1,7 +1,11 @@
 import { Hono } from 'hono'
 import {handle} from 'hono/vercel'
-import { cors } from 'hono/cors'
-import {DBMiddleware, customClerkMiddleware, QueueMiddleware} from "@/app/api/[[...route]]/_middleware";
+import {
+  DBMiddleware,
+  customClerkMiddleware,
+  QueueMiddleware,
+  EmailMiddleware
+} from "@/app/api/[[...route]]/_middleware";
 import { clerkMiddleware } from "@hono/clerk-auth";
 
 import {
@@ -28,6 +32,7 @@ app
 .use(DBMiddleware())
 .use(GeoMiddleware())
 .use(QueueMiddleware())
+.use(EmailMiddleware())
 .on(privilegedMethods, '/*', async (c, next) => {
   const middleware = except([
     '/api/isr/*',

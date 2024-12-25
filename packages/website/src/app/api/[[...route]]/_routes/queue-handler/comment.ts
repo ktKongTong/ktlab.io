@@ -24,26 +24,29 @@ const parseJsonPreprocessor = (value: any, ctx: z.RefinementCtx) => {
 };
 const app = new Hono()
 
-const commentMQMessageSchema = z.preprocess(parseJsonPreprocessor, CommentDBOSchema)
+const commentMQMessageSchema = z.preprocess(parseJsonPreprocessor,
+  CommentDBOSchema.omit({createdAt: true}).extend({
+    createdAt: z.coerce.date()
+  }))
 
 app.post('/api/queue/new-comment', async (c)=> {
 
 //   1. send email
 //   2. send to bot, webhook
-  const signature = c.req.header('Upstash-Signature');
-  const body = await c.req.json();
+  const signature = c.req.header('Upstash-Signature')!;
+  const body = await c.req.text();
   const receiver = c.get('receiver')
-  const isValid = await receiver.verify({
-    body,
-    signature: signature ?? '',
-    url: `${Constants().BASE_URL}/api/queue/new-comment`,
-  });
-
+  const isValid = await receiver
+    .verify({
+      signature: signature,
+      body,
+    }).catch(e => {
+      logger.error("failed to verify", e)
+    })
   if(!isValid) {
     return c.json({}, 400)
   }
-  const decoded = atob(body.body);
-  const comment = commentMQMessageSchema.safeParse(decoded)
+  const comment = commentMQMessageSchema.safeParse(body)
   if(!comment.success) {
     return c.json({}, 400)
   }
@@ -59,7 +62,7 @@ app.post('/api/queue/new-comment', async (c)=> {
 
 const commentNotifyQueue = async (resend: Resend, db: ReturnType<typeof DB>, comment: CommentDBO) => {
   const name = comment.userInfo.name
-  const documentId = comment.userInfo.name
+  const documentId = comment.documentId
   const mayDocument = await db.getContentOrDocumentById(documentId)
 
   const receiver = []
@@ -70,7 +73,9 @@ const commentNotifyQueue = async (resend: Resend, db: ReturnType<typeof DB>, com
     }
   }
   if(mayDocument) {
-    let title = `碎片:(${(mayDocument as ContentDBO).content})`
+    let mayTitle = (mayDocument as ContentDBO).content
+    if(mayTitle && mayTitle.length > 20) mayTitle = mayTitle.slice(0,20) + "..."
+    let title = `碎片:(${mayTitle})`
     let url = `${Constants().BASE_URL}/fragment/${mayDocument.id}`
     if((mayDocument as DocumentDBO).title) {
       let doc = mayDocument as DocumentDBO
