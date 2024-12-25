@@ -1,12 +1,13 @@
 import {Hono} from "hono";
 
 import {z, ZodIssueCode} from 'zod'
-import { getDB } from "@/app/api/[[...route]]/_middleware";
+import {getDB, getEmail} from "@/app/api/[[...route]]/_middleware";
 import {pathPrefix} from "@/config";
-import { resend, EmailTemplate } from "@/app/api/[[...route]]/_email";
+import { EmailTemplate } from "@/app/api/[[...route]]/_email";
 import DB from "@/lib/db/db";
 import {commentBodySchema, CommentDBO, CommentDBOSchema, ContentDBO, DocumentDBO} from "@repo/shared";
 import {Constants} from "@/lib/constants";
+import {Resend} from "resend";
 const parseJsonPreprocessor = (value: any, ctx: z.RefinementCtx) => {
   if (typeof value === 'string') {
     try {
@@ -46,12 +47,12 @@ app.post('/api/queue/new-comment', async (c)=> {
     return c.json({}, 400)
   }
   // comment.data.id
-  await commentNotifyQueue(getDB(c), comment.data)
+  await commentNotifyQueue(getEmail(c), getDB(c), comment.data)
   return c.json({})
 })
 
 
-const commentNotifyQueue = async (db: ReturnType<typeof DB>, comment: CommentDBO) => {
+const commentNotifyQueue = async (resend: Resend, db: ReturnType<typeof DB>, comment: CommentDBO) => {
   const name = comment.userInfo.name
   const documentId = comment.userInfo.name
   const mayDocument = await db.getContentOrDocumentById(documentId)
