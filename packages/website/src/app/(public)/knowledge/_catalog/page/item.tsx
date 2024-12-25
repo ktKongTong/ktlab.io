@@ -5,8 +5,10 @@ import React from "react";
 export interface CatalogItemProps {
   title: string,
   createdAt?: Date | string,
-  href?: string
+  href?: string,
+  children: CatalogItemProps[]
 }
+// leaf
 export const CatalogItem = (
   {
     title, createdAt, href

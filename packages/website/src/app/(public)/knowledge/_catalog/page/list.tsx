@@ -8,14 +8,12 @@ import {CatalogItem, CatalogItemProps} from "./item";
 export const CatalogList = (
   {
     title,createdAt,href, children
-  }:CatalogItemProps & {
-    children: CatalogItemProps[]
-  }
+  }:CatalogItemProps
 ) => {
   const [open,setOpen] = useState(true)
 
   if(!(children && children.length > 0)) {
-    return <CatalogItem title={title} createdAt={createdAt} href={href}/>
+    return <CatalogItem title={title} createdAt={createdAt} href={href} children={[]}/>
   }
   return <div className={'select-none'}>
     <div className={'inline-flex items-center'}>
@@ -44,7 +42,7 @@ export const CatalogList = (
               className={` group pointer-events-auto flex flex-col  ml-2 pl-3 overflow-x-visible`}>
           {
             children.map((it) => {
-              return <CatalogItem title={it.title} createdAt={it?.createdAt} href={it.href} key={it.title}/>
+              return <CatalogList title={it.title} createdAt={it?.createdAt} href={it.href} key={it.title} children={it.children}/>
             })
           }
           </motion.ul>
