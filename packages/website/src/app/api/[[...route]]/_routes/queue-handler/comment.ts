@@ -36,7 +36,7 @@ app.post('/api/queue/new-comment', async (c)=> {
   const isValid = await receiver.verify({
     body,
     signature: signature ?? '',
-    url: "YOUR-SITE-URL",
+    url: `${Constants().BASE_URL}/api/queue/new-comment`,
   });
 
   if(!isValid) {
