@@ -8,6 +8,7 @@ import DB from "@/lib/db/db";
 import {commentBodySchema, CommentDBO, CommentDBOSchema, ContentDBO, DocumentDBO} from "@repo/shared";
 import {Constants} from "@/lib/constants";
 import {Resend} from "resend";
+import {logger} from "@/lib/logger";
 const parseJsonPreprocessor = (value: any, ctx: z.RefinementCtx) => {
   if (typeof value === 'string') {
     try {
@@ -47,7 +48,11 @@ app.post('/api/queue/new-comment', async (c)=> {
     return c.json({}, 400)
   }
   // comment.data.id
-  await commentNotifyQueue(getEmail(c), getDB(c), comment.data)
+  try {
+    await commentNotifyQueue(getEmail(c), getDB(c), comment.data)
+  }catch (e) {
+    logger.error(e)
+  }
   return c.json({})
 })
 
@@ -80,15 +85,15 @@ const commentNotifyQueue = async (resend: Resend, db: ReturnType<typeof DB>, com
     }
     const siteOwnerEmail = process.env.SITE_OWNER_EMAIL!
     const siteSender = process.env.SITE_OWNER_EMAIL!
-    await resend.emails.send({
+    const {data, error}= await resend.emails.send({
       from: siteSender,
       to: [siteOwnerEmail, ...receiver],
       subject: 'Comment',
       react: await EmailTemplate({ name: name, url: url, content: comment.body.text, title: title }),
     })
-    // if(error) {
-    //
-    // }
+    if(error) {
+      logger.error(error.name, error.message)
+    }
   }
 }
 

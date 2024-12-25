@@ -23,7 +23,7 @@ export function CommentItem (
       <div className={'text-sm font-medium'}>
         {comment.parentId && <div></div>}
         <div className={'flex items-center gap-1'}>
-          <Avatar className={'w-8 h-8 rounded-full mx-1 drop-shadow-md translate-y-0'}>
+          <Avatar className={'w-8 h-8 rounded-full mx-1 drop-shadow-md'}>
             <AvatarImage src={comment.userInfo?.imageUrl}/>
             <AvatarFallback>{comment.userInfo?.name?.slice(0, 1)}</AvatarFallback>
           </Avatar>
@@ -41,14 +41,17 @@ export function CommentItem (
                   已编辑
               </div>
           }
-          <Markdown content={comment.body.text}/>
-          <div className={'inline-flex absolute -right-4 bottom-0'}>
-            {status === 'sending' && <LoaderCircle className={'w-3 h-3 animate-spin'} />}
-          </div>
-        </div>
-      </div>
+            <Markdown content={comment.body.text}/>
 
-    </div>
+                {status === 'sending' &&
+                    <div className={'inline-flex absolute -right-4 bottom-0'}>
+                        <LoaderCircle className={'w-3 h-3 animate-spin'}/>
+                    </div>
+                }
+              </div>
+              </div>
+
+              </div>
 
   )
 }

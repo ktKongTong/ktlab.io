@@ -58,9 +58,11 @@ app.put('/api/document/:id/comment',
     })
     if(res) {
       const queue = getQueue(c)
+      const url = `${Constants().BASE_URL}/api/queue/new-comment`
+      console.log(`send to ${url}`)
       if(queue) {
         await queue.publishJSON({
-          url: `${Constants().BASE_URL}/api/queue/new-comment`,
+          url: url,
           body: res
         })
       }
