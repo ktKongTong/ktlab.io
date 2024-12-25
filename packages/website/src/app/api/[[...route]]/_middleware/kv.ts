@@ -1,7 +1,6 @@
 import type {Context, MiddlewareHandler} from "hono";
 import {env} from "hono/adapter";
 import { Redis } from "@upstash/redis"
-
 declare module 'hono' {
   interface ContextVariableMap {
     kv: Redis

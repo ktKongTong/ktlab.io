@@ -7,12 +7,12 @@ import {
   CommentUpdateDBO,
   ContentDBO,
   ContentInsertDBO,
-  contents
+  contents, documents
 } from '@/interfaces'
 import {IDBProvider} from "./db";
 import { user, comment } from '@/interfaces'
 import * as table from '@repo/shared/schema'
-import { desc, eq, sql} from "drizzle-orm";
+import {and, desc, eq, sql} from "drizzle-orm";
 import type {DrizzleConfig} from "drizzle-orm/utils";
 import {uniqueId} from "@/lib/utils";
 
@@ -54,7 +54,18 @@ export default class DrizzlePGDB<TSchema extends Record<string, unknown>> implem
       pageSize
     };
   }
+  async getContentOrDocumentById(contentId: string) {
+    const content = await this.db.query.contents.findFirst({
+      where: eq(contents.id, contentId)
+    })
 
+    const document = await this.db.query.documents.findFirst({
+      where: eq(documents.id, contentId)
+    })
+
+
+    return content || document || null
+  }
 
   async queryCommentByDocId(documentId: string, page: number = 1, pageSize: number = 100) {
     const [comments, [{count}]] = await Promise.all([
@@ -145,5 +156,12 @@ export default class DrizzlePGDB<TSchema extends Record<string, unknown>> implem
         orderBy: desc(this.commentTable.version)
       })
     return history
+  }
+  async getCommentByCommentId (commentId: string): Promise<CommentDBO | null> {
+    const history = await this.db.query.comment.findFirst({
+        where: eq(this.commentTable.id, commentId),
+        orderBy: desc(this.commentTable.version),
+      })
+    return history ?? null
   }
 }

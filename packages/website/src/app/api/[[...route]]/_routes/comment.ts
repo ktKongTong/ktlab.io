@@ -2,11 +2,12 @@ import {Env, Hono} from "hono";
 
 import {parseIntOrDefault} from "../_utils";
 import {getDB} from "@/app/api/[[...route]]/_middleware/db";
-import {commentInsertVOSchema, commentVOSchema, zodCommentDBOToVO} from "@/interfaces";
+import {commentInsertVOSchema, commentVOSchema, documents, zodCommentDBOToVO} from "@/interfaces";
 import {z} from "zod";
 import {UnauthorizedError} from "@/app/api/[[...route]]/_error";
 import {zValidator} from "../_utils/validator-wrapper";
-
+import {getQueue} from "@/app/api/[[...route]]/_middleware";
+import {Constants} from "@/lib/constants";
 const clerkUserInfoSchema = z.object({
   imageUrl: z.string().url(),
   email: z.string().email(),
@@ -49,11 +50,21 @@ app.put('/api/document/:id/comment',
     if(!userId || !userInfo) {
       throw new UnauthorizedError("cannot get userId or userInfo")
     }
-    const res = await getDB(c).insertComment({
+    const db = getDB(c)
+    const res = await db.insertComment({
       ...insertVO,
       userInfo: userInfo,
       authorId: userId
     })
+    if(res) {
+      const queue = getQueue(c)
+      if(queue) {
+        await queue.publishJSON({
+          url: `${Constants().BASE_URL}/api/queue/new-comment`,
+          body: res
+        })
+      }
+    }
     return c.json(res)
   })
 
