@@ -1,7 +1,7 @@
 import {getAvailableMarkdownFiles} from "./utils";
 import {LocalData, OnProgressCallback} from "./interface";
 import {Settings} from "./setting";
-import {App, Notice, requestUrl, TFile} from "obsidian";
+import {App, Notice, requestUrl} from "obsidian";
 import {extractMDData, generateFolderFromFiles} from "./extractor";
 import {DB} from "./db";
 import {DocumentInsert, DocumentSelect} from "@repo/shared/schema";

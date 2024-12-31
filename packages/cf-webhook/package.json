@@ -1,0 +1,18 @@
+{
+  "name": "@app/webhook",
+  "description": "webhook",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify"
+  },
+  "type":"module",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241218.0",
+    "wrangler": "^3.96.0",
+    "@types/node": "^22"
+  },
+  "dependencies": {
+    "hono": "^4.6.15"
+  }
+}
