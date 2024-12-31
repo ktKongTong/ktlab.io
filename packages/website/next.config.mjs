@@ -16,7 +16,7 @@ const nextConfig = {
                 protocol: 'https',
             },
             {
-                hostname: 'obsidian.ktlab.io',
+                hostname: '*.ktlab.io',
                 protocol: 'https',
             },
             {

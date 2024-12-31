@@ -40,4 +40,4 @@ app.post('/api/fragment',
   return c.json(res)
 })
 
-export { app as contentRoute}
+export { app as contentRoute }

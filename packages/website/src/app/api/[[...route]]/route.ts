@@ -28,7 +28,6 @@ export const runtime = 'nodejs';
 const app = new Hono()
 
 app
-// .use('*',cors({origin:'*'}))
 .use(DBMiddleware())
 .use(GeoMiddleware())
 .use(QueueMiddleware())
