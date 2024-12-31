@@ -33,7 +33,7 @@
 		"drizzle-orm": "^0.36.0",
 		"js-yaml": "^4.1.0",
 		"minimatch": "^10.0.1",
-		"nanoid": "5.0.8",
+		"nanoid": "5.0.9",
 		"postgres": "3.4.5"
 	}
 }
