@@ -17,6 +17,9 @@ export const zodCommentDBOToVO = z.array(CommentDBOSchema)
   }))
 })
 
+// 1. timestamp between
+// 2. date and string
+// parse 之后应该是？
 
 export const CommentVOWithContentInfoSchema = commentVOSchema.merge(z.object({
   documentInfo: documentVOSchema

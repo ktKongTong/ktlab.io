@@ -21,6 +21,7 @@ class API {
   getRecentActivity(type: string) {
     return f.get(`/api/route/${type}/activity/recent`)
   }
+
   getDocumentDetailById(type:string) {
 
   }

@@ -1,5 +1,5 @@
 import {index, integer, json, pgEnum, pgTable, primaryKey, timestamp, varchar} from "drizzle-orm/pg-core";
-import {CommentBody, commentStateEnumArr, CommentUserInfo} from "../dbo";
+import {CommentBody, commentStateEnumArr, CommentUserInfo} from "../../dbo";
 
 
 

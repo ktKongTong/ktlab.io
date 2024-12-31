@@ -29,5 +29,3 @@ export const getRecentDocuments = (limit: number = 10):Promise<DocumentVO[]> => 
     .orderBy(documents.createdAt)
     .limit(limit)
 }
-
-// export const DocumentDTO
