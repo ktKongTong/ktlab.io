@@ -1,7 +1,7 @@
 import {comment} from "./comment";
 import {user} from "./user";
 import {event} from "./event";
-import {contents, documents, obsidian} from "./documents";
+import {contents, contentView, documents, obsidian, obsidianView} from "./documents";
 
 export const createPgSchema = () => {
   return {
@@ -11,5 +11,18 @@ export const createPgSchema = () => {
     event,
     contents,
     documents,
+    obsidianView,
+    contentView,
   }
+}
+
+export {
+  comment,
+  user,
+  obsidian,
+  event,
+  contents,
+  documents,
+  obsidianView,
+  contentView,
 }

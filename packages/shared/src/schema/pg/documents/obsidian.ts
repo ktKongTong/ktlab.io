@@ -13,10 +13,7 @@ export const obsidian = pgTable('obsidian_content', {
     type: varchar('type', {enum: ['folder', 'file']}).notNull(),
     relativePath: varchar('path').notNull().default(''),
     mdMetadata: jsonb('md_metadata').$type<MDMetadata>(),
-    },
-  // (t) => ({
-  //   foreignerKey: t.id,
-  // })
+    }
 )
 
 //obsidian
